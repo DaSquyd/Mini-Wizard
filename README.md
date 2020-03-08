@@ -1,2 +1,2 @@
-# Fire and Ice
+# Mini Wizard
  
