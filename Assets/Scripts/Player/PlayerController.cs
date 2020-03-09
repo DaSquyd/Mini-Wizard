@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 	Vector3 _meshMove;
 	Vector3 _meshTargetMove = Vector3.forward;
 
-	[DebugDisplay] public Vector3 _velocityDisplay;
+	[DebugDisplay] Vector3 _velocityDisplay;
 
 	[DebugDisplay] bool _isGrounded;
 
