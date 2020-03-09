@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6a3d1fb0298bf499f6f9e3ec6d81ac, type: 3}
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
+  wallPush: 0.02
   speed: 5
-  acceleration: 5
+  groundAcceleration: 20
+  airAcceleration: 10
+  turnSpeed: 4
+  maxSlope: 80
   maxFallSpeed: 10
   jumpStrength: 7
   jumpCooldown: 0.25
+  jumpForgiveness: 0.3
   gravity: -18
   cameraMinDistance: 1.5
   cameraMaxDistance: 5
