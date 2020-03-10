@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d9f14d7007d9e45b29616ade96dad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: 7692f935b1977284c91c26a68a3416f1, type: 2}
   panel: {fileID: 2473022267173029447}
   parent: {fileID: 2473022266879965870}
   dividerPrefab: {fileID: 828598444130188300, guid: 25688429ce76d434e9de8d923cd8e2e9,
@@ -248,7 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.54901963}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

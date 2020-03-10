@@ -16,6 +16,7 @@ public class DebugCanvas : MonoBehaviour
 		public DebugCanvasVariable debugCanvasVariable;
 		public MemberInfo memberInfo;
 		public object obj;
+		public string displayName;
 	}
 
 	public static DebugCanvas current;
@@ -30,6 +31,7 @@ public class DebugCanvas : MonoBehaviour
 
 	public static List<DebugTextSet> textboxes = new List<DebugTextSet>();
 
+	public DebugDisplaySettings settings;
 	public GameObject panel;
 	public VerticalLayoutGroup parent;
 	public TMP_Text dividerPrefab;
@@ -60,7 +62,7 @@ public class DebugCanvas : MonoBehaviour
 				{
 					if (Attribute.GetCustomAttribute(objectFields[i], typeof(DebugDisplayAttribute)) is DebugDisplayAttribute attribute)
 					{
-						InstantiateCanvasVariable(objectFields[i], mono, ref dividerAdded);
+						InstantiateCanvasVariable(objectFields[i], mono, attribute.displayName, ref dividerAdded);
 					}
 				}
 			}
@@ -71,14 +73,14 @@ public class DebugCanvas : MonoBehaviour
 				{
 					if (Attribute.GetCustomAttribute(objectProperties[i], typeof(DebugDisplayAttribute)) is DebugDisplayAttribute attribute)
 					{
-						InstantiateCanvasVariable(objectProperties[i], mono, ref dividerAdded);
+						InstantiateCanvasVariable(objectProperties[i], mono, attribute.displayName, ref dividerAdded);
 					}
 				}
 			}
 		}
 	}
 
-	private void InstantiateCanvasVariable(MemberInfo memberInfo, MonoBehaviour mono, ref bool dividerAdded)
+	private void InstantiateCanvasVariable(MemberInfo memberInfo, MonoBehaviour mono, string displayName, ref bool dividerAdded)
 	{
 		if (!dividerAdded)
 		{
@@ -93,9 +95,9 @@ public class DebugCanvas : MonoBehaviour
 		{
 			debugCanvasVariable = group.GetComponent<DebugCanvasVariable>(),
 			memberInfo = memberInfo,
-			obj = mono
+			obj = mono,
+			displayName = displayName
 		};
-		Debug.Log($"<color=green>Match: {memberInfo}</color>");
 
 		textboxes.Add(debugTextSet);
 	}
@@ -119,19 +121,108 @@ public class DebugCanvas : MonoBehaviour
 			TMP_Text valueText = debugTextSet.debugCanvasVariable.valueText;
 			MemberInfo info = debugTextSet.memberInfo;
 			object obj = debugTextSet.obj;
+			string display = debugTextSet.displayName;
 
 			debugTextSet.debugCanvasVariable.name = info.Name;
 
-			nameText.text = info.Name + ": ";
+			nameText.text = (display == null ? info.Name : display) + ": ";
+
+			object value = null;
 
 			if (info.MemberType.Equals(MemberTypes.Field))
 			{
-				valueText.text = ((FieldInfo) info).GetValue(obj).ToString();
+				value = ((FieldInfo) info).GetValue(obj);
 			}
 			else if (info.MemberType.Equals(MemberTypes.Property))
 			{
-				valueText.text = ((PropertyInfo) info).GetValue(obj).ToString();
+				value = ((PropertyInfo) info).GetValue(obj);
+			}
+
+			if (value.GetType().Equals(typeof(Color)))
+			{
+				valueText.text = settings.ColorString;
+				valueText.color = (Color) value;
+				valueText.faceColor = (Color) value;
+				valueText.fontStyle = FontStyles.Highlight;
+			}
+			else if (value.GetType().Equals(typeof(bool)))
+			{
+
+				valueText.text = value.ToString();
+
+				if ((bool) value)
+					valueText.color = settings._bool.trueColor;
+				else
+					valueText.color = settings._bool.falseColor;
+
+				valueText.fontStyle = settings._bool.fontStyle;
+			}
+			else if (value.GetType().Equals(typeof(string)))
+			{
+				UpdateTextBox(valueText, value, settings._string);
+			}
+			else if (value.GetType().Equals(typeof(char)))
+			{
+				UpdateTextBox(valueText, value, settings._char);
+			}
+			else if (value.GetType().Equals(typeof(byte)))
+			{
+				UpdateTextBox(valueText, value, settings._byte);
+			}
+			else if (value.GetType().Equals(typeof(sbyte)))
+			{
+				UpdateTextBox(valueText, value, settings._sbyte, true);
+			}
+			else if (value.GetType().Equals(typeof(short)))
+			{
+				UpdateTextBox(valueText, value, settings._short, true);
+			}
+			else if (value.GetType().Equals(typeof(ushort)))
+			{
+				UpdateTextBox(valueText, value, settings._ushort);
+			}
+			else if (value.GetType().Equals(typeof(int)))
+			{
+				UpdateTextBox(valueText, value, settings._int, true);
+			}
+			else if (value.GetType().Equals(typeof(uint)))
+			{
+				UpdateTextBox(valueText, value, settings._uint);
+			}
+			else if (value.GetType().Equals(typeof(long)))
+			{
+				UpdateTextBox(valueText, value, settings._long, true);
+			}
+			else if (value.GetType().Equals(typeof(ulong)))
+			{
+				UpdateTextBox(valueText, value, settings._ulong);
+			}
+			else if (value.GetType().Equals(typeof(float)))
+			{
+				UpdateTextBox(valueText, ((float) value).ToString("+0.0###;-0.0###"), settings._float);
+			}
+			else if (value.GetType().Equals(typeof(double)))
+			{
+				UpdateTextBox(valueText, ((double) value).ToString(""), settings._double);
+			}
+			else if (value.GetType().Equals(typeof(Vector2)) || value.GetType().Equals(typeof(Vector2Int)) || value.GetType().Equals(typeof(Vector3)) || value.GetType().Equals(typeof(Vector3Int)) || value.GetType().Equals(typeof(Vector4)))
+			{
+				UpdateTextBox(valueText, value, settings._vector);
+			}
+			else
+			{
+				UpdateTextBox(valueText, value, settings._default);
 			}
 		}
+	}
+
+	private void UpdateTextBox(TMP_Text valueText, object value, DebugDisplaySettings.TypeData typeData, bool forcePositive = false) {
+		valueText.color = typeData.color;
+		valueText.fontStyle = typeData.fontStyle;
+		string prefix = "";
+		if (forcePositive && ((int) value >= 0))
+			prefix = "+";
+		valueText.text = prefix + value.ToString() + typeData.suffix;
+		typeData.color.a = 1f;
 	}
 }
