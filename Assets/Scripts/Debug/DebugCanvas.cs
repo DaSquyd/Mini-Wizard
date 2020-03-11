@@ -140,7 +140,7 @@ public class DebugCanvas : MonoBehaviour
 
 			if (value.GetType().Equals(typeof(Color)))
 			{
-				valueText.text = settings.ColorString;
+				valueText.text = settings.colorString;
 				valueText.color = (Color) value;
 				valueText.faceColor = (Color) value;
 				valueText.fontStyle = FontStyles.Highlight;
@@ -199,11 +199,11 @@ public class DebugCanvas : MonoBehaviour
 			}
 			else if (value.GetType().Equals(typeof(float)))
 			{
-				UpdateTextBox(valueText, ((float) value).ToString("+0.0###;-0.0###"), settings._float);
+				UpdateTextBox(valueText, ((float) value).ToString("0.0###"), settings._float);
 			}
 			else if (value.GetType().Equals(typeof(double)))
 			{
-				UpdateTextBox(valueText, ((double) value).ToString(""), settings._double);
+				UpdateTextBox(valueText, ((double) value).ToString("0.0###"), settings._double);
 			}
 			else if (value.GetType().Equals(typeof(Vector2)) || value.GetType().Equals(typeof(Vector2Int)) || value.GetType().Equals(typeof(Vector3)) || value.GetType().Equals(typeof(Vector3Int)) || value.GetType().Equals(typeof(Vector4)))
 			{

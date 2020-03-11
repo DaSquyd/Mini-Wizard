@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ee9c36d9fadaf49a3f4e70ec73a0b1, type: 3}
   m_Name: DebugDisplaySettings
   m_EditorClassIdentifier: 
-  ColorString: '----------------'
+  colorString: '----------'
   _default:
     color: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
     fontStyle: 0

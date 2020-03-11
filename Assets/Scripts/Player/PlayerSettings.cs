@@ -8,10 +8,25 @@ public class PlayerSettings : ScriptableObject
 	[System.Serializable]
 	public struct AttackCooldown
 	{
-		public float _wait;
-		public float _comboForgiveness;
-		public float _force;
-		public float _time;
+		public float wait;
+		public float comboForgiveness;
+		public float force;
+		public float time;
+	}
+
+	[System.Serializable]
+	public struct CameraSettings
+	{
+		public float autoCooldown;
+		public float settingToAutoCooldown;
+		public float autoSpeed;
+		public float settingToAutoSpeed;
+		public float autoFineTuneAngle;
+		public float settingToAutoFineTuneAngle;
+		public float trackAngle;
+		public float distanceAngle;
+		public float activationMinDistance;
+		public float activationMaxDistance;
 	}
 
 
@@ -40,8 +55,5 @@ public class PlayerSettings : ScriptableObject
 	public float cameraJoystickSpeed;
 	public float cameraMouseSpeed;
 
-	public bool autoCameraEnabled;
-	public float autoCameraCooldown;
-	public float autoCameraSpeed;
-	public float manualCameraResetSpeed;
+	public CameraSettings camera;
 }

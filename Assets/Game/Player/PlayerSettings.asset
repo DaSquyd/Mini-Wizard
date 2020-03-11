@@ -27,23 +27,30 @@ MonoBehaviour:
   jumpForgiveness: 0.3
   gravity: -18
   attackDownForce: 0.25
-  attackTurnSpeed: 30
+  attackTurnSpeed: 20
   attackCooldowns:
-  - _wait: 0.6
-    _comboForgiveness: 0
-    _force: 6
-    _time: 0.3
-  - _wait: 0.2
-    _comboForgiveness: 0.3
-    _force: 8
-    _time: 0.2
-  - _wait: 0.3
-    _comboForgiveness: 0.1
-    _force: 6.5
-    _time: 0.7
+  - wait: 0.6
+    comboForgiveness: 0
+    force: 6
+    time: 0.3
+  - wait: 0.2
+    comboForgiveness: 0.3
+    force: 8
+    time: 0.2
+  - wait: 0.3
+    comboForgiveness: 0.1
+    force: 6.5
+    time: 0.7
   cameraJoystickSpeed: 1
   cameraMouseSpeed: 0.2
-  autoCameraEnabled: 1
-  autoCameraCooldown: 3
-  autoCameraSpeed: 15
-  manualCameraResetSpeed: 360
+  camera:
+    autoCooldown: 4
+    settingToAutoCooldown: 0.2
+    autoSpeed: 40
+    settingToAutoSpeed: 360
+    autoFineTuneAngle: 15
+    settingToAutoFineTuneAngle: 45
+    trackAngle: 20
+    distanceAngle: 5
+    activationMinDistance: 4
+    activationMaxDistance: 10

@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using InControl;
 
+using Cinemachine;
+
 public class PlayerController : MonoBehaviour
 {
 	// Static Variables
 	public static PlayerController current;
-	public new static Camera camera;
-
+	//public new static Camera camera;
 
 	// Public Variables
 	public PlayerSettings settings;
 	public CameraSettings cameraSettings;
 	public GameObject meshContainer;
+	public CinemachineVirtualCamera vcam;
 
 	public enum AttackState
 	{
@@ -21,6 +23,13 @@ public class PlayerController : MonoBehaviour
 		Attack,
 		Wait,
 		PostAttack
+	}
+
+	public enum CameraMode
+	{
+		Manual,
+		SettingToAuto,
+		Auto
 	}
 
 	// Private Variables
@@ -71,12 +80,18 @@ public class PlayerController : MonoBehaviour
 		{
 			return new Vector2(_pitch, _yaw);
 		}
+
+		private set
+		{
+			_pitch = value.x;
+			_yaw = value.y;
+		}
 	}
 
-
+	[DebugDisplay] CameraMode _cameraMode = CameraMode.Auto;
 	[DebugDisplay] float _cameraCooldownTime;
-	[DebugDisplay] bool _manualCameraReset;
-	Vector3 _manualCameraResetSnapshot;
+
+	[DebugDisplay] CinemachineSmoothPath _path;
 
 	// DEBUG
 	bool _debugMouseDisabled;
@@ -84,19 +99,23 @@ public class PlayerController : MonoBehaviour
 	private void Start()
 	{
 		current = this;
+#if FALSE
 		camera = Camera.main;
+#endif
 
 		//_controller = GetComponent<CharacterController>();
 		_rb = GetComponent<Rigidbody>();
 
 		_yaw = transform.rotation.eulerAngles.y;
 		_lastTargetMove = new Vector3(Mathf.Sin(_yaw * Mathf.Deg2Rad), 0f, Mathf.Cos(_yaw * Mathf.Deg2Rad));
+
+		_path = FindObjectOfType<CinemachineSmoothPath>();
+
+
 	}
 
 	private void Update()
 	{
-		InputDevice inputDevice = InputManager.ActiveDevice;
-
 		if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			_debugMouseDisabled = !_debugMouseDisabled;
@@ -104,12 +123,14 @@ public class PlayerController : MonoBehaviour
 
 		_yaw = transform.rotation.eulerAngles.y;
 
+		InputDevice inputDevice = InputManager.ActiveDevice;
+
 
 		if (_attackState == AttackState.Attack)
 		{
-			_rb.velocity = Vector3.Lerp(_lastTargetMove * settings.attackCooldowns[_currentAttack - 1]._force + (IsGrounded ? Vector3.zero : Vector3.down * settings.attackDownForce),
+			_rb.velocity = Vector3.Lerp(_lastTargetMove * settings.attackCooldowns[_currentAttack - 1].force + (IsGrounded ? Vector3.zero : Vector3.down * settings.attackDownForce),
 				IsGrounded ? Vector3.zero : Vector3.down * settings.attackDownForce,
-				(settings.attackCooldowns[_currentAttack - 1]._time - _swordAttackTime) / settings.attackCooldowns[_currentAttack - 1]._time);
+				(settings.attackCooldowns[_currentAttack - 1].time - _swordAttackTime) / settings.attackCooldowns[_currentAttack - 1].time);
 		}
 
 		if (_swordAttackTime == 0)
@@ -123,18 +144,18 @@ public class PlayerController : MonoBehaviour
 					if (settings.attackCooldowns.Length > _currentAttack)
 					{
 						_attackState = AttackState.Wait;
-						_swordAttackTime = settings.attackCooldowns[_currentAttack]._wait;
+						_swordAttackTime = settings.attackCooldowns[_currentAttack].wait;
 					}
 					else
 					{
 						_attackState = AttackState.Idle;
-						_swordAttackTime = settings.attackCooldowns[0]._wait;
+						_swordAttackTime = settings.attackCooldowns[0].wait;
 						_currentAttack = 0;
 					}
 					break;
 				case AttackState.Wait:
 					_attackState = AttackState.PostAttack;
-					_swordAttackTime = settings.attackCooldowns[_currentAttack]._comboForgiveness;
+					_swordAttackTime = settings.attackCooldowns[_currentAttack].comboForgiveness;
 					break;
 				case AttackState.PostAttack:
 					_attackState = AttackState.Idle;
@@ -192,11 +213,9 @@ public class PlayerController : MonoBehaviour
 			_airAttack = true;
 
 
-		//Gizmos.DrawSphere(transform.position + _lastTargetMove, 0.75f);
-
 		_currentAttack++;
 
-		_swordAttackTime = settings.attackCooldowns[_currentAttack - 1]._time;
+		_swordAttackTime = settings.attackCooldowns[_currentAttack - 1].time;
 		_attackState = AttackState.Attack;
 
 		//_rb.velocity = _lastTargetMove * settings.attackCooldowns[_currentAttack - 1]._force;
@@ -230,7 +249,6 @@ public class PlayerController : MonoBehaviour
 		if (_jumpForgivenessTime > 0f)
 		{
 			Jump(false);
-			Debug.Log(_jumpForgivenessTime);
 		}
 		else if (_airJumps < settings.maxAirJumps || inputDevice.LeftBumper)
 		{
@@ -244,7 +262,6 @@ public class PlayerController : MonoBehaviour
 		_rb.velocity = new Vector3(_rb.velocity.x, inAir ? settings.airJumpStrength : settings.groundJumpStrength, _rb.velocity.z);
 		_jumpTime = settings.jumpCooldown;
 		IsGrounded = false;
-		Debug.Log("Jump");
 	}
 
 	private void TurnMesh(bool smoothed)
@@ -266,40 +283,107 @@ public class PlayerController : MonoBehaviour
 
 	private void UpdateCamera(InputDevice inputDevice)
 	{
+		// Finds the closest on the track and sets the tangent (direction player should be facing)
+		float posAlongPath = _path.FindClosestPoint(transform.position, 0, 100, 10);
+
+		Vector3 pathPointTangent = _path.EvaluateTangent(posAlongPath);
+		Vector3 pathPointPosition = _path.EvaluatePosition(posAlongPath);
+
+		float distanceFromPath = Vector3.Distance(transform.position, pathPointPosition);
+
+		// Sets the targeted Yaw when in auto mode
+		float autoTangentYaw = Mathf.Atan2(pathPointTangent.x, pathPointTangent.z) * Mathf.Rad2Deg;
+		float autoTowardsYaw = Mathf.Atan2(pathPointPosition.x - transform.position.x, pathPointPosition.z - transform.position.z) * Mathf.Rad2Deg;
+		
+		float activationPercent = Mathf.InverseLerp(settings.camera.activationMinDistance, settings.camera.activationMaxDistance, distanceFromPath);
+		
+		float autoYaw = Mathf.LerpAngle(autoTangentYaw, autoTowardsYaw, activationPercent);
+		float autoPitch = Mathf.LerpAngle(settings.camera.trackAngle, settings.camera.distanceAngle, activationPercent);
+
+
+		// User input
 		float yaw = (inputDevice.RightStickX * settings.cameraJoystickSpeed) + (_debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse x") * settings.cameraMouseSpeed));
 		float pitch = (inputDevice.RightStickY * settings.cameraJoystickSpeed) + (_debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse y") * settings.cameraMouseSpeed));
 
-		if (inputDevice.RightStickButton.WasPressed && !_manualCameraReset)
+		Vector2 delta = Quaternion.RotateTowards(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f), 10f).eulerAngles;
+		if (delta.x < 0f)
 		{
-			_manualCameraReset = true;
-			_cameraCooldownTime = 1f;
-			_manualCameraResetSnapshot.y = Mathf.Atan2(_lastTargetMove.x, _lastTargetMove.z) * Mathf.Rad2Deg;
+			delta.x += 360;
 		}
 
-		if ((!Mathf.Approximately(yaw, 0f) || !Mathf.Approximately(pitch, 0f)) && (_manualCameraReset ? _cameraCooldownTime == 0f : true))
+
+		float dist = Quaternion.Angle(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f));
+
+		switch (_cameraMode)
 		{
-			_cameraCooldownTime = settings.autoCameraCooldown;
-			_manualCameraReset = false;
+			// MANUAL
+			case CameraMode.Manual:
+				// Set mode to locked
+				if (inputDevice.RightStickButton.WasPressed)
+				{
+					_cameraMode = CameraMode.SettingToAuto;
+				}
+
+				// If player moves camera, reset cooldown
+				if (!Mathf.Approximately(yaw, 0f) || !Mathf.Approximately(pitch, 0f))
+				{
+					_cameraCooldownTime = settings.camera.autoCooldown;
+				}
+
+				// If in air, reset cooldown
+				if (!IsGrounded)
+				{
+					_cameraCooldownTime = settings.camera.autoCooldown;
+				}
+
+				// Once cooldown is 0, switch to locked mode
+				if (_cameraCooldownTime == 0f)
+				{
+					_cameraMode = CameraMode.Auto;
+				}
+				break;
+
+			// SETTING TO AUTO
+			case CameraMode.SettingToAuto:
+				yaw = 0f;
+				pitch = 0f;
+
+
+				float distManual = Mathf.Min(dist, settings.camera.settingToAutoFineTuneAngle) / settings.camera.settingToAutoFineTuneAngle;
+				Rotation = Quaternion.RotateTowards(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f), settings.camera.settingToAutoSpeed * distManual * Time.deltaTime).eulerAngles;
+				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, _yaw, transform.rotation.eulerAngles.z);
+
+				if (dist < 5f)
+				{
+					_cameraMode = CameraMode.Auto;
+					_cameraCooldownTime = settings.camera.settingToAutoCooldown;
+				}
+				break;
+
+			// AUTO
+			case CameraMode.Auto:
+				if (_cameraCooldownTime > 0f)
+				{
+					yaw = 0f;
+					pitch = 0f;
+				}
+
+				float distLocked = Mathf.Min(dist, settings.camera.autoFineTuneAngle) / settings.camera.autoFineTuneAngle;
+				Rotation = Quaternion.RotateTowards(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f), settings.camera.autoSpeed * distLocked * Time.deltaTime).eulerAngles;
+				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, _yaw, transform.rotation.eulerAngles.z);
+
+				// Check if player has changed camera									Checks buffer so it doesn't automatically activate right after setting to locked mode
+				if ((!Mathf.Approximately(yaw, 0f) || !Mathf.Approximately(pitch, 0f)) && _cameraCooldownTime == 0)
+				{
+					_cameraMode = CameraMode.Manual;
+				}
+				break;
 		}
-		else if (_cameraCooldownTime > 0f && _attackState == AttackState.Idle)
+
+		// Decrement _cameraCooldownTime by deltaTime
+		if (_cameraCooldownTime > 0f)
 		{
 			_cameraCooldownTime = Mathf.MoveTowards(_cameraCooldownTime, 0f, Time.deltaTime);
-		}
-
-		if ((_cameraCooldownTime == 0 && settings.autoCameraEnabled && !_manualCameraReset) || _manualCameraReset)
-		{
-			float dist = Mathf.Min(Mathf.Abs(Mathf.DeltaAngle(_yaw, _manualCameraResetSnapshot.y)), 45) / 45f;
-
-			_yaw = Mathf.MoveTowardsAngle(_yaw, _manualCameraResetSnapshot.y, (_manualCameraReset ? settings.manualCameraResetSpeed : settings.autoCameraSpeed) * dist * Time.deltaTime);
-
-			transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, _yaw, transform.rotation.eulerAngles.z);
-
-			Debug.Log(dist);
-
-			if (dist <= 0.01f)
-			{
-				_manualCameraReset = false;
-			}
 		}
 
 		float xzLen = Mathf.Cos(_pitch * Mathf.Deg2Rad);
@@ -309,27 +393,39 @@ public class PlayerController : MonoBehaviour
 		float z = xzLen * -Mathf.Cos(_yaw * Mathf.Deg2Rad);
 
 
-		Vector3 start = transform.position + (Vector3.up * cameraSettings.verticalOffset);
+		float offsetPercent = Mathf.InverseLerp(cameraSettings.minOffsetPitch, cameraSettings.maxOffsetPitch, _pitch);
+
+		float offset = Mathf.Lerp(cameraSettings.minOffset, cameraSettings.maxOffset, offsetPercent);
+
+
+		Vector3 start = transform.position + (Vector3.up * offset);
 		Vector3 direction = new Vector3(x, y, z);
 
-		Physics.Raycast(start, direction, out RaycastHit hit, cameraSettings.maxDistance);
+		LayerMask mask = LayerMask.GetMask("Terrain");
 
+		bool contact = Physics.SphereCast(start, cameraSettings.buffer, direction, out RaycastHit hit, cameraSettings.maxDistance, mask);
+		
 		float distance = Mathf.Max(cameraSettings.minDistance, hit.distance);
 
-		if (!hit.collider)
-		{
+		if (!contact)
 			distance = cameraSettings.maxDistance;
-		}
 
-		Debug.DrawRay(start, direction * (distance - cameraSettings.buffer));
+		Debug.DrawRay(start, direction * distance, Color.cyan);
 
 		_pitch += pitch;
 
+		while (_pitch > 180f)
+			_pitch -= 360f;
+
 		_pitch = Mathf.Clamp(_pitch, cameraSettings.minAngle, cameraSettings.maxAngle);
 
+#if FALSE
 		camera.transform.rotation = Quaternion.Euler(_pitch, _yaw, 0f);
 
 		camera.transform.position = start + (direction * (distance - cameraSettings.buffer));
+#endif
+		vcam.transform.rotation = Quaternion.Euler(_pitch, _yaw, 0f);
+		vcam.transform.position = start + (direction * (distance - cameraSettings.buffer));
 
 		transform.Rotate(new Vector3(0f, yaw, 0f));
 	}

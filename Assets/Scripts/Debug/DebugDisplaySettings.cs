@@ -24,8 +24,8 @@ public class DebugDisplaySettings : ScriptableObject
 		[EnumFlag] public FontStyles fontStyle;
 	}
 
-	public string ColorString = "\u2588\u2588\u2588\u2588\u2588\u2588";
-	
+	public string colorString;
+
 	public TypeData _default;
 
 	public BooleanData _bool;
