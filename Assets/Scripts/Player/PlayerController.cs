@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
 {
 	// Static Variables
 	public static PlayerController current;
-	//public new static Camera camera;
 
 	// Public Variables
 	public PlayerSettings settings;
@@ -33,7 +32,6 @@ public class PlayerController : MonoBehaviour
 	}
 
 	// Private Variables
-	// CharacterController _controller;
 	Rigidbody _rb;
 
 	Vector3 _move;
@@ -42,7 +40,7 @@ public class PlayerController : MonoBehaviour
 	Vector3 _meshMove;
 	Vector3 _meshTargetMove = Vector3.forward;
 
-	[DebugDisplay] Vector3 _velocityDisplay;
+	[DebugDisplay("Velocity")] Vector3 _velocityDisplay;
 
 	public bool IsGrounded
 	{
@@ -66,13 +64,13 @@ public class PlayerController : MonoBehaviour
 
 	bool _jumpInput;
 	bool _jumpInputChange;
-	[DebugDisplay] byte _airJumps;
+	[DebugDisplay("Air Jumps")] byte _airJumps;
 	float _jumpForgivenessTime;
 	float _jumpTime;
 
+
 	float _pitch;
 	float _yaw;
-
 	[DebugDisplay]
 	public Vector2 Rotation
 	{
@@ -88,10 +86,19 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	[DebugDisplay] CameraMode _cameraMode = CameraMode.Auto;
-	[DebugDisplay] float _cameraCooldownTime;
+	[DebugDisplay("Camera")] CameraMode _cameraMode = CameraMode.Auto;
+	[DebugDisplay("Cam CD")] float _cameraCooldownTime;
 
-	[DebugDisplay] CinemachineSmoothPath _path;
+	CinemachineSmoothPath _path;
+
+	[DebugDisplay("Path")]
+	float DebugCurrentPath
+	{
+		get
+		{
+			return _path.FindClosestPoint(transform.position, 0, 100, 10);
+		}
+	}
 
 	// DEBUG
 	bool _debugMouseDisabled;
@@ -99,19 +106,14 @@ public class PlayerController : MonoBehaviour
 	private void Start()
 	{
 		current = this;
-#if FALSE
-		camera = Camera.main;
-#endif
-
-		//_controller = GetComponent<CharacterController>();
+		
 		_rb = GetComponent<Rigidbody>();
 
 		_yaw = transform.rotation.eulerAngles.y;
 		_lastTargetMove = new Vector3(Mathf.Sin(_yaw * Mathf.Deg2Rad), 0f, Mathf.Cos(_yaw * Mathf.Deg2Rad));
 
+		// TODO Find a more universal way of doing this.
 		_path = FindObjectOfType<CinemachineSmoothPath>();
-
-
 	}
 
 	private void Update()
@@ -300,7 +302,8 @@ public class PlayerController : MonoBehaviour
 		float autoYaw = Mathf.LerpAngle(autoTangentYaw, autoTowardsYaw, activationPercent);
 		float autoPitch = Mathf.LerpAngle(settings.camera.trackAngle, settings.camera.distanceAngle, activationPercent);
 
-
+		Debug.DrawLine(pathPointPosition, pathPointPosition + pathPointTangent, Color.green, Time.deltaTime);
+		
 		// User input
 		float yaw = (inputDevice.RightStickX * settings.cameraJoystickSpeed) + (_debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse x") * settings.cameraMouseSpeed));
 		float pitch = (inputDevice.RightStickY * settings.cameraJoystickSpeed) + (_debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse y") * settings.cameraMouseSpeed));
@@ -368,6 +371,11 @@ public class PlayerController : MonoBehaviour
 					pitch = 0f;
 				}
 
+				if (inputDevice.RightStickButton.WasPressed)
+				{
+					_cameraMode = CameraMode.SettingToAuto;
+				}
+
 				float distLocked = Mathf.Min(dist, settings.camera.autoFineTuneAngle) / settings.camera.autoFineTuneAngle;
 				Rotation = Quaternion.RotateTowards(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f), settings.camera.autoSpeed * distLocked * Time.deltaTime).eulerAngles;
 				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, _yaw, transform.rotation.eulerAngles.z);
@@ -419,11 +427,6 @@ public class PlayerController : MonoBehaviour
 
 		_pitch = Mathf.Clamp(_pitch, cameraSettings.minAngle, cameraSettings.maxAngle);
 
-#if FALSE
-		camera.transform.rotation = Quaternion.Euler(_pitch, _yaw, 0f);
-
-		camera.transform.position = start + (direction * (distance - cameraSettings.buffer));
-#endif
 		vcam.transform.rotation = Quaternion.Euler(_pitch, _yaw, 0f);
 		vcam.transform.position = start + (direction * (distance - cameraSettings.buffer));
 

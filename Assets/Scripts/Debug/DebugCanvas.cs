@@ -125,17 +125,17 @@ public class DebugCanvas : MonoBehaviour
 
 			debugTextSet.debugCanvasVariable.name = info.Name;
 
-			nameText.text = (display == null ? info.Name : display) + ": ";
+			nameText.text = (display ?? info.Name) + ": ";
 
 			object value = null;
 
 			if (info.MemberType.Equals(MemberTypes.Field))
 			{
-				value = ((FieldInfo) info).GetValue(obj);
+				value = (info as FieldInfo).GetValue(obj);
 			}
 			else if (info.MemberType.Equals(MemberTypes.Property))
 			{
-				value = ((PropertyInfo) info).GetValue(obj);
+				value = (info as PropertyInfo).GetValue(obj);
 			}
 
 			if (value.GetType().Equals(typeof(Color)))
@@ -199,11 +199,11 @@ public class DebugCanvas : MonoBehaviour
 			}
 			else if (value.GetType().Equals(typeof(float)))
 			{
-				UpdateTextBox(valueText, ((float) value).ToString("0.0###"), settings._float);
+				UpdateTextBox(valueText, ((float) value).ToString("0.0000"), settings._float);
 			}
 			else if (value.GetType().Equals(typeof(double)))
 			{
-				UpdateTextBox(valueText, ((double) value).ToString("0.0###"), settings._double);
+				UpdateTextBox(valueText, ((double) value).ToString("0.0000"), settings._double);
 			}
 			else if (value.GetType().Equals(typeof(Vector2)) || value.GetType().Equals(typeof(Vector2Int)) || value.GetType().Equals(typeof(Vector3)) || value.GetType().Equals(typeof(Vector3Int)) || value.GetType().Equals(typeof(Vector4)))
 			{
