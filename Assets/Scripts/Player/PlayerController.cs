@@ -54,6 +54,9 @@ public class PlayerController : MonoBehaviour
 		private set;
 	}
 
+	[DebugDisplay]
+	public bool test;
+
 	AttackState _attackState;
 
 	byte _currentAttack;
@@ -106,7 +109,7 @@ public class PlayerController : MonoBehaviour
 	private void Start()
 	{
 		current = this;
-		
+
 		_rb = GetComponent<Rigidbody>();
 
 		_yaw = transform.rotation.eulerAngles.y;
@@ -118,15 +121,14 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
+
 		if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			_debugMouseDisabled = !_debugMouseDisabled;
 		}
 
 		_yaw = transform.rotation.eulerAngles.y;
-
-		InputDevice inputDevice = InputManager.ActiveDevice;
-
+		
 
 		if (_attackState == AttackState.Attack)
 		{
@@ -176,19 +178,19 @@ public class PlayerController : MonoBehaviour
 
 		if (!IsLocked)
 		{
-			SwordAttackInput(inputDevice);
-			JumpInput(inputDevice);
+			SwordAttackInput();
+			JumpInput();
 		}
 
 		TurnMesh(true);
-		UpdateCamera(inputDevice);
+		UpdateCamera();
 
 		_velocityDisplay = _rb.velocity;
 	}
 
-	private void SwordAttackInput(InputDevice inputDevice)
+	private void SwordAttackInput()
 	{
-		if (inputDevice.Action3.WasPressed)
+		if (ActionInputManager.GetInputDown("Melee"))
 		{
 			if (_attackState == AttackState.Idle)
 			{
@@ -214,7 +216,6 @@ public class PlayerController : MonoBehaviour
 		if (!IsGrounded)
 			_airAttack = true;
 
-
 		_currentAttack++;
 
 		_swordAttackTime = settings.attackCooldowns[_currentAttack - 1].time;
@@ -225,7 +226,7 @@ public class PlayerController : MonoBehaviour
 		IsLocked = true;
 	}
 
-	private void JumpInput(InputDevice inputDevice)
+	private void JumpInput()
 	{
 		_jumpInput = false;
 		if (Input.GetAxis("Jump") > 0.2f && !_jumpInputChange)
@@ -245,14 +246,14 @@ public class PlayerController : MonoBehaviour
 			return;
 		}
 
-		if (!inputDevice.Action1.WasPressed && !_jumpInput)
+		if (!ActionInputManager.GetInputDown("Jump") && !_jumpInput)
 			return;
 
 		if (_jumpForgivenessTime > 0f)
 		{
 			Jump(false);
 		}
-		else if (_airJumps < settings.maxAirJumps || inputDevice.LeftBumper)
+		else if (_airJumps < settings.maxAirJumps)
 		{
 			Jump(true);
 			_airJumps++;
@@ -283,7 +284,7 @@ public class PlayerController : MonoBehaviour
 		meshContainer.transform.rotation = Quaternion.Euler(0f, yaw, 0f);
 	}
 
-	private void UpdateCamera(InputDevice inputDevice)
+	private void UpdateCamera()
 	{
 		// Finds the closest on the track and sets the tangent (direction player should be facing)
 		float posAlongPath = _path.FindClosestPoint(transform.position, 0, 100, 10);
@@ -296,17 +297,17 @@ public class PlayerController : MonoBehaviour
 		// Sets the targeted Yaw when in auto mode
 		float autoTangentYaw = Mathf.Atan2(pathPointTangent.x, pathPointTangent.z) * Mathf.Rad2Deg;
 		float autoTowardsYaw = Mathf.Atan2(pathPointPosition.x - transform.position.x, pathPointPosition.z - transform.position.z) * Mathf.Rad2Deg;
-		
+
 		float activationPercent = Mathf.InverseLerp(settings.camera.activationMinDistance, settings.camera.activationMaxDistance, distanceFromPath);
-		
+
 		float autoYaw = Mathf.LerpAngle(autoTangentYaw, autoTowardsYaw, activationPercent);
 		float autoPitch = Mathf.LerpAngle(settings.camera.trackAngle, settings.camera.distanceAngle, activationPercent);
 
 		Debug.DrawLine(pathPointPosition, pathPointPosition + pathPointTangent, Color.green, Time.deltaTime);
-		
+
 		// User input
-		float yaw = (inputDevice.RightStickX * settings.cameraJoystickSpeed) + (_debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse x") * settings.cameraMouseSpeed));
-		float pitch = (inputDevice.RightStickY * settings.cameraJoystickSpeed) + (_debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse y") * settings.cameraMouseSpeed));
+		float yaw = ((ActionInputManager.GetInput("Look Right") - ActionInputManager.GetInput("Look Left")) * settings.cameraJoystickSpeed) + (_debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse x") * settings.cameraMouseSpeed));
+		float pitch = ((ActionInputManager.GetInput("Look Up") - ActionInputManager.GetInput("Look Down")) * settings.cameraJoystickSpeed) + (_debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse y") * settings.cameraMouseSpeed));
 
 		Vector2 delta = Quaternion.RotateTowards(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f), 10f).eulerAngles;
 		if (delta.x < 0f)
@@ -322,7 +323,7 @@ public class PlayerController : MonoBehaviour
 			// MANUAL
 			case CameraMode.Manual:
 				// Set mode to locked
-				if (inputDevice.RightStickButton.WasPressed)
+				if (ActionInputManager.GetInputDown("Auto Camera"))
 				{
 					_cameraMode = CameraMode.SettingToAuto;
 				}
@@ -371,7 +372,7 @@ public class PlayerController : MonoBehaviour
 					pitch = 0f;
 				}
 
-				if (inputDevice.RightStickButton.WasPressed)
+				if (ActionInputManager.GetInputDown("Auto Camera"))
 				{
 					_cameraMode = CameraMode.SettingToAuto;
 				}
@@ -412,7 +413,7 @@ public class PlayerController : MonoBehaviour
 		LayerMask mask = LayerMask.GetMask("Terrain");
 
 		bool contact = Physics.SphereCast(start, cameraSettings.buffer, direction, out RaycastHit hit, cameraSettings.maxDistance, mask);
-		
+
 		float distance = Mathf.Max(cameraSettings.minDistance, hit.distance);
 
 		if (!contact)
@@ -436,6 +437,32 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		RaycastHit[] hit = ConeCast.ConeCastAll(transform.position, _lastTargetMove, 20f, 45f, LayerMask.GetMask("Default"));
+
+		int targetEnemyIndex = 0;
+
+		for (int i = 1; i < hit.Length; i++)
+		{
+			if (hit[i].collider.tag != "Enemy")
+				continue;
+
+			if (hit[i].distance < hit[targetEnemyIndex].distance)
+			{
+				targetEnemyIndex = i;
+			}
+		}
+
+		if (hit.Length > targetEnemyIndex)
+		{
+			Debug.DrawLine(transform.position, hit[targetEnemyIndex].point, Color.yellow);
+
+			if (ActionInputManager.GetFixedInputDown("Shoot"))
+			{
+				Destroy(hit[targetEnemyIndex].collider.gameObject);
+			}
+		}
+
+
 		if (!IsGrounded)
 		{
 			_jumpForgivenessTime -= Time.fixedDeltaTime;
@@ -444,20 +471,19 @@ public class PlayerController : MonoBehaviour
 		_jumpForgivenessTime = Mathf.Max(0f, _jumpForgivenessTime);
 
 
-		InputDevice inputDevice = InputManager.ActiveDevice;
 
 		if (!IsLocked)
-			Movement(inputDevice);
+			Movement();
 
 		IsGrounded = false;
 
 		_velocityDisplay = _rb.velocity;
 	}
 
-	private void Movement(InputDevice inputDevice)
+	private void Movement()
 	{
-		float x = Mathf.Clamp(inputDevice.LeftStickX + Input.GetAxis("Horizontal"), -1f, 1f);
-		float z = Mathf.Clamp(inputDevice.LeftStickY + Input.GetAxis("Vertical"), -1f, 1f);
+		float x = ActionInputManager.GetInput("Right") - ActionInputManager.GetInput("Left");
+		float z = ActionInputManager.GetInput("Forward") - ActionInputManager.GetInput("Back");
 
 		_targetMove = transform.right * x + transform.forward * z;
 
