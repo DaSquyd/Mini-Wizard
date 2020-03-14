@@ -18,6 +18,8 @@ public class PlayerSettings : ScriptableObject
 	public struct CameraSettings
 	{
 		public float autoCooldown;
+		public float autoCooldownResetAir;
+		public float autoCooldownResetMove;
 		public float settingToAutoCooldown;
 		public float autoSpeed;
 		public float settingToAutoSpeed;
@@ -27,10 +29,13 @@ public class PlayerSettings : ScriptableObject
 		public float distanceAngle;
 		public float activationMinDistance;
 		public float activationMaxDistance;
+
+		public float maxCameraRelativeHeight;
+		public float minCameraRelativeHeight;
+		public float cameraSmoothTime;
 	}
 
-
-	public float wallPush;
+	public float maxHealth;
 
 	public float speed;
 	public float groundAcceleration;
@@ -50,6 +55,11 @@ public class PlayerSettings : ScriptableObject
 	public float attackDownForce;
 	public float attackTurnSpeed;
 	public AttackCooldown[] attackCooldowns;
+
+
+	public float targetingMaxDistance;
+	public float targetingMaxAngle;
+	public float targetingDistanceWeight;
 
 
 	public float cameraJoystickSpeed;

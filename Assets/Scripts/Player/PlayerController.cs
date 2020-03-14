@@ -5,15 +5,16 @@ using InControl;
 
 using Cinemachine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Entity
 {
-	// Static Variables
 	public static PlayerController current;
 
-	// Public Variables
+
 	public PlayerSettings settings;
 	public CameraSettings cameraSettings;
 	public GameObject meshContainer;
+	public ProjectileController fireballPrefab;
+	public ProjectileController iceballPrefab;
 	public CinemachineVirtualCamera vcam;
 
 	public enum AttackState
@@ -31,12 +32,12 @@ public class PlayerController : MonoBehaviour
 		Auto
 	}
 
-	// Private Variables
+
 	Rigidbody _rb;
 
 	Vector3 _move;
 	Vector3 _targetMove;
-	Vector3 _lastTargetMove;
+	[DebugDisplay] Vector3 _lastTargetMove;
 	Vector3 _meshMove;
 	Vector3 _meshTargetMove = Vector3.forward;
 
@@ -57,11 +58,12 @@ public class PlayerController : MonoBehaviour
 	[DebugDisplay]
 	public bool test;
 
-	AttackState _attackState;
+	[DebugDisplay] AttackState _attackState;
 
 	byte _currentAttack;
 	bool _attackBuffer;
 	float _swordAttackTime;
+	bool _attackEffectComplete;
 
 	bool _airAttack;
 
@@ -75,11 +77,11 @@ public class PlayerController : MonoBehaviour
 	float _pitch;
 	float _yaw;
 	[DebugDisplay]
-	public Vector2 Rotation
+	public Vector3 Rotation
 	{
 		get
 		{
-			return new Vector2(_pitch, _yaw);
+			return new Vector3(_pitch, _yaw, 0f);
 		}
 
 		private set
@@ -89,22 +91,44 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	Vector3 _cameraCurrentVelocity;
+	Vector3 _cameraBasePosition;
+
 	[DebugDisplay("Camera")] CameraMode _cameraMode = CameraMode.Auto;
 	[DebugDisplay("Cam CD")] float _cameraCooldownTime;
 
 	CinemachineSmoothPath _path;
+
+#if DEBUG
+	[DebugDisplay("Health")]
+	float DebugDisplayHealth
+	{
+		get
+		{
+			return Health;
+		}
+	}
 
 	[DebugDisplay("Path")]
 	float DebugCurrentPath
 	{
 		get
 		{
-			return _path.FindClosestPoint(transform.position, 0, 100, 10);
+			if (this != null)
+				return _path.FindClosestPoint(transform.position, 0, 100, 10);
+
+			return 0f;
 		}
 	}
 
-	// DEBUG
-	bool _debugMouseDisabled;
+	bool _debugMouseDisabled =
+#if UNITY_EDITOR
+		true;
+#else
+		false;
+#endif
+
+#endif
 
 	private void Start()
 	{
@@ -112,23 +136,36 @@ public class PlayerController : MonoBehaviour
 
 		_rb = GetComponent<Rigidbody>();
 
-		_yaw = transform.rotation.eulerAngles.y;
+		_yaw = transform.eulerAngles.y;
 		_lastTargetMove = new Vector3(Mathf.Sin(_yaw * Mathf.Deg2Rad), 0f, Mathf.Cos(_yaw * Mathf.Deg2Rad));
 
 		// TODO Find a more universal way of doing this.
 		_path = FindObjectOfType<CinemachineSmoothPath>();
+
+		MaxHealth = settings.maxHealth;
+		Health = MaxHealth;
+
+		_cameraBasePosition = transform.position;
 	}
+
 
 	private void Update()
 	{
+		if (Input.GetKeyDown(KeyCode.G))
+		{
+			ApplyDamageToEntity(this, 25f);
+		}
 
+		MaxHealth = settings.maxHealth;
+
+#if DEBUG
 		if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			_debugMouseDisabled = !_debugMouseDisabled;
 		}
+#endif
+		_yaw = transform.eulerAngles.y;
 
-		_yaw = transform.rotation.eulerAngles.y;
-		
 
 		if (_attackState == AttackState.Attack)
 		{
@@ -139,6 +176,7 @@ public class PlayerController : MonoBehaviour
 
 		if (_swordAttackTime == 0)
 		{
+
 			switch (_attackState)
 			{
 				case AttackState.Attack:
@@ -173,6 +211,24 @@ public class PlayerController : MonoBehaviour
 		else
 		{
 			_swordAttackTime = Mathf.MoveTowards(_swordAttackTime, 0f, Time.deltaTime);
+		}
+
+		float fov = vcam.m_Lens.FieldOfView;
+		if (_attackState.Equals(AttackState.Attack) && !_attackEffectComplete)
+		{
+			vcam.m_Lens.FieldOfView = Mathf.MoveTowards(fov, cameraSettings.attackFov, Mathf.Abs(cameraSettings.fov - cameraSettings.attackFov) / (0.1f) * Time.deltaTime);
+		}
+		if (Mathf.Approximately(fov, cameraSettings.attackFov) && !_attackEffectComplete)
+		{
+			_attackEffectComplete = true;
+		}
+		if (_attackEffectComplete)
+		{
+			vcam.m_Lens.FieldOfView = Mathf.MoveTowards(fov, cameraSettings.fov, Mathf.Abs(cameraSettings.fov - cameraSettings.attackFov) / (0.2f) * Time.deltaTime);
+		}
+		if (Mathf.Approximately(fov, cameraSettings.fov) && _attackEffectComplete)
+		{
+			_attackEffectComplete = false;
 		}
 
 
@@ -228,35 +284,27 @@ public class PlayerController : MonoBehaviour
 
 	private void JumpInput()
 	{
-		_jumpInput = false;
-		if (Input.GetAxis("Jump") > 0.2f && !_jumpInputChange)
-		{
-			_jumpInput = true;
-			_jumpInputChange = true;
-		}
-
-		if (Input.GetAxis("Jump") <= 0.2f && _jumpInputChange)
-		{
-			_jumpInputChange = false;
-		}
-
 		if (_jumpTime > 0f)
 		{
 			_jumpTime = Mathf.Max(0f, _jumpTime - Time.deltaTime);
 			return;
 		}
 
-		if (!ActionInputManager.GetInputDown("Jump") && !_jumpInput)
-			return;
-
-		if (_jumpForgivenessTime > 0f)
+		if (ActionInputManager.GetInputDown("Jump"))
 		{
-			Jump(false);
-		}
-		else if (_airJumps < settings.maxAirJumps)
-		{
-			Jump(true);
-			_airJumps++;
+			if (_jumpForgivenessTime > 0f)
+			{
+				Jump(false);
+			}
+#if DEBUG
+			else if (_airJumps < settings.maxAirJumps || InputManager.ActiveDevice.LeftBumper)
+#else
+			else if (_airJumps < settings.maxAirJumps)
+#endif
+			{
+				Jump(true);
+				_airJumps++;
+			}
 		}
 	}
 
@@ -302,12 +350,18 @@ public class PlayerController : MonoBehaviour
 
 		float autoYaw = Mathf.LerpAngle(autoTangentYaw, autoTowardsYaw, activationPercent);
 		float autoPitch = Mathf.LerpAngle(settings.camera.trackAngle, settings.camera.distanceAngle, activationPercent);
-
+#if UNITY_EDITOR
 		Debug.DrawLine(pathPointPosition, pathPointPosition + pathPointTangent, Color.green, Time.deltaTime);
+#endif
 
 		// User input
+#if DEBUG
 		float yaw = ((ActionInputManager.GetInput("Look Right") - ActionInputManager.GetInput("Look Left")) * settings.cameraJoystickSpeed) + (_debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse x") * settings.cameraMouseSpeed));
 		float pitch = ((ActionInputManager.GetInput("Look Up") - ActionInputManager.GetInput("Look Down")) * settings.cameraJoystickSpeed) + (_debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse y") * settings.cameraMouseSpeed));
+#else
+		float yaw = ((ActionInputManager.GetInput("Look Right") - ActionInputManager.GetInput("Look Left")) * settings.cameraJoystickSpeed) + (Input.GetAxisRaw("mouse x") * settings.cameraMouseSpeed);
+		float pitch = ((ActionInputManager.GetInput("Look Up") - ActionInputManager.GetInput("Look Down")) * settings.cameraJoystickSpeed) + (Input.GetAxisRaw("mouse y") * settings.cameraMouseSpeed);
+#endif
 
 		Vector2 delta = Quaternion.RotateTowards(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f), 10f).eulerAngles;
 		if (delta.x < 0f)
@@ -337,7 +391,11 @@ public class PlayerController : MonoBehaviour
 				// If in air, reset cooldown
 				if (!IsGrounded)
 				{
-					_cameraCooldownTime = settings.camera.autoCooldown;
+					_cameraCooldownTime = Mathf.MoveTowards(_cameraCooldownTime, settings.camera.autoCooldown, (settings.camera.autoCooldownResetAir + 1) * Time.deltaTime);
+				}
+				else if (_rb.velocity.magnitude > 0.1f)
+				{
+					_cameraCooldownTime = Mathf.MoveTowards(_cameraCooldownTime, settings.camera.autoCooldown, (settings.camera.autoCooldownResetMove + 1) * Time.deltaTime);
 				}
 
 				// Once cooldown is 0, switch to locked mode
@@ -355,7 +413,7 @@ public class PlayerController : MonoBehaviour
 
 				float distManual = Mathf.Min(dist, settings.camera.settingToAutoFineTuneAngle) / settings.camera.settingToAutoFineTuneAngle;
 				Rotation = Quaternion.RotateTowards(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f), settings.camera.settingToAutoSpeed * distManual * Time.deltaTime).eulerAngles;
-				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, _yaw, transform.rotation.eulerAngles.z);
+				transform.rotation = Quaternion.Euler(transform.eulerAngles.x, _yaw, transform.eulerAngles.z);
 
 				if (dist < 5f)
 				{
@@ -379,9 +437,9 @@ public class PlayerController : MonoBehaviour
 
 				float distLocked = Mathf.Min(dist, settings.camera.autoFineTuneAngle) / settings.camera.autoFineTuneAngle;
 				Rotation = Quaternion.RotateTowards(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f), settings.camera.autoSpeed * distLocked * Time.deltaTime).eulerAngles;
-				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, _yaw, transform.rotation.eulerAngles.z);
+				transform.rotation = Quaternion.Euler(transform.eulerAngles.x, _yaw, transform.eulerAngles.z);
 
-				// Check if player has changed camera									Checks buffer so it doesn't automatically activate right after setting to locked mode
+				// Check if player has changed camera                                  Checks buffer so it doesn't automatically activate right after setting to locked mode
 				if ((!Mathf.Approximately(yaw, 0f) || !Mathf.Approximately(pitch, 0f)) && _cameraCooldownTime == 0)
 				{
 					_cameraMode = CameraMode.Manual;
@@ -395,28 +453,19 @@ public class PlayerController : MonoBehaviour
 			_cameraCooldownTime = Mathf.MoveTowards(_cameraCooldownTime, 0f, Time.deltaTime);
 		}
 
-		float xzLen = Mathf.Cos(_pitch * Mathf.Deg2Rad);
-
-		float x = xzLen * Mathf.Sin(-_yaw * Mathf.Deg2Rad);
-		float y = Mathf.Sin(_pitch * Mathf.Deg2Rad);
-		float z = xzLen * -Mathf.Cos(_yaw * Mathf.Deg2Rad);
-
 
 		float offsetPercent = Mathf.InverseLerp(cameraSettings.minOffsetPitch, cameraSettings.maxOffsetPitch, _pitch);
-
 		float offset = Mathf.Lerp(cameraSettings.minOffset, cameraSettings.maxOffset, offsetPercent);
 
+		Vector3 start = _cameraBasePosition + (Vector3.up * offset);
+		Vector3 direction = Quaternion.Euler(Rotation) * Vector3.back;
 
-		Vector3 start = transform.position + (Vector3.up * offset);
-		Vector3 direction = new Vector3(x, y, z);
+		LayerMask layerMask = LayerMask.GetMask("Terrain");
+		bool hit = Physics.SphereCast(start, cameraSettings.buffer, direction, out RaycastHit info, cameraSettings.maxDistance, layerMask);
 
-		LayerMask mask = LayerMask.GetMask("Terrain");
+		float distance = Mathf.Max(cameraSettings.minDistance, info.distance);
 
-		bool contact = Physics.SphereCast(start, cameraSettings.buffer, direction, out RaycastHit hit, cameraSettings.maxDistance, mask);
-
-		float distance = Mathf.Max(cameraSettings.minDistance, hit.distance);
-
-		if (!contact)
+		if (!hit)
 			distance = cameraSettings.maxDistance;
 
 		Debug.DrawRay(start, direction * distance, Color.cyan);
@@ -428,60 +477,114 @@ public class PlayerController : MonoBehaviour
 
 		_pitch = Mathf.Clamp(_pitch, cameraSettings.minAngle, cameraSettings.maxAngle);
 
-		vcam.transform.rotation = Quaternion.Euler(_pitch, _yaw, 0f);
+		vcam.transform.rotation = Quaternion.Euler(Rotation);
 		vcam.transform.position = start + (direction * (distance - cameraSettings.buffer));
 
 		transform.Rotate(new Vector3(0f, yaw, 0f));
 	}
 
+	public override void OnReceiveDamage(Entity attacker, float damageAmount)
+	{
+		if (Health == 0f)
+		{
+			Destroy(gameObject);
+		}
+	}
 
 	private void FixedUpdate()
 	{
-		RaycastHit[] hit = ConeCast.ConeCastAll(transform.position, _lastTargetMove, 20f, 45f, LayerMask.GetMask("Default"));
-
-		int targetEnemyIndex = 0;
-
-		for (int i = 1; i < hit.Length; i++)
-		{
-			if (hit[i].collider.tag != "Enemy")
-				continue;
-
-			if (hit[i].distance < hit[targetEnemyIndex].distance)
-			{
-				targetEnemyIndex = i;
-			}
-		}
-
-		if (hit.Length > targetEnemyIndex)
-		{
-			Debug.DrawLine(transform.position, hit[targetEnemyIndex].point, Color.yellow);
-
-			if (ActionInputManager.GetFixedInputDown("Shoot"))
-			{
-				Destroy(hit[targetEnemyIndex].collider.gameObject);
-			}
-		}
-
-
 		if (!IsGrounded)
-		{
 			_jumpForgivenessTime -= Time.fixedDeltaTime;
-		}
 
 		_jumpForgivenessTime = Mathf.Max(0f, _jumpForgivenessTime);
 
-
+		_cameraBasePosition = Vector3.SmoothDamp(_cameraBasePosition, transform.position, ref _cameraCurrentVelocity, 1f / cameraSettings.cameraSpeed);
+		//_cameraBasePosition = Vector3.MoveTowards(_cameraBasePosition, transform.position, Time.fixedDeltaTime * Vector3.Distance(_cameraBasePosition, transform.position) * cameraSettings.cameraSpeed);
 
 		if (!IsLocked)
+		{
+			Shoot();
 			Movement();
+		}
 
 		IsGrounded = false;
 
 		_velocityDisplay = _rb.velocity;
 	}
 
+	private void Shoot()
+	{
+		// Custom "conecast" to find all objects in range
+		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, meshContainer.transform.forward, settings.targetingMaxDistance, settings.targetingMaxAngle, LayerMask.GetMask("Default"));
+
+		// Create a new list and only add enemies from coneHit
+		List<RaycastHit> enemies = new List<RaycastHit>();
+		for (int i = 0; i < coneHit.Length; i++)
+		{
+			if (coneHit[i].transform.tag == "Enemy")
+			{
+				Debug.DrawLine(transform.position, coneHit[i].transform.position, Color.green);
+
+				enemies.Add(coneHit[i]);
+			}
+		}
+
+
+		// Sets up default target
+		int targetEnemyIndex = 0;
+		float targetEnemyPriority = 360f;
+		Quaternion targetLookRotation = new Quaternion();
+
+		// Loop through all enemies
+		for (int i = 0; i < enemies.Count; i++)
+		{
+			Quaternion lookRotation = Quaternion.LookRotation(enemies[i].transform.position - transform.position);
+			float angleTowardsEnemy = Quaternion.Angle(meshContainer.transform.rotation, lookRotation);
+
+			// Priority is a combination of the angle from the player and the distance
+			// Lower priority = better
+			float enemyPriority = angleTowardsEnemy + Vector3.Distance(transform.position, enemies[i].transform.position) * settings.targetingDistanceWeight;
+
+			// If the latest check is less than the current target, set as new target
+			if (enemyPriority < targetEnemyPriority)
+			{
+				targetEnemyIndex = i;
+				targetEnemyPriority = enemyPriority;
+				targetLookRotation = lookRotation;
+			}
+		}
+
+#if UNITY_EDITOR
+		// Displays current target
+		if (enemies.Count > targetEnemyIndex)
+			Debug.DrawLine(transform.position, enemies[targetEnemyIndex].point, Color.yellow);
+#endif
+
+		// Player has clicked the shoot button
+		if (ActionInputManager.GetFixedInputDown("Shoot"))
+		{
+			// If enemy exists...
+			if (enemies.Count > targetEnemyIndex)
+			{
+#if UNITY_EDITOR
+				Debug.DrawLine(transform.position, enemies[targetEnemyIndex].point, Color.yellow);
+#endif
+				ProjectileController fireball = Instantiate(fireballPrefab, transform.position, targetLookRotation);
+				fireball.Target = enemies[targetEnemyIndex].transform;
+				fireball.Owner = this;
+			}
+			else
+			{
+				// If there was no enemy to target, send the fireball forward
+				ProjectileController fireball = Instantiate(fireballPrefab, transform.position, meshContainer.transform.rotation);
+				fireball.Owner = this;
+			}
+		}
+	}
+
 	private void Movement()
 	{
+		// Gets player input
 		float x = ActionInputManager.GetInput("Right") - ActionInputManager.GetInput("Left");
 		float z = ActionInputManager.GetInput("Forward") - ActionInputManager.GetInput("Back");
 
@@ -510,7 +613,6 @@ public class PlayerController : MonoBehaviour
 		{
 			if (Vector3.Angle(Vector3.up, contactPoint.normal) < settings.maxSlope)
 			{
-				//isGround = collision.collider.tag == "Ground";
 				collisionIsGround = true;
 			}
 		}
@@ -524,11 +626,12 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+
 	private void LateUpdate()
 	{
 		if (this != current)
 		{
-			Destroy(gameObject, 3f);
+			Destroy(gameObject, 2f);
 		}
 	}
 }

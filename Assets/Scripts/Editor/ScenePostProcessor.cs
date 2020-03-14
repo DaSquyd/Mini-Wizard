@@ -13,5 +13,11 @@ public class ScenePostProcess
 			var debugCanvasPrefab = Resources.Load("Prefabs/Debug/DebugCanvas", typeof(GameObject));
 			Object.Instantiate(debugCanvasPrefab);
 		}
+
+		if (GameManager.instance == null)
+		{
+			var gameManagerPrefab = Resources.Load("Prefabs/Game/GameManager", typeof(GameObject));
+			//Object.Instantiate(gameManagerPrefab);
+		}
 	}
 }

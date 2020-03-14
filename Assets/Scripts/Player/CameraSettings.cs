@@ -5,6 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Fire and Ice/Player/Camera Settings")]
 public class CameraSettings : ScriptableObject
 {
+	public float cameraSpeed;
+
+	public float fov;
+	public float attackFov;
+
 	public float minOffset;
 	public float maxOffset;
 

@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 4910623508745923922}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,6 +206,11 @@ MonoBehaviour:
   settings: {fileID: 11400000, guid: 65a7ae677a4dc30458d9190035ba7f10, type: 2}
   cameraSettings: {fileID: 11400000, guid: 3bb2ac8c4eddd3b4c945ba9c8ca13341, type: 2}
   meshContainer: {fileID: 4082506322480207216}
+  fireballPrefab: {fileID: 7328584702430073106, guid: c566eadb04fb7ce40a52714854ec140f,
+    type: 3}
+  iceballPrefab: {fileID: 0}
+  vcam: {fileID: 0}
+  test: 0
 --- !u!114 &1758857846000171218
 MonoBehaviour:
   m_ObjectHideFlags: 0
