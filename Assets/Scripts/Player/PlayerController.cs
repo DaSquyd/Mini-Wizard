@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using InControl;
 
+using InControl;
 using Cinemachine;
+using DG.Tweening;
 
 public class PlayerController : Entity
 {
@@ -36,8 +37,34 @@ public class PlayerController : Entity
 	Rigidbody _rb;
 
 	Vector3 _move;
+
 	Vector3 _targetMove;
-	[DebugDisplay] Vector3 _lastTargetMove;
+	public Vector3 TargetMove
+	{
+		get
+		{
+			return _targetMove.normalized;
+		}
+		private set
+		{
+			_targetMove = value.normalized;
+		}
+	}
+
+	Vector3 _lastTargetMove;
+	[DebugDisplay]
+	public Vector3 LastTargetMove
+	{
+		get
+		{
+			return _lastTargetMove.normalized;
+		}
+		private set
+		{
+			_lastTargetMove = value.normalized;
+		}
+	}
+
 	Vector3 _meshMove;
 	Vector3 _meshTargetMove = Vector3.forward;
 
@@ -58,12 +85,14 @@ public class PlayerController : Entity
 	[DebugDisplay]
 	public bool test;
 
+	// Attack
 	[DebugDisplay] AttackState _attackState;
-
 	byte _currentAttack;
 	bool _attackBuffer;
 	float _swordAttackTime;
-	bool _attackEffectComplete;
+
+	[DebugDisplay] Vector3 _attackEffectAmount;
+	[DebugDisplay] Tween _attackEffectTween;
 
 	bool _airAttack;
 
@@ -73,7 +102,7 @@ public class PlayerController : Entity
 	float _jumpForgivenessTime;
 	float _jumpTime;
 
-
+	// Rotation
 	float _pitch;
 	float _yaw;
 	[DebugDisplay]
@@ -90,6 +119,7 @@ public class PlayerController : Entity
 			_yaw = value.y;
 		}
 	}
+
 
 	Vector3 _cameraCurrentVelocity;
 	Vector3 _cameraBasePosition;
@@ -121,6 +151,15 @@ public class PlayerController : Entity
 		}
 	}
 
+	[DebugDisplay]
+	int Seconds
+	{
+		get
+		{
+			return settings.test;
+		}
+	}
+
 	bool _debugMouseDisabled =
 #if UNITY_EDITOR
 		true;
@@ -134,10 +173,12 @@ public class PlayerController : Entity
 	{
 		current = this;
 
+		_attackEffectAmount = Vector3.right * vcam.m_Lens.FieldOfView;
+
 		_rb = GetComponent<Rigidbody>();
 
 		_yaw = transform.eulerAngles.y;
-		_lastTargetMove = new Vector3(Mathf.Sin(_yaw * Mathf.Deg2Rad), 0f, Mathf.Cos(_yaw * Mathf.Deg2Rad));
+		LastTargetMove = new Vector3(Mathf.Sin(_yaw * Mathf.Deg2Rad), 0f, Mathf.Cos(_yaw * Mathf.Deg2Rad));
 
 		// TODO Find a more universal way of doing this.
 		_path = FindObjectOfType<CinemachineSmoothPath>();
@@ -151,6 +192,9 @@ public class PlayerController : Entity
 
 	private void Update()
 	{
+		vcam.m_Lens.FieldOfView = _attackEffectAmount.x;
+		settings.test = System.DateTime.Now.Second;
+
 		if (Input.GetKeyDown(KeyCode.G))
 		{
 			ApplyDamageToEntity(this, 25f);
@@ -169,7 +213,7 @@ public class PlayerController : Entity
 
 		if (_attackState == AttackState.Attack)
 		{
-			_rb.velocity = Vector3.Lerp(_lastTargetMove * settings.attackCooldowns[_currentAttack - 1].force + (IsGrounded ? Vector3.zero : Vector3.down * settings.attackDownForce),
+			_rb.velocity = Vector3.Lerp(LastTargetMove * settings.attackCooldowns[_currentAttack - 1].force + (IsGrounded ? Vector3.zero : Vector3.down * settings.attackDownForce),
 				IsGrounded ? Vector3.zero : Vector3.down * settings.attackDownForce,
 				(settings.attackCooldowns[_currentAttack - 1].time - _swordAttackTime) / settings.attackCooldowns[_currentAttack - 1].time);
 		}
@@ -213,24 +257,6 @@ public class PlayerController : Entity
 			_swordAttackTime = Mathf.MoveTowards(_swordAttackTime, 0f, Time.deltaTime);
 		}
 
-		float fov = vcam.m_Lens.FieldOfView;
-		if (_attackState.Equals(AttackState.Attack) && !_attackEffectComplete)
-		{
-			vcam.m_Lens.FieldOfView = Mathf.MoveTowards(fov, cameraSettings.attackFov, Mathf.Abs(cameraSettings.fov - cameraSettings.attackFov) / (0.1f) * Time.deltaTime);
-		}
-		if (Mathf.Approximately(fov, cameraSettings.attackFov) && !_attackEffectComplete)
-		{
-			_attackEffectComplete = true;
-		}
-		if (_attackEffectComplete)
-		{
-			vcam.m_Lens.FieldOfView = Mathf.MoveTowards(fov, cameraSettings.fov, Mathf.Abs(cameraSettings.fov - cameraSettings.attackFov) / (0.2f) * Time.deltaTime);
-		}
-		if (Mathf.Approximately(fov, cameraSettings.fov) && _attackEffectComplete)
-		{
-			_attackEffectComplete = false;
-		}
-
 
 		if (!IsLocked)
 		{
@@ -264,6 +290,9 @@ public class PlayerController : Entity
 
 	private void SwordAttack()
 	{
+		_attackEffectAmount = new Vector3(cameraSettings.fov, 0f, 0f);
+		_attackEffectTween = DOTween.Punch(() => _attackEffectAmount, x => _attackEffectAmount = x, Vector3.right * (cameraSettings.attackFov - cameraSettings.fov), 0.2f, 1, 1f);
+
 		if (_airAttack && _currentAttack == 0)
 			return;
 
@@ -276,8 +305,7 @@ public class PlayerController : Entity
 
 		_swordAttackTime = settings.attackCooldowns[_currentAttack - 1].time;
 		_attackState = AttackState.Attack;
-
-		//_rb.velocity = _lastTargetMove * settings.attackCooldowns[_currentAttack - 1]._force;
+		
 		_rb.useGravity = false;
 		IsLocked = true;
 	}
@@ -317,9 +345,9 @@ public class PlayerController : Entity
 
 	private void TurnMesh(bool smoothed)
 	{
-		if (Mathf.Abs(_targetMove.magnitude) > 0f)
+		if (Mathf.Abs(TargetMove.magnitude) > 0f)
 		{
-			_meshTargetMove = _targetMove;
+			_meshTargetMove = TargetMove;
 		}
 
 		if (smoothed)
@@ -588,19 +616,19 @@ public class PlayerController : Entity
 		float x = ActionInputManager.GetInput("Right") - ActionInputManager.GetInput("Left");
 		float z = ActionInputManager.GetInput("Forward") - ActionInputManager.GetInput("Back");
 
-		_targetMove = transform.right * x + transform.forward * z;
+		TargetMove = transform.right * x + transform.forward * z;
 
-		if (_targetMove.magnitude > 0f)
+		if (TargetMove.magnitude > 0f)
 		{
-			_lastTargetMove = _targetMove.normalized;
+			LastTargetMove = TargetMove.normalized;
 		}
 
-		if (_targetMove.magnitude > 1f)
+		if (TargetMove.magnitude > 1f)
 		{
-			_targetMove.Normalize();
+			TargetMove.Normalize();
 		}
 
-		_move = Vector3.Lerp(_move, _targetMove, Time.fixedDeltaTime * (IsGrounded ? settings.groundAcceleration : settings.airAcceleration));
+		_move = Vector3.Lerp(_move, TargetMove, Time.fixedDeltaTime * (IsGrounded ? settings.groundAcceleration : settings.airAcceleration));
 
 		_rb.velocity = (_move * settings.speed) + (Vector3.up * _rb.velocity.y);
 

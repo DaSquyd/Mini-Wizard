@@ -137,6 +137,13 @@ public class DebugCanvas : MonoBehaviour
 			{
 				value = (info as PropertyInfo).GetValue(obj);
 			}
+			else
+			{
+				continue;
+			}
+
+			if (value == null)
+				continue;
 
 			if (value.GetType().Equals(typeof(Color)))
 			{

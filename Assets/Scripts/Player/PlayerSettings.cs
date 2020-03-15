@@ -65,5 +65,8 @@ public class PlayerSettings : ScriptableObject
 	public float cameraJoystickSpeed;
 	public float cameraMouseSpeed;
 
+	public int test;
+
+	[Header("Camera")]
 	public CameraSettings camera;
 }
