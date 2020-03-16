@@ -43,11 +43,17 @@ public class PlayerController : Entity
 	{
 		get
 		{
-			return _targetMove.normalized;
+			if (_targetMove.magnitude > 1f)
+				return _targetMove.normalized;
+			else
+				return _targetMove;
 		}
 		private set
 		{
-			_targetMove = value.normalized;
+			if (value.magnitude > 1f)
+				_targetMove = value.normalized;
+			else
+				_targetMove = value;
 		}
 	}
 
@@ -290,11 +296,11 @@ public class PlayerController : Entity
 
 	private void SwordAttack()
 	{
+		//if (_airAttack && _currentAttack == 0)
+		//	return;
+
 		_attackEffectAmount = new Vector3(cameraSettings.fov, 0f, 0f);
 		_attackEffectTween = DOTween.Punch(() => _attackEffectAmount, x => _attackEffectAmount = x, Vector3.right * (cameraSettings.attackFov - cameraSettings.fov), 0.2f, 1, 1f);
-
-		if (_airAttack && _currentAttack == 0)
-			return;
 
 		TurnMesh(false);
 
@@ -305,7 +311,7 @@ public class PlayerController : Entity
 
 		_swordAttackTime = settings.attackCooldowns[_currentAttack - 1].time;
 		_attackState = AttackState.Attack;
-		
+
 		_rb.useGravity = false;
 		IsLocked = true;
 	}

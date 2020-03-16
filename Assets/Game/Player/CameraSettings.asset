@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: CameraSettings
   m_EditorClassIdentifier: 
   cameraSpeed: 4
-  fov: 50
-  attackFov: 47.5
+  fov: 40
+  attackFov: 37.5
   minOffset: 0.25
   maxOffset: 1
   minOffsetPitch: -15

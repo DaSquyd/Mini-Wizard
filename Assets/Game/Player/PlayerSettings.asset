@@ -16,7 +16,7 @@ MonoBehaviour:
   speed: 3.5
   groundAcceleration: 20
   airAcceleration: 10
-  turnSpeed: 4
+  turnSpeed: 10
   lockedTurnSpeed: 0
   maxSlope: 80
   maxFallSpeed: 10
@@ -46,6 +46,7 @@ MonoBehaviour:
   targetingDistanceWeight: 2.5
   cameraJoystickSpeed: 1
   cameraMouseSpeed: 0.2
+  test: 44
   camera:
     autoCooldown: 4
     autoCooldownResetAir: 0.3
