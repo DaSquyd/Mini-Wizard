@@ -24,7 +24,7 @@ MonoBehaviour:
   groundJumpStrength: 5.5
   airJumpStrength: 4
   jumpCooldown: 0.25
-  jumpForgiveness: 0.3
+  jumpForgiveness: 0.15
   gravity: -18
   attackDownForce: 0.25
   attackTurnSpeed: 20
@@ -46,7 +46,6 @@ MonoBehaviour:
   targetingDistanceWeight: 2.5
   cameraJoystickSpeed: 1
   cameraMouseSpeed: 0.2
-  test: 44
   camera:
     autoCooldown: 4
     autoCooldownResetAir: 0.3

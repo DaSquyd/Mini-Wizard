@@ -58,7 +58,6 @@ public class PlayerController : Entity
 	}
 
 	Vector3 _lastTargetMove;
-	[DebugDisplay]
 	public Vector3 LastTargetMove
 	{
 		get
@@ -135,6 +134,10 @@ public class PlayerController : Entity
 
 	CinemachineSmoothPath _path;
 
+	Vector3 _lightDirection;
+	Vector3 _lightDirectionVelocity;
+	MeshRenderer meshRenderer;
+
 #if DEBUG
 	[DebugDisplay("Health")]
 	float DebugDisplayHealth
@@ -154,15 +157,6 @@ public class PlayerController : Entity
 				return _path.FindClosestPoint(transform.position, 0, 100, 10);
 
 			return 0f;
-		}
-	}
-
-	[DebugDisplay]
-	int Seconds
-	{
-		get
-		{
-			return settings.test;
 		}
 	}
 
@@ -193,13 +187,14 @@ public class PlayerController : Entity
 		Health = MaxHealth;
 
 		_cameraBasePosition = transform.position;
+
+		meshRenderer = meshContainer.GetComponentInChildren<MeshRenderer>();
 	}
 
 
 	private void Update()
 	{
 		vcam.m_Lens.FieldOfView = _attackEffectAmount.x;
-		settings.test = System.DateTime.Now.Second;
 
 		if (Input.GetKeyDown(KeyCode.G))
 		{
@@ -274,6 +269,8 @@ public class PlayerController : Entity
 		UpdateCamera();
 
 		_velocityDisplay = _rb.velocity;
+
+		Light();
 	}
 
 	private void SwordAttackInput()
@@ -296,8 +293,8 @@ public class PlayerController : Entity
 
 	private void SwordAttack()
 	{
-		//if (_airAttack && _currentAttack == 0)
-		//	return;
+		if (_airAttack && _currentAttack == 0)
+			return;
 
 		_attackEffectAmount = new Vector3(cameraSettings.fov, 0f, 0f);
 		_attackEffectTween = DOTween.Punch(() => _attackEffectAmount, x => _attackEffectAmount = x, Vector3.right * (cameraSettings.attackFov - cameraSettings.fov), 0.2f, 1, 1f);
@@ -515,6 +512,63 @@ public class PlayerController : Entity
 		vcam.transform.position = start + (direction * (distance - cameraSettings.buffer));
 
 		transform.Rotate(new Vector3(0f, yaw, 0f));
+	}
+
+	public void Light()
+	{
+		Vector2Int chunk = ToonShaderLightSettings.PlayerChunk;
+
+		Vector3 playerPosition = transform.position;
+
+		Light closestLight = null;
+		float closestLightDistance = 0f;
+
+		for (int i = -1; i <= 1; i++)
+		{
+			for (int j = -1; j <= 1; j++)
+			{
+				var x = Mathf.Abs((chunk.x + i) % ToonShaderLightSettings.ChunkSquareCount);
+				var z = Mathf.Abs((chunk.y + j) % ToonShaderLightSettings.ChunkSquareCount);
+				List<Light> lightChunk = ToonShaderLightSettings.LightChunks[x, z];
+
+				if (lightChunk != null)
+					foreach (Light light in ToonShaderLightSettings.LightChunks[x, z])
+					{
+						float distance = Vector3.Distance(playerPosition, light.transform.position);
+
+						if (closestLight == null)
+						{
+							closestLight = light;
+							closestLightDistance = distance;
+							continue;
+						}
+
+						if (distance < closestLightDistance)
+						{
+							closestLight = light;
+							closestLightDistance = distance;
+						}
+					}
+			}
+		}
+
+
+		Vector3 newDirection = Vector3.zero;
+
+		if (closestLight != null && closestLightDistance < closestLight.range && closestLight != ToonShaderLightSettings.main)
+		{
+			newDirection = closestLight.transform.position - playerPosition;
+		}
+		else
+		{
+			newDirection = -ToonShaderLightSettings.main.transform.forward;
+			meshRenderer.material.SetFloat("_ToonLightIntensity", ToonShaderLightSettings.main.intensity);
+			meshRenderer.material.SetColor("_ToonLightColor", ToonShaderLightSettings.main.color);
+		}
+
+		_lightDirection = Vector3.SmoothDamp(_lightDirection, newDirection, ref _lightDirectionVelocity, 0.1f);
+
+		meshRenderer.material.SetVector("_ToonLightDirection", _lightDirection);
 	}
 
 	public override void OnReceiveDamage(Entity attacker, float damageAmount)
