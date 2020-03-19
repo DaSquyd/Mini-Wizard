@@ -72,15 +72,13 @@ public class ToonShaderLightSettings : MonoBehaviour
 
 			if (PlayerController.current != null)
 			{
-				Debug.Log(Mathf.Abs(Mathf.FloorToInt(PlayerController.current.transform.position.x / ChunkSize) % ChunkSquareCount) + ", " + Mathf.Abs(Mathf.FloorToInt(PlayerController.current.transform.position.z / ChunkSize) % ChunkSquareCount));
-
 				if (_chunk == PlayerChunk)
 				{
 					PlayerController player = PlayerController.current;
 
 					MeshRenderer renderer = player.meshContainer.GetComponentInChildren<MeshRenderer>();
 
-					renderer.material.SetVector("_ToonLightDirection", transform.position - player.transform.position);
+					//renderer.material.SetVector("_ToonLightDirection", transform.position - player.transform.position);
 				}
 			}
 		}

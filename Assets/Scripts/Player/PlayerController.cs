@@ -96,8 +96,8 @@ public class PlayerController : Entity
 	bool _attackBuffer;
 	float _swordAttackTime;
 
-	[DebugDisplay] Vector3 _attackEffectAmount;
-	[DebugDisplay] Tween _attackEffectTween;
+	Vector3 _attackEffectAmount;
+	Tween _attackEffectTween;
 
 	bool _airAttack;
 
@@ -136,6 +136,10 @@ public class PlayerController : Entity
 
 	Vector3 _lightDirection;
 	Vector3 _lightDirectionVelocity;
+	float _lightIntensity;
+	float _lightIntensityVelocity;
+	Vector3 _lightColorVector;
+	Vector3 _lightColorVectorVelocity;
 	MeshRenderer meshRenderer;
 
 #if DEBUG
@@ -148,7 +152,6 @@ public class PlayerController : Entity
 		}
 	}
 
-	[DebugDisplay("Path")]
 	float DebugCurrentPath
 	{
 		get
@@ -554,21 +557,34 @@ public class PlayerController : Entity
 
 
 		Vector3 newDirection = Vector3.zero;
+		float newIntensity = 0f;
+		Color newColorVector = Color.white;
 
 		if (closestLight != null && closestLightDistance < closestLight.range && closestLight != ToonShaderLightSettings.main)
 		{
 			newDirection = closestLight.transform.position - playerPosition;
+			newIntensity = ToonShaderLightSettings.main.intensity + Mathf.Max(0f, Mathf.Sqrt(closestLight.range) - Mathf.Sqrt(closestLightDistance)) * closestLight.intensity;
+			newColorVector = Color.Lerp(ToonShaderLightSettings.main.color, closestLight.color, closestLight.intensity - Mathf.Sqrt(closestLightDistance));
 		}
 		else
 		{
 			newDirection = -ToonShaderLightSettings.main.transform.forward;
-			meshRenderer.material.SetFloat("_ToonLightIntensity", ToonShaderLightSettings.main.intensity);
-			meshRenderer.material.SetColor("_ToonLightColor", ToonShaderLightSettings.main.color);
+			newIntensity = ToonShaderLightSettings.main.intensity;
+			newColorVector = ToonShaderLightSettings.main.color;
 		}
 
-		_lightDirection = Vector3.SmoothDamp(_lightDirection, newDirection, ref _lightDirectionVelocity, 0.1f);
+		var changeTime = 0.1f;
+		_lightDirection = Vector3.SmoothDamp(_lightDirection, newDirection, ref _lightDirectionVelocity, changeTime);
+		_lightIntensity = Mathf.SmoothDamp(_lightIntensity, newIntensity, ref _lightIntensityVelocity, changeTime);
+		_lightColorVector = Vector3.SmoothDamp(_lightColorVector, new Vector3(newColorVector.r, newColorVector.g, newColorVector.b), ref _lightColorVectorVelocity, changeTime);
+
+		Color newColor = new Color(_lightColorVector.x, _lightColorVector.y, _lightColorVector.z);
+
+		Debug.Log(_lightIntensity);
 
 		meshRenderer.material.SetVector("_ToonLightDirection", _lightDirection);
+		meshRenderer.material.SetFloat("_ToonLightIntensity", _lightIntensity);
+		meshRenderer.material.SetColor("_ToonLightColor", newColor);
 	}
 
 	public override void OnReceiveDamage(Entity attacker, float damageAmount)
