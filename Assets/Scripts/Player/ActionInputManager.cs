@@ -4,6 +4,7 @@ using UnityEngine;
 
 using InControl;
 
+[RequireComponent(typeof(GameManager))]
 public class ActionInputManager : MonoBehaviour
 {
 	public static ActionInputManager current;

@@ -13,7 +13,7 @@ public class ToonShaderLightSettings : MonoBehaviour
 	{
 		get
 		{
-			PlayerController player = PlayerController.current;
+			PlayerController player = PlayerController.instance;
 			if (player == null)
 				return Vector2Int.zero;
 
@@ -70,11 +70,11 @@ public class ToonShaderLightSettings : MonoBehaviour
 		{
 			isMain = false;
 
-			if (PlayerController.current != null)
+			if (PlayerController.instance != null)
 			{
 				if (_chunk == PlayerChunk)
 				{
-					PlayerController player = PlayerController.current;
+					PlayerController player = PlayerController.instance;
 
 					MeshRenderer renderer = player.meshContainer.GetComponentInChildren<MeshRenderer>();
 

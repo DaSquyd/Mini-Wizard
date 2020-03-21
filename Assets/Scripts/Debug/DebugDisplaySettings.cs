@@ -48,17 +48,12 @@ public class DebugDisplaySettings : ScriptableObject
 		_bool.trueColor.a = 1f;
 		_bool.falseColor.a = 1f;
 
-		Debug.Log(GetType());
-
 		FieldInfo[] fields = GetType().GetFields(BindingFlags.Instance | BindingFlags.Public);
-
-		Debug.Log(fields.Length);
 
 		foreach (FieldInfo info in fields)
 		{
 			if (info.GetValue(this).GetType().Equals(typeof(TypeData)))
 			{
-				Debug.Log("Color set for " + info.Name);
 				TypeData data = (TypeData) info.GetValue(this);
 
 				data.color.a = 1f;

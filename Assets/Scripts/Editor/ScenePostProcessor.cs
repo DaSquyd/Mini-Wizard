@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEditor.Callbacks;
 
 public class ScenePostProcess
@@ -8,16 +9,17 @@ public class ScenePostProcess
 	[PostProcessScene(0)]
 	public static void OnPostProcessScene()
 	{
-		if (DebugCanvas.current == null)
+		if (DebugCanvas.current == null && Debug.isDebugBuild)
 		{
 			var debugCanvasPrefab = Resources.Load("Prefabs/Debug/DebugCanvas", typeof(GameObject));
 			Object.Instantiate(debugCanvasPrefab);
+			Application.Quit();
 		}
 
 		if (GameManager.instance == null)
 		{
-			var gameManagerPrefab = Resources.Load("Prefabs/Game/GameManager", typeof(GameObject));
-			//Object.Instantiate(gameManagerPrefab);
+			if (SceneManager.GetActiveScene().name != "Persistent")
+				SceneManager.LoadScene("Persistent", LoadSceneMode.Additive);
 		}
 	}
 }

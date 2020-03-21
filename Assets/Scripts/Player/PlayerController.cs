@@ -8,7 +8,7 @@ using DG.Tweening;
 
 public class PlayerController : Entity
 {
-	public static PlayerController current;
+	public static PlayerController instance;
 
 
 	public PlayerSettings settings;
@@ -16,7 +16,6 @@ public class PlayerController : Entity
 	public GameObject meshContainer;
 	public ProjectileController fireballPrefab;
 	public ProjectileController iceballPrefab;
-	public CinemachineVirtualCamera vcam;
 
 	public enum AttackState
 	{
@@ -32,6 +31,9 @@ public class PlayerController : Entity
 		SettingToAuto,
 		Auto
 	}
+
+
+	CinemachineVirtualCamera vcam;
 
 
 	Rigidbody _rb;
@@ -111,11 +113,11 @@ public class PlayerController : Entity
 	float _pitch;
 	float _yaw;
 	[DebugDisplay]
-	public Vector3 Rotation
+	public Vector2 Rotation
 	{
 		get
 		{
-			return new Vector3(_pitch, _yaw, 0f);
+			return new Vector2(_pitch, _yaw);
 		}
 
 		private set
@@ -174,14 +176,17 @@ public class PlayerController : Entity
 
 	private void Start()
 	{
-		current = this;
+		instance = this;
+
+		vcam = GameManager.instance.playerVcam;
 
 		_attackEffectAmount = Vector3.right * vcam.m_Lens.FieldOfView;
 
 		_rb = GetComponent<Rigidbody>();
 
 		_yaw = transform.eulerAngles.y;
-		LastTargetMove = new Vector3(Mathf.Sin(_yaw * Mathf.Deg2Rad), 0f, Mathf.Cos(_yaw * Mathf.Deg2Rad));
+		meshContainer.transform.rotation = Quaternion.Euler(Rotation);
+		LastTargetMove = transform.forward;
 
 		// TODO Find a more universal way of doing this.
 		_path = FindObjectOfType<CinemachineSmoothPath>();
@@ -368,6 +373,9 @@ public class PlayerController : Entity
 
 	private void UpdateCamera()
 	{
+		if (_path == null)
+			return;
+
 		// Finds the closest on the track and sets the tangent (direction player should be facing)
 		float posAlongPath = _path.FindClosestPoint(transform.position, 0, 100, 10);
 
@@ -535,9 +543,18 @@ public class PlayerController : Entity
 				List<Light> lightChunk = ToonShaderLightSettings.LightChunks[x, z];
 
 				if (lightChunk != null)
+				{
+					List<Light> removal = new List<Light>();
+
 					foreach (Light light in ToonShaderLightSettings.LightChunks[x, z])
 					{
-						float distance = Vector3.Distance(playerPosition, light.transform.position);
+						if (light == null)
+						{
+							removal.Add(light);
+							continue;
+						}
+
+							float distance = Vector3.Distance(playerPosition, light.transform.position);
 
 						if (closestLight == null)
 						{
@@ -552,6 +569,12 @@ public class PlayerController : Entity
 							closestLightDistance = distance;
 						}
 					}
+
+					foreach (Light light in removal)
+					{
+						ToonShaderLightSettings.LightChunks[x, z].Remove(light);
+					}
+				}
 			}
 		}
 
@@ -733,7 +756,7 @@ public class PlayerController : Entity
 
 	private void LateUpdate()
 	{
-		if (this != current)
+		if (this != instance)
 		{
 			Destroy(gameObject, 2f);
 		}
