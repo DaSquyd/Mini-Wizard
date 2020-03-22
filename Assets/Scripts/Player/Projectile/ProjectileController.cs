@@ -61,13 +61,13 @@ public class ProjectileController : MonoBehaviour
 
 		Entity entity = other.GetComponentInParent<Entity>();
 
-		if (entity == null)
+		if (entity == null && other.tag != "Projectile")
 		{
 			Destroy(gameObject);
 			return;
 		}
 
-		if (!entity.Equals(Owner))
+		if (!entity.Equals(Owner) && entity.tag != "Projectile")
 		{
 			Owner.ApplyDamageToEntity(entity, _damage);
 

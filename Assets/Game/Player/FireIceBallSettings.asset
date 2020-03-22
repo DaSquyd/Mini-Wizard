@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FireIceBallSettings
   m_EditorClassIdentifier: 
   speed: 20
-  rotationSpeed: 45
+  rotationSpeed: 360
   maxRotationAngle: 90
   damage: 10
   lifetime: 4
