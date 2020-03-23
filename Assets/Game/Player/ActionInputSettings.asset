@@ -68,6 +68,11 @@ MonoBehaviour:
     gamepadInverse: 0
     key1: 324
     key2: 104
+  - name: Swap
+    gamepad: 14
+    gamepadInverse: 0
+    key1: 101
+    key2: 103
   - name: Auto Camera
     gamepad: 6
     gamepadInverse: 0

@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
 
 	private ActionInputManager _actionInputManager;
 	private EventSystem _eventSystem;
-	private Camera _camera;
 
 	private void Awake()
 	{
@@ -34,9 +33,6 @@ public class GameManager : MonoBehaviour
 		EventSystem.current = _eventSystem;
 
 		_actionInputManager = GetComponent<ActionInputManager>();
-
-		_camera = GetComponentInChildren<Camera>();
-
 	}
 
 	private void Start()
@@ -48,7 +44,6 @@ public class GameManager : MonoBehaviour
 	{
 		if (instance != this)
 		{
-			instance = null;
 			Destroy(gameObject);
 			return;
 		}

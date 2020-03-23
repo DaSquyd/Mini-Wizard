@@ -30,6 +30,8 @@ public class DebugCanvas : MonoBehaviour
 	}
 
 	public static List<DebugTextSet> textboxes = new List<DebugTextSet>();
+	public static List<HorizontalLayoutGroup> groups = new List<HorizontalLayoutGroup>();
+	public static List<TMP_Text> titles = new List<TMP_Text>();
 
 	public DebugDisplaySettings settings;
 	public GameObject panel;
@@ -42,7 +44,7 @@ public class DebugCanvas : MonoBehaviour
 		current = this;
 	}
 
-	private void Start()
+	private void Load()
 	{
 		MonoBehaviour[] sceneActive = FindObjectsOfType<MonoBehaviour>();
 
@@ -54,7 +56,7 @@ public class DebugCanvas : MonoBehaviour
 			FieldInfo[] objectFields = type.GetFields(flags);
 			PropertyInfo[] objectProperties = type.GetProperties(flags);
 
-			bool dividerAdded = false;
+			bool titleAdded = false;
 
 			if (objectFields.Length > 0)
 			{
@@ -62,7 +64,7 @@ public class DebugCanvas : MonoBehaviour
 				{
 					if (Attribute.GetCustomAttribute(objectFields[i], typeof(DebugDisplayAttribute)) is DebugDisplayAttribute attribute)
 					{
-						InstantiateCanvasVariable(objectFields[i], mono, attribute.displayName, ref dividerAdded);
+						InstantiateCanvasVariable(objectFields[i], mono, attribute.displayName, ref titleAdded);
 					}
 				}
 			}
@@ -73,20 +75,44 @@ public class DebugCanvas : MonoBehaviour
 				{
 					if (Attribute.GetCustomAttribute(objectProperties[i], typeof(DebugDisplayAttribute)) is DebugDisplayAttribute attribute)
 					{
-						InstantiateCanvasVariable(objectProperties[i], mono, attribute.displayName, ref dividerAdded);
+						InstantiateCanvasVariable(objectProperties[i], mono, attribute.displayName, ref titleAdded);
 					}
 				}
 			}
 		}
 	}
 
-	private void InstantiateCanvasVariable(MemberInfo memberInfo, MonoBehaviour mono, string displayName, ref bool dividerAdded)
+	private void Unload()
 	{
-		if (!dividerAdded)
+		foreach (HorizontalLayoutGroup group in groups)
 		{
-			TMP_Text dividerText = Instantiate(dividerPrefab, parent.transform);
-			dividerText.text = mono.ToString();
-			dividerAdded = true;
+			Destroy(group.gameObject);
+		}
+
+		foreach (TMP_Text title in titles)
+		{
+			Destroy(title.gameObject);
+		}
+
+		textboxes.Clear();
+		groups.Clear();
+		titles.Clear();
+	}
+
+	public void Reload()
+	{
+		Unload();
+		Load();
+	}
+
+	private void InstantiateCanvasVariable(MemberInfo memberInfo, MonoBehaviour mono, string displayName, ref bool titleAdded)
+	{
+		if (!titleAdded)
+		{
+			TMP_Text titleText = Instantiate(dividerPrefab, parent.transform);
+			titleText.text = mono.ToString();
+			titles.Add(titleText);
+			titleAdded = true;
 		}
 
 		HorizontalLayoutGroup group = Instantiate(horizontalLayoutPrefab, parent.transform);
@@ -100,6 +126,7 @@ public class DebugCanvas : MonoBehaviour
 		};
 
 		textboxes.Add(debugTextSet);
+		groups.Add(group);
 	}
 
 	private void Update()
@@ -113,7 +140,18 @@ public class DebugCanvas : MonoBehaviour
 		if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Equals))
 		{
 			panel.gameObject.SetActive(!panel.gameObject.activeSelf);
+
+			if (panel.gameObject.activeSelf)
+				Load();
+			else
+				Unload();
 		}
+
+		if (!panel.gameObject.activeSelf)
+			return;
+
+		if (textboxes == null)
+			Load();
 
 		foreach (DebugTextSet debugTextSet in textboxes)
 		{
@@ -223,7 +261,8 @@ public class DebugCanvas : MonoBehaviour
 		}
 	}
 
-	private void UpdateTextBox(TMP_Text valueText, object value, DebugDisplaySettings.TypeData typeData, bool forcePositive = false) {
+	private void UpdateTextBox(TMP_Text valueText, object value, DebugDisplaySettings.TypeData typeData, bool forcePositive = false)
+	{
 		valueText.color = typeData.color;
 		valueText.fontStyle = typeData.fontStyle;
 		string prefix = "";

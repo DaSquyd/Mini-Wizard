@@ -12,7 +12,7 @@ public class PlayerSpawnerEditor : Editor
 	void OnSceneGUI()
 	{
 		PlayerSpawner t = target as PlayerSpawner;
-		
+
 		Handles.color = new Color(0f, 1f, 1f);
 		Handles.ArrowHandleCap(0, t.transform.position, t.transform.rotation, arrowSize, EventType.Repaint);
 	}
@@ -41,7 +41,7 @@ public class PlayerSpawner : MonoBehaviour
 		if (PlayerController.instance == null && !_spawning)
 		{
 			Debug.Log(PlayerController.instance);
-			StartCoroutine(SpawnPlayer(2f));
+			StartCoroutine(SpawnPlayer(0.5f));
 		}
 	}
 
@@ -53,7 +53,7 @@ public class PlayerSpawner : MonoBehaviour
 
 		Physics.Raycast(transform.position, Vector3.down, out RaycastHit info);
 
-		Debug.Log(GameManager.instance.playerPrefab);
+		yield return new WaitUntil(() => GameManager.instance != null);
 
 		Instantiate(GameManager.instance.playerPrefab, info.point + Vector3.up, Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f));
 	}
