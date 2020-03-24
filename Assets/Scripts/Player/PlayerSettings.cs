@@ -35,7 +35,7 @@ public class PlayerSettings : ScriptableObject
 		public float cameraSmoothTime;
 	}
 
-	public float maxHealth;
+	public int maxHealth;
 
 	public float speed;
 	public float groundAcceleration;

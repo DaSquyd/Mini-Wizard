@@ -55,6 +55,9 @@ public class PlayerSpawner : MonoBehaviour
 
 		yield return new WaitUntil(() => GameManager.instance != null);
 
-		Instantiate(GameManager.instance.playerPrefab, info.point + Vector3.up, Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f));
+		PlayerController player = Instantiate(GameManager.instance.playerPrefab, info.point + Vector3.up, Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f));
+
+		player.transform.rotation = transform.rotation;
+		player.meshContainer.transform.rotation = transform.rotation;
 	}
 }

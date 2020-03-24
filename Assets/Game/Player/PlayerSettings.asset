@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6a3d1fb0298bf499f6f9e3ec6d81ac, type: 3}
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 3
   speed: 3.5
   groundAcceleration: 20
   airAcceleration: 10

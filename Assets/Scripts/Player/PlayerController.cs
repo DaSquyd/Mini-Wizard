@@ -17,7 +17,7 @@ public class PlayerController : Entity
 	public ProjectileController fireballPrefab;
 	public ProjectileController iceballPrefab;
 
-	public enum AttackState
+	public enum MeleeState
 	{
 		Idle,
 		Attack,
@@ -41,8 +41,6 @@ public class PlayerController : Entity
 		SettingToAuto,
 		Auto
 	}
-
-	[DebugDisplay] WeaponState _weaponState;
 
 	CinemachineVirtualCamera _vcam;
 	Rigidbody _rb;
@@ -94,17 +92,35 @@ public class PlayerController : Entity
 		private set;
 	}
 
+	public bool CanAttack
+	{
+		get;
+		private set;
+	}
+
 	// Attack
-	[DebugDisplay] AttackState _attackState;
-	byte _currentAttack;
-	bool _attackBuffer;
-	float _swordAttackTime;
+	[DebugDisplay] WeaponState _weaponState;
 
-	Vector3 _attackEffectAmount;
-	Tween _attackEffectTween;
 
-	bool _airAttack;
+	[DebugDisplay("Melee State")] MeleeState _meleeState;
+	byte _currentMeleeAttack;
+	bool _meleeAttackBuffer;
+	float _meleeAttackTime;
 
+	Vector3 _meleeEffectAmount;
+	Tween _meleeEffectTween;
+
+	bool _airMelee;
+
+	float _shootCooldown;
+	public byte Ammo
+	{
+		get;
+		private set;
+	}
+
+
+	// Jump
 	bool _jumpInput;
 	bool _jumpInputChange;
 	[DebugDisplay("Air Jumps")] byte _airJumps;
@@ -139,15 +155,6 @@ public class PlayerController : Entity
 	CinemachineSmoothPath _path;
 
 #if DEBUG
-	[DebugDisplay("Health")]
-	float DebugDisplayHealth
-	{
-		get
-		{
-			return Health;
-		}
-	}
-
 	float DebugCurrentPath
 	{
 		get
@@ -165,18 +172,16 @@ public class PlayerController : Entity
 #else
 		false;
 #endif
-
 #endif
 
-	protected override void Start()
+	protected sealed override void Start()
 	{
 		base.Start();
-
 		instance = this;
 
 		_vcam = GameManager.instance.playerVcam;
 
-		_attackEffectAmount = Vector3.right * _vcam.m_Lens.FieldOfView;
+		_meleeEffectAmount = Vector3.right * _vcam.m_Lens.FieldOfView;
 
 		_rb = GetComponent<Rigidbody>();
 
@@ -193,23 +198,28 @@ public class PlayerController : Entity
 		_cameraBasePosition = transform.position;
 
 		_meshRenderer = meshContainer.GetComponentInChildren<MeshRenderer>();
+
+		_meshTargetMove = transform.forward;
+		TurnMesh(false);
+
+		CanAttack = true;
 	}
 
 
-	protected override void Update()
+	protected sealed override void Update()
 	{
 		base.Update();
 
-		_vcam.m_Lens.FieldOfView = _attackEffectAmount.x;
-
-		if (Input.GetKeyDown(KeyCode.G))
-		{
-			ApplyDamageToEntity(this, 25f);
-		}
+		_vcam.m_Lens.FieldOfView = _meleeEffectAmount.x;
 
 		MaxHealth = settings.maxHealth;
 
 #if DEBUG
+		if (Input.GetKeyDown(KeyCode.T))
+		{
+			ApplyDamageToEntity(this, 1);
+		}
+
 		if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			_debugMouseDisabled = !_debugMouseDisabled;
@@ -217,43 +227,61 @@ public class PlayerController : Entity
 #endif
 		_yaw = transform.eulerAngles.y;
 
-
-		if (_attackState == AttackState.Attack)
+		if (ActionInputManager.GetInputDown("Swap") && CanAttack)
 		{
-			_rb.velocity = Vector3.Lerp(LastTargetMove * settings.attackCooldowns[_currentAttack - 1].force + (IsGrounded ? Vector3.zero : Vector3.down * settings.attackDownForce),
-				IsGrounded ? Vector3.zero : Vector3.down * settings.attackDownForce,
-				(settings.attackCooldowns[_currentAttack - 1].time - _swordAttackTime) / settings.attackCooldowns[_currentAttack - 1].time);
+			if (_weaponState.Equals(WeaponState.Fireballs))
+				_weaponState = WeaponState.Iceballs;
+			else
+				_weaponState = WeaponState.Fireballs;
 		}
 
-		if (_swordAttackTime == 0)
+		MeleeUpdate();
+		ShootUpdate();
+		JumpUpdate();
+		TurnMesh(true);
+		UpdateCamera();
+
+		_velocityDisplay = _rb.velocity;
+	}
+
+	private void MeleeUpdate()
+	{
+		if (_meleeState == MeleeState.Attack)
+		{
+			_rb.velocity = Vector3.Lerp(LastTargetMove * settings.attackCooldowns[_currentMeleeAttack - 1].force + (IsGrounded ? Vector3.zero : Vector3.down * settings.attackDownForce),
+				IsGrounded ? Vector3.zero : Vector3.down * settings.attackDownForce,
+				(settings.attackCooldowns[_currentMeleeAttack - 1].time - _meleeAttackTime) / settings.attackCooldowns[_currentMeleeAttack - 1].time);
+		}
+
+		if (_meleeAttackTime == 0)
 		{
 
-			switch (_attackState)
+			switch (_meleeState)
 			{
-				case AttackState.Attack:
+				case MeleeState.Attack:
 					IsLocked = false;
-					_attackBuffer = false;
+					_meleeAttackBuffer = false;
 					_rb.useGravity = true;
-					if (settings.attackCooldowns.Length > _currentAttack)
+					if (settings.attackCooldowns.Length > _currentMeleeAttack)
 					{
-						_attackState = AttackState.Wait;
-						_swordAttackTime = settings.attackCooldowns[_currentAttack].wait;
+						_meleeState = MeleeState.Wait;
+						_meleeAttackTime = settings.attackCooldowns[_currentMeleeAttack].wait;
 					}
 					else
 					{
-						_attackState = AttackState.Idle;
-						_swordAttackTime = settings.attackCooldowns[0].wait;
-						_currentAttack = 0;
+						_meleeState = MeleeState.Idle;
+						_meleeAttackTime = settings.attackCooldowns[0].wait;
+						_currentMeleeAttack = 0;
 					}
 					break;
-				case AttackState.Wait:
-					_attackState = AttackState.PostAttack;
-					_swordAttackTime = settings.attackCooldowns[_currentAttack].comboForgiveness;
+				case MeleeState.Wait:
+					_meleeState = MeleeState.PostAttack;
+					_meleeAttackTime = settings.attackCooldowns[_currentMeleeAttack].comboForgiveness;
 					break;
-				case AttackState.PostAttack:
-					_attackState = AttackState.Idle;
-					_currentAttack = 0;
-					_attackBuffer = false;
+				case MeleeState.PostAttack:
+					_meleeState = MeleeState.Idle;
+					_currentMeleeAttack = 0;
+					_meleeAttackBuffer = false;
 					break;
 			}
 
@@ -261,64 +289,70 @@ public class PlayerController : Entity
 		}
 		else
 		{
-			_swordAttackTime = Mathf.MoveTowards(_swordAttackTime, 0f, Time.deltaTime);
+			_meleeAttackTime = Mathf.MoveTowards(_meleeAttackTime, 0f, Time.deltaTime);
 		}
 
-
-		if (!IsLocked)
-		{
-			SwordAttackInput();
-			JumpInput();
-		}
-
-		TurnMesh(true);
-		UpdateCamera();
-
-		_velocityDisplay = _rb.velocity;
-	}
-
-	private void SwordAttackInput()
-	{
-		if (ActionInputManager.GetInputDown("Melee"))
-		{
-			if (_attackState == AttackState.Idle)
-			{
-				if (_swordAttackTime == 0f)
-					SwordAttack();
-			}
-			else
-				_attackBuffer = true;
-		}
-		if (_attackState == AttackState.PostAttack && _attackBuffer)
-		{
-			SwordAttack();
-		}
-	}
-
-	private void SwordAttack()
-	{
-		if (_airAttack && _currentAttack == 0)
+		// Stops if lock state or can't attack
+		if (IsLocked || !CanAttack)
 			return;
 
-		_attackEffectAmount = new Vector3(cameraSettings.fov, 0f, 0f);
-		_attackEffectTween = DOTween.Punch(() => _attackEffectAmount, x => _attackEffectAmount = x, Vector3.right * (cameraSettings.attackFov - cameraSettings.fov), 0.2f, 1, 1f);
+		if (ActionInputManager.GetInputDown("Melee"))
+		{
+			if (_meleeState == MeleeState.Idle)
+			{
+				if (_meleeAttackTime == 0f)
+					MeleeAttack();
+			}
+			else
+				_meleeAttackBuffer = true;
+		}
+		if (_meleeState == MeleeState.PostAttack && _meleeAttackBuffer)
+			MeleeAttack();
+	}
+
+	private void MeleeAttack()
+	{
+		if (_airMelee && _currentMeleeAttack == 0)
+			return;
+
+		_meleeEffectAmount = new Vector3(cameraSettings.fov, 0f, 0f);
+		_meleeEffectTween = DOTween.Punch(() => _meleeEffectAmount, x => _meleeEffectAmount = x, Vector3.right * (cameraSettings.attackFov - cameraSettings.fov), 0.2f, 1, 1f);
 
 		TurnMesh(false);
 
 		if (!IsGrounded)
-			_airAttack = true;
+			_airMelee = true;
 
-		_currentAttack++;
+		_currentMeleeAttack++;
 
-		_swordAttackTime = settings.attackCooldowns[_currentAttack - 1].time;
-		_attackState = AttackState.Attack;
+		_meleeAttackTime = settings.attackCooldowns[_currentMeleeAttack - 1].time;
+		_meleeState = MeleeState.Attack;
 
 		_rb.useGravity = false;
 		IsLocked = true;
 	}
 
-	private void JumpInput()
+
+	private void ShootUpdate()
 	{
+		if (Ammo == 0)
+			return;
+
+		if (_shootCooldown > 0f)
+			return;
+	}
+
+	private void Shoot()
+	{
+
+	}
+
+
+	private void JumpUpdate()
+	{
+		if (IsLocked)
+			return;
+
 		if (_jumpTime > 0f)
 		{
 			_jumpTime = Mathf.Max(0f, _jumpTime - Time.deltaTime);
@@ -521,14 +555,6 @@ public class PlayerController : Entity
 		transform.Rotate(new Vector3(0f, yaw, 0f));
 	}
 
-	public override void OnReceiveDamage(Entity attacker, float damageAmount)
-	{
-		if (Health == 0f)
-		{
-			Destroy(gameObject);
-		}
-	}
-
 	private void FixedUpdate()
 	{
 		if (!IsGrounded)
@@ -538,19 +564,16 @@ public class PlayerController : Entity
 
 		_cameraBasePosition = Vector3.SmoothDamp(_cameraBasePosition, transform.position, ref _cameraCurrentVelocity, 1f / cameraSettings.cameraSpeed);
 		//_cameraBasePosition = Vector3.MoveTowards(_cameraBasePosition, transform.position, Time.fixedDeltaTime * Vector3.Distance(_cameraBasePosition, transform.position) * cameraSettings.cameraSpeed);
-
-		if (!IsLocked)
-		{
-			Shoot();
-			Movement();
-		}
+		
+		TargetUpdate();
+		Movement();
 
 		IsGrounded = false;
 
 		_velocityDisplay = _rb.velocity;
 	}
 
-	private void Shoot()
+	private void TargetUpdate()
 	{
 		// Custom "conecast" to find all objects in range
 		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, meshContainer.transform.forward, settings.targetingMaxDistance, settings.targetingMaxAngle, LayerMask.GetMask("Default"));
@@ -622,6 +645,9 @@ public class PlayerController : Entity
 
 	private void Movement()
 	{
+		if (IsLocked)
+			return;
+
 		// Gets player input
 		float x = ActionInputManager.GetInput("Right") - ActionInputManager.GetInput("Left");
 		float z = ActionInputManager.GetInput("Forward") - ActionInputManager.GetInput("Back");
@@ -659,7 +685,7 @@ public class PlayerController : Entity
 		{
 			IsGrounded = true;
 			_airJumps = 0;
-			_airAttack = false;
+			_airMelee = false;
 			_jumpForgivenessTime = settings.jumpForgiveness;
 		}
 	}
@@ -669,7 +695,7 @@ public class PlayerController : Entity
 	{
 		if (this != instance)
 		{
-			Destroy(gameObject, 2f);
+			Destroy(gameObject);
 		}
 	}
 }

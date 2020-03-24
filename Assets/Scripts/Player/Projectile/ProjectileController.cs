@@ -18,7 +18,7 @@ public class ProjectileController : MonoBehaviour
 	float _speed;
 	float _rotationSpeed;
 	float _maxRotationAngle;
-	float _damage;
+	int _damage;
 
 	// Debug
 	Color _color = Color.red;

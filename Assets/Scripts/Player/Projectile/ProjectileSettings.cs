@@ -8,6 +8,6 @@ public class ProjectileSettings : ScriptableObject
 	public float speed;
 	public float rotationSpeed;
 	public float maxRotationAngle;
-	public float damage;
+	public int damage;
 	public float lifetime;
 }

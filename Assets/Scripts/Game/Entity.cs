@@ -4,13 +4,14 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
-	public float MaxHealth
+	public int MaxHealth
 	{
 		get; protected set;
 	}
 
-	float _health;
-	public float Health
+	int _health;
+	[DebugDisplay]
+	public int Health
 	{
 		get
 		{
@@ -18,12 +19,14 @@ public abstract class Entity : MonoBehaviour
 		}
 		set
 		{
-			_health = Mathf.Clamp(value, 0f, MaxHealth);
+			_health = Mathf.Clamp(value, 0, MaxHealth);
 		}
 	}
 
 	protected virtual void Start()
 	{
+		Debug.Log("Hi");
+
 		if (Debug.isDebugBuild)
 		{
 			DebugCanvas.current.Reload();
@@ -117,7 +120,7 @@ public abstract class Entity : MonoBehaviour
 		_meshRenderer.material.SetFloat("_ToonShadowStrength", _shadowStrength);
 	}
 
-	public float ApplyDamageToEntity(Entity target, float amount)
+	public float ApplyDamageToEntity(Entity target, int amount)
 	{
 		target.Health -= amount;
 
@@ -126,7 +129,13 @@ public abstract class Entity : MonoBehaviour
 		return target.Health;
 	}
 
-	public virtual void OnReceiveDamage(Entity attacker, float damageAmount)
+	private void OnReceiveDamage(Entity attacker, float damageAmount)
 	{
+		if (Health == 0f)
+		{
+			Destroy(gameObject);
+		}
 	}
+
+
 }
