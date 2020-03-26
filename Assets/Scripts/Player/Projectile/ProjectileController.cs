@@ -6,14 +6,8 @@ public class ProjectileController : MonoBehaviour
 {
 	public ProjectileSettings settings;
 
-	public Transform Target
-	{
-		get; set;
-	}
-	public Entity Owner
-	{
-		get; set;
-	}
+	public Transform target;
+	public Entity owner;
 
 	float _speed;
 	float _rotationSpeed;
@@ -36,9 +30,9 @@ public class ProjectileController : MonoBehaviour
 	{
 		Debug.DrawLine(transform.position, transform.position + transform.forward, _color);
 
-		if (Target != null)
+		if (target != null)
 		{
-			Quaternion lookRotation = Quaternion.LookRotation(Target.position - transform.position);
+			Quaternion lookRotation = Quaternion.LookRotation(target.position - transform.position);
 
 			if (Quaternion.Angle(transform.rotation, lookRotation) > _maxRotationAngle)
 			{
@@ -56,7 +50,7 @@ public class ProjectileController : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (Owner == null)
+		if (owner == null)
 			return;
 
 		if (other.gameObject.layer == 9)
@@ -66,9 +60,9 @@ public class ProjectileController : MonoBehaviour
 		}
 
 		Entity entity = other.GetComponentInParent<Entity>();
-		if (entity != null && !entity.Equals(Owner) && entity.tag != "Projectile")
+		if (entity != null && !entity.Equals(owner) && entity.tag != "Projectile")
 		{
-			Owner.ApplyDamageToEntity(entity, _damage);
+			entity.ApplyDamage(owner, _damage);
 
 			Destroy(gameObject);
 			return;

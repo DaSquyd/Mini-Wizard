@@ -154,6 +154,8 @@ public class PlayerController : Entity
 
 	CinemachineSmoothPath _path;
 
+	Vector3 _contactVelocity = new Vector3();
+
 #if DEBUG
 	float DebugCurrentPath
 	{
@@ -197,8 +199,6 @@ public class PlayerController : Entity
 
 		_cameraBasePosition = transform.position;
 
-		_meshRenderer = meshContainer.GetComponentInChildren<MeshRenderer>();
-
 		_meshTargetMove = transform.forward;
 		TurnMesh(false);
 
@@ -217,7 +217,7 @@ public class PlayerController : Entity
 #if DEBUG
 		if (Input.GetKeyDown(KeyCode.T))
 		{
-			ApplyDamageToEntity(this, 1);
+			ApplyDamage(this, 1);
 		}
 
 		if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
@@ -403,28 +403,40 @@ public class PlayerController : Entity
 
 	private void UpdateCamera()
 	{
-		if (_path == null)
-			return;
+		float dist = 0f;
+		float autoYaw = 0f;
+		float autoPitch = 0f;
+		if (_path != null)
+		{
+			// Finds the closest on the track and sets the tangent (direction player should be facing)
+			float posAlongPath = _path.FindClosestPoint(transform.position, 0, 100, 10);
 
-		// Finds the closest on the track and sets the tangent (direction player should be facing)
-		float posAlongPath = _path.FindClosestPoint(transform.position, 0, 100, 10);
+			Vector3 pathPointTangent = _path.EvaluateTangent(posAlongPath);
+			Vector3 pathPointPosition = _path.EvaluatePosition(posAlongPath);
 
-		Vector3 pathPointTangent = _path.EvaluateTangent(posAlongPath);
-		Vector3 pathPointPosition = _path.EvaluatePosition(posAlongPath);
+			float distanceFromPath = Vector3.Distance(transform.position, pathPointPosition);
 
-		float distanceFromPath = Vector3.Distance(transform.position, pathPointPosition);
+			// Sets the targeted Yaw when in auto mode
+			float autoTangentYaw = Mathf.Atan2(pathPointTangent.x, pathPointTangent.z) * Mathf.Rad2Deg;
+			float autoTowardsYaw = Mathf.Atan2(pathPointPosition.x - transform.position.x, pathPointPosition.z - transform.position.z) * Mathf.Rad2Deg;
 
-		// Sets the targeted Yaw when in auto mode
-		float autoTangentYaw = Mathf.Atan2(pathPointTangent.x, pathPointTangent.z) * Mathf.Rad2Deg;
-		float autoTowardsYaw = Mathf.Atan2(pathPointPosition.x - transform.position.x, pathPointPosition.z - transform.position.z) * Mathf.Rad2Deg;
+			float activationPercent = Mathf.InverseLerp(settings.camera.activationMinDistance, settings.camera.activationMaxDistance, distanceFromPath);
 
-		float activationPercent = Mathf.InverseLerp(settings.camera.activationMinDistance, settings.camera.activationMaxDistance, distanceFromPath);
-
-		float autoYaw = Mathf.LerpAngle(autoTangentYaw, autoTowardsYaw, activationPercent);
-		float autoPitch = Mathf.LerpAngle(settings.camera.trackAngle, settings.camera.distanceAngle, activationPercent);
+			autoYaw = Mathf.LerpAngle(autoTangentYaw, autoTowardsYaw, activationPercent);
+			autoPitch = Mathf.LerpAngle(settings.camera.trackAngle, settings.camera.distanceAngle, activationPercent);
 #if UNITY_EDITOR
-		Debug.DrawLine(pathPointPosition, pathPointPosition + pathPointTangent, Color.green, Time.deltaTime);
+			Debug.DrawLine(pathPointPosition, pathPointPosition + pathPointTangent, Color.green, Time.deltaTime);
 #endif
+
+			Vector2 delta = Quaternion.RotateTowards(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f), 10f).eulerAngles;
+			if (delta.x < 0f)
+			{
+				delta.x += 360;
+			}
+
+
+			dist = Quaternion.Angle(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f));
+		}
 
 		// User input
 #if DEBUG
@@ -435,21 +447,15 @@ public class PlayerController : Entity
 		float pitch = ((ActionInputManager.GetInput("Look Up") - ActionInputManager.GetInput("Look Down")) * settings.cameraJoystickSpeed) + (Input.GetAxisRaw("mouse y") * settings.cameraMouseSpeed);
 #endif
 
-		Vector2 delta = Quaternion.RotateTowards(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f), 10f).eulerAngles;
-		if (delta.x < 0f)
-		{
-			delta.x += 360;
-		}
-
-
-		float dist = Quaternion.Angle(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f));
+		if (_path == null)
+			_cameraMode = CameraMode.Manual;
 
 		switch (_cameraMode)
 		{
 			// MANUAL
 			case CameraMode.Manual:
 				// Set mode to locked
-				if (ActionInputManager.GetInputDown("Auto Camera"))
+				if (ActionInputManager.GetInputDown("Auto Camera") && _path != null)
 				{
 					_cameraMode = CameraMode.SettingToAuto;
 				}
@@ -471,7 +477,7 @@ public class PlayerController : Entity
 				}
 
 				// Once cooldown is 0, switch to locked mode
-				if (_cameraCooldownTime == 0f)
+				if (_cameraCooldownTime == 0f && _path != null)
 				{
 					_cameraMode = CameraMode.Auto;
 				}
@@ -564,7 +570,7 @@ public class PlayerController : Entity
 
 		_cameraBasePosition = Vector3.SmoothDamp(_cameraBasePosition, transform.position, ref _cameraCurrentVelocity, 1f / cameraSettings.cameraSpeed);
 		//_cameraBasePosition = Vector3.MoveTowards(_cameraBasePosition, transform.position, Time.fixedDeltaTime * Vector3.Distance(_cameraBasePosition, transform.position) * cameraSettings.cameraSpeed);
-		
+
 		TargetUpdate();
 		Movement();
 
@@ -631,14 +637,14 @@ public class PlayerController : Entity
 				Debug.DrawLine(transform.position, enemies[targetEnemyIndex].point, Color.yellow);
 #endif
 				ProjectileController fireball = Instantiate(fireballPrefab, transform.position, targetLookRotation);
-				fireball.Target = enemies[targetEnemyIndex].transform;
-				fireball.Owner = this;
+				fireball.target = enemies[targetEnemyIndex].transform;
+				fireball.owner = this;
 			}
 			else
 			{
 				// If there was no enemy to target, send the fireball forward
 				ProjectileController fireball = Instantiate(fireballPrefab, transform.position, meshContainer.transform.rotation);
-				fireball.Owner = this;
+				fireball.owner = this;
 			}
 		}
 	}
@@ -666,8 +672,9 @@ public class PlayerController : Entity
 
 		_move = Vector3.Lerp(_move, TargetMove, Time.fixedDeltaTime * (IsGrounded ? settings.groundAcceleration : settings.airAcceleration));
 
-		_rb.velocity = (_move * settings.speed) + (Vector3.up * _rb.velocity.y);
-
+		_rb.velocity = (_move * settings.speed) + (Vector3.up * _rb.velocity.y) + _contactVelocity;
+		Debug.Log($"{_move * settings.speed} + {Vector3.up * _rb.velocity.y} + {_contactVelocity}");
+		_contactVelocity = Vector3.MoveTowards(_contactVelocity, new Vector3(), 1f / Time.fixedDeltaTime);
 	}
 
 	void OnCollisionStay(Collision collision)
@@ -675,7 +682,7 @@ public class PlayerController : Entity
 		bool collisionIsGround = false;
 		foreach (ContactPoint contactPoint in collision.contacts)
 		{
-			if (Vector3.Angle(Vector3.up, contactPoint.normal) < settings.maxSlope)
+			if (Vector3.Angle(Vector3.up, contactPoint.normal) < settings.maxSlope && collision.gameObject.layer == 9)
 			{
 				collisionIsGround = true;
 			}

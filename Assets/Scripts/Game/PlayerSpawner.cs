@@ -40,7 +40,6 @@ public class PlayerSpawner : MonoBehaviour
 
 		if (PlayerController.instance == null && !_spawning)
 		{
-			Debug.Log(PlayerController.instance);
 			StartCoroutine(SpawnPlayer(0.5f));
 		}
 	}
@@ -59,5 +58,7 @@ public class PlayerSpawner : MonoBehaviour
 
 		player.transform.rotation = transform.rotation;
 		player.meshContainer.transform.rotation = transform.rotation;
+
+		_spawning = false;
 	}
 }

@@ -23,17 +23,23 @@ public abstract class Entity : MonoBehaviour
 		}
 	}
 
+	public bool Invincible
+	{
+		get;
+		protected set;
+	}
+
+	protected MeshRenderer _meshRenderer;
 	protected virtual void Start()
 	{
-		Debug.Log("Hi");
-
 		if (Debug.isDebugBuild)
 		{
 			DebugCanvas.current.Reload();
 		}
+
+		_meshRenderer = GetComponentInChildren<MeshRenderer>();
 	}
 
-	protected MeshRenderer _meshRenderer;
 
 	Vector3 _lightDirection;
 	Vector3 _lightDirectionVelocity;
@@ -47,6 +53,9 @@ public abstract class Entity : MonoBehaviour
 	public List<Light> lights = new List<Light>();
 	protected virtual void Update()
 	{
+		if (transform.position.y <= -15)
+			Destroy(gameObject);
+
 		Vector3 entityPosition = transform.position;
 
 		Light closestLight = null;
@@ -100,7 +109,7 @@ public abstract class Entity : MonoBehaviour
 		else
 		{
 			newDirection = -ToonLight.main.transform.forward;
-			newIntensity = ToonLight.main.intensity;
+			newIntensity = Mathf.Log10(ToonLight.main.intensity + 1f);
 			newLightColorVector = ToonLight.main.color;
 			newShadowStrength = 0.65f;
 		}
@@ -113,29 +122,42 @@ public abstract class Entity : MonoBehaviour
 
 		Color newLightColor = new Color(_lightColorVector.x, _lightColorVector.y, _lightColorVector.z);
 
-		_meshRenderer.material.SetVector("_ToonLightDirection", _lightDirection);
-		_meshRenderer.material.SetFloat("_ToonLightIntensity", _lightIntensity);
-		_meshRenderer.material.SetFloat("_ToonShadowIntensity", _lightIntensity);
-		_meshRenderer.material.SetColor("_ToonLightColor", newLightColor);
-		_meshRenderer.material.SetFloat("_ToonShadowStrength", _shadowStrength);
+		foreach (Material mat in _meshRenderer.materials)
+		{
+			mat.SetVector("_ToonLightDirection", _lightDirection);
+			mat.SetFloat("_ToonLightIntensity", _lightIntensity);
+			mat.SetFloat("_ToonShadowIntensity", _lightIntensity);
+			mat.SetColor("_ToonLightColor", newLightColor);
+			mat.SetFloat("_ToonShadowStrength", _shadowStrength);
+		}
+
+		
 	}
 
-	public float ApplyDamageToEntity(Entity target, int amount)
+	private Entity _lastAttacker;
+	private float _lastDamage = 0f;
+	public float ApplyDamage(Entity attacker, int amount)
 	{
-		target.Health -= amount;
+		if (Invincible)
+			return Health;
 
-		target.OnReceiveDamage(this, amount);
+		_lastAttacker = attacker;
 
-		return target.Health;
-	}
+		int oldHealth = Health;
+		Health = (int) Mathf.MoveTowards(Health, 0f, amount);
+		_lastDamage = oldHealth - Health;
 
-	private void OnReceiveDamage(Entity attacker, float damageAmount)
-	{
+		OnReceiveDamage();
+
 		if (Health == 0f)
 		{
 			Destroy(gameObject);
 		}
+
+		return Health;
 	}
 
-
+	protected virtual void OnReceiveDamage()
+	{
+	}
 }
