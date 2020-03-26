@@ -7,7 +7,7 @@ public class Bootstrap : MonoBehaviour
 {
     void Start()
 	{
-		SceneManager.LoadScene("PlayerTest", LoadSceneMode.Single);
+		SceneManager.LoadScene(2, LoadSceneMode.Single);
 		SceneManager.LoadScene("Persistent", LoadSceneMode.Additive);
 	}
 }
