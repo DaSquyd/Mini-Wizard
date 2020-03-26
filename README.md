@@ -1,6 +1,7 @@
 # Mini Wizard
 
 ## Significant Mechanics
+
 **Multi-Jump and Jump Forgiveness**
 After the player has left the ground, they are allowed 2 additional jumps. We have implemented a system in which the player can still perfomr a grounded jump up to 0.1 seconds after falling off the side of a platform. We did this as it sometimes felt like the player deserved to get their single grounded jump but they technically weren't on the ground anymore. This way, the player has a much more reliable jump when performing tighter platforming tasks.
 
