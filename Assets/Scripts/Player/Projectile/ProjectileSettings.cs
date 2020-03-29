@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Fire and Ice/Player/Projectile Settings")]
 public class ProjectileSettings : ScriptableObject
 {
-	public float speed;
-	public float rotationSpeed;
-	public float maxRotationAngle;
-	public int damage;
-	public float lifetime;
+	public float Speed;
+	public float RotationSpeed;
+	public float MaxRotationAngle;
+	public int Damage;
+	public float Lifetime;
 }

@@ -12,7 +12,7 @@ public class EnumFlagDrawer : PropertyDrawer
 		EnumFlagAttribute flagSettings = (EnumFlagAttribute) attribute;
 		Enum targetEnum = GetBaseProperty<Enum>(property);
 
-		string propName = flagSettings.enumName;
+		string propName = flagSettings.EnumName;
 		if (string.IsNullOrEmpty(propName))
 			propName = property.name;
 

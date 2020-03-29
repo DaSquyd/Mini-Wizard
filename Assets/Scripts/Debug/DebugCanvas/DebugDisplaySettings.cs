@@ -11,42 +11,42 @@ public class DebugDisplaySettings : ScriptableObject
 	[System.Serializable]
 	public struct TypeData
 	{
-		public Color color;
-		[EnumFlag] public FontStyles fontStyle;
-		public string suffix;
+		public Color Color;
+		[EnumFlag] public FontStyles FontStyle;
+		public string Suffix;
 	}
 
 	[System.Serializable]
 	public struct BooleanData
 	{
-		public Color trueColor;
-		public Color falseColor;
-		[EnumFlag] public FontStyles fontStyle;
+		public Color TrueColor;
+		public Color FalseColor;
+		[EnumFlag] public FontStyles FontStyle;
 	}
 
-	public string colorString;
+	public string ColorString;
 
-	public TypeData _default;
+	public TypeData Default;
 
-	public BooleanData _bool;
-	public TypeData _byte;
-	public TypeData _sbyte;
-	public TypeData _short;
-	public TypeData _ushort;
-	public TypeData _int;
-	public TypeData _uint;
-	public TypeData _long;
-	public TypeData _ulong;
-	public TypeData _float;
-	public TypeData _double;
-	public TypeData _char;
-	public TypeData _string;
-	public TypeData _vector;
+	public BooleanData Bool;
+	public TypeData Byte;
+	public TypeData Sbyte;
+	public TypeData Short;
+	public TypeData Ushort;
+	public TypeData Int;
+	public TypeData Uint;
+	public TypeData Long;
+	public TypeData Ulong;
+	public TypeData Float;
+	public TypeData Double;
+	public TypeData Char;
+	public TypeData String;
+	public TypeData Vector;
 
 	private void OnEnable()
 	{
-		_bool.trueColor.a = 1f;
-		_bool.falseColor.a = 1f;
+		Bool.TrueColor.a = 1f;
+		Bool.FalseColor.a = 1f;
 
 		FieldInfo[] fields = GetType().GetFields(BindingFlags.Instance | BindingFlags.Public);
 
@@ -56,7 +56,7 @@ public class DebugDisplaySettings : ScriptableObject
 			{
 				TypeData data = (TypeData) info.GetValue(this);
 
-				data.color.a = 1f;
+				data.Color.a = 1f;
 
 				info.SetValue(this, data);
 			}

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2803875978209155820}
   - component: {fileID: 6607441355380056282}
-  - component: {fileID: 616660602003954723}
+  - component: {fileID: 8069776142330709924}
   m_Layer: 0
   m_Name: Mage_Character
   m_TagString: Untagged
@@ -40,17 +40,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1203032298224527615}
   m_Mesh: {fileID: -7759331768739107841, guid: 217153c395b8fe143b3293d01c207626, type: 3}
---- !u!23 &616660602003954723
-MeshRenderer:
+--- !u!137 &8069776142330709924
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1203032298224527615}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -85,6 +85,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
+  m_Mesh: {fileID: -7759331768739107841, guid: 217153c395b8fe143b3293d01c207626, type: 3}
+  m_Bones: []
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 0}
+  m_AABB:
+    m_Center: {x: 0, y: -0.0046346188, z: 0.0019752681}
+    m_Extent: {x: 0.34538066, y: 0.6395688, z: 0.30685583}
+  m_DirtyAABB: 0
 --- !u!1 &1758857846000171246
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,13 +144,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48098cc82ae60704b993bea2342f3608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lights: []
-  settings: {fileID: 11400000, guid: 65a7ae677a4dc30458d9190035ba7f10, type: 2}
-  cameraSettings: {fileID: 11400000, guid: 3bb2ac8c4eddd3b4c945ba9c8ca13341, type: 2}
-  meshContainer: {fileID: 4082506322480207216}
-  fireballPrefab: {fileID: 7328584702430073106, guid: c566eadb04fb7ce40a52714854ec140f,
+  Lights: []
+  Settings: {fileID: 11400000, guid: 65a7ae677a4dc30458d9190035ba7f10, type: 2}
+  CameraSettings: {fileID: 11400000, guid: 3bb2ac8c4eddd3b4c945ba9c8ca13341, type: 2}
+  MeshContainer: {fileID: 4082506322480207216}
+  FireballPrefab: {fileID: 7328584702430073106, guid: c566eadb04fb7ce40a52714854ec140f,
     type: 3}
-  iceballPrefab: {fileID: 0}
+  IceballPrefab: {fileID: 0}
 --- !u!114 &1758857846000171218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,11 +194,11 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 3
 --- !u!1 &4082506322480207216
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,7 +320,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.28
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1217103374910135525
 PrefabInstance:

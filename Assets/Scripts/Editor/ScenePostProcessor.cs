@@ -9,14 +9,14 @@ public class ScenePostProcess
 	[PostProcessScene(0)]
 	public static void OnPostProcessScene()
 	{
-		if (DebugCanvas.current == null && Debug.isDebugBuild)
+		if (DebugCanvas.Instance == null && Debug.isDebugBuild)
 		{
 			var debugCanvasPrefab = Resources.Load("Prefabs/Debug/DebugCanvas", typeof(GameObject));
 			Object.Instantiate(debugCanvasPrefab);
 			Application.Quit();
 		}
 
-		if (GameManager.instance == null)
+		if (GameManager.Instance == null)
 		{
 			if (SceneManager.GetActiveScene().name != "Persistent")
 				SceneManager.LoadScene("Persistent", LoadSceneMode.Additive);

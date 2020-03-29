@@ -3,6 +3,6 @@
 [Serializable]
 public struct RangedFloat
 {
-	public float minValue;
-	public float maxValue;
+	public float MinValue;
+	public float MaxValue;
 }

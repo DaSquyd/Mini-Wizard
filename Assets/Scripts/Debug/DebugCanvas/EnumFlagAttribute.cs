@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class EnumFlagAttribute : PropertyAttribute
 {
-	public string enumName;
+	public string EnumName;
 	public EnumFlagAttribute()
 	{
 	}
 	public EnumFlagAttribute(string name)
 	{
-		enumName = name;
+		EnumName = name;
 	}
 }

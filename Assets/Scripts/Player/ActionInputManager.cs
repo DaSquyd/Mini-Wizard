@@ -7,34 +7,34 @@ using InControl;
 [RequireComponent(typeof(GameManager))]
 public class ActionInputManager : MonoBehaviour
 {
-	public static ActionInputManager current;
+	public static ActionInputManager Current;
 
-	public ActionInputSettings settings;
+	public ActionInputSettings Settings;
 
 	public struct Action
 	{
-		public string name;
-		public ActionInputSettings.ActionInput input;
-		public float state;
-		public float lastState;
+		public string Name;
+		public ActionInputSettings.ActionInput Input;
+		public float State;
+		public float LastState;
 
-		public float fixedState;
-		public float lastFixedState;
+		public float FixedState;
+		public float LastFixedState;
 	}
 
-	public static Action[] actions;
+	public static Action[] Actions;
 
 	private void Start()
 	{
-		current = this;
+		Current = this;
 
-		actions = new Action[settings.inputs.Count];
+		Actions = new Action[Settings.Inputs.Count];
 
-		for (int i = 0; i < settings.inputs.Count; i++)
+		for (int i = 0; i < Settings.Inputs.Count; i++)
 		{
-			actions[i] = new Action() {
-				name = settings.inputs[i].name,
-				input = settings.inputs[i]
+			Actions[i] = new Action() {
+				Name = Settings.Inputs[i].Name,
+				Input = Settings.Inputs[i]
 			};
 		}
 	}
@@ -43,18 +43,18 @@ public class ActionInputManager : MonoBehaviour
 	{
 		InputDevice inputDevice = InputManager.ActiveDevice;
 
-		for (int i = 0; i < actions.Length; i++)
+		for (int i = 0; i < Actions.Length; i++)
 		{
 
-			actions[i].lastState = actions[i].state;
+			Actions[i].LastState = Actions[i].State;
 
-			actions[i].state = 0f;
+			Actions[i].State = 0f;
 
-			actions[i].state += Mathf.Clamp01(inputDevice.GetControl(actions[i].input.gamepad).Value * (actions[i].input.gamepadInverse ? -1f : 1f));
-			actions[i].state += Input.GetKey(actions[i].input.key1) ? 1f : 0f;
-			actions[i].state += Input.GetKey(actions[i].input.key2) ? 1f : 0f;
+			Actions[i].State += Mathf.Clamp01(inputDevice.GetControl(Actions[i].Input.Gamepad).Value * (Actions[i].Input.GamepadInverse ? -1f : 1f));
+			Actions[i].State += Input.GetKey(Actions[i].Input.Key1) ? 1f : 0f;
+			Actions[i].State += Input.GetKey(Actions[i].Input.Key2) ? 1f : 0f;
 
-			actions[i].state = Mathf.Clamp01(actions[i].state);
+			Actions[i].State = Mathf.Clamp01(Actions[i].State);
 		}
 	}
 
@@ -62,28 +62,28 @@ public class ActionInputManager : MonoBehaviour
 	{
 		InputDevice inputDevice = InputManager.ActiveDevice;
 
-		for (int i = 0; i < actions.Length; i++)
+		for (int i = 0; i < Actions.Length; i++)
 		{
-			actions[i].lastFixedState = actions[i].fixedState;
+			Actions[i].LastFixedState = Actions[i].FixedState;
 
-			actions[i].fixedState = 0f;
+			Actions[i].FixedState = 0f;
 
-			actions[i].fixedState += Mathf.Clamp01(inputDevice.GetControl(actions[i].input.gamepad).Value * (actions[i].input.gamepadInverse ? -1f : 1f));
-			actions[i].fixedState += Input.GetKey(actions[i].input.key1) ? 1f : 0f;
-			actions[i].fixedState += Input.GetKey(actions[i].input.key2) ? 1f : 0f;
+			Actions[i].FixedState += Mathf.Clamp01(inputDevice.GetControl(Actions[i].Input.Gamepad).Value * (Actions[i].Input.GamepadInverse ? -1f : 1f));
+			Actions[i].FixedState += Input.GetKey(Actions[i].Input.Key1) ? 1f : 0f;
+			Actions[i].FixedState += Input.GetKey(Actions[i].Input.Key2) ? 1f : 0f;
 
-			actions[i].fixedState = Mathf.Clamp01(actions[i].fixedState);
+			Actions[i].FixedState = Mathf.Clamp01(Actions[i].FixedState);
 		}
 	}
 
 	public static float GetInput(string name)
 	{
-		for (int i = 0; i < actions.Length; i++)
+		for (int i = 0; i < Actions.Length; i++)
 		{
-			if (actions[i].name != name)
+			if (Actions[i].Name != name)
 				continue;
 
-			return actions[i].state;
+			return Actions[i].State;
 		}
 
 		Debug.LogError($"Action \"{name}\" was not found!");
@@ -91,12 +91,12 @@ public class ActionInputManager : MonoBehaviour
 	}
 	public static bool GetInputDown(string name)
 	{
-		for (int i = 0; i < actions.Length; i++)
+		for (int i = 0; i < Actions.Length; i++)
 		{
-			if (actions[i].name != name)
+			if (Actions[i].Name != name)
 				continue;
 
-			return actions[i].state == 1f && actions[i].lastState == 0f;
+			return Actions[i].State == 1f && Actions[i].LastState == 0f;
 		}
 
 		Debug.LogError($"Action \"{name}\" was not found!");
@@ -104,12 +104,12 @@ public class ActionInputManager : MonoBehaviour
 	}
 	public static bool GetInputUp(string name)
 	{
-		for (int i = 0; i < actions.Length; i++)
+		for (int i = 0; i < Actions.Length; i++)
 		{
-			if (actions[i].name != name)
+			if (Actions[i].Name != name)
 				continue;
 
-			return actions[i].state == 0f && actions[i].lastState == 1f;
+			return Actions[i].State == 0f && Actions[i].LastState == 1f;
 		}
 
 		Debug.LogError($"Action \"{name}\" was not found!");
@@ -119,14 +119,14 @@ public class ActionInputManager : MonoBehaviour
 
 	public static float GetFixedInput(string name)
 	{
-		for (int i = 0; i < actions.Length; i++)
+		for (int i = 0; i < Actions.Length; i++)
 		{
-			if (actions[i].name != name)
+			if (Actions[i].Name != name)
 				continue;
 
-			Debug.Log(Input.GetKey(actions[i].input.key1));
+			Debug.Log(Input.GetKey(Actions[i].Input.Key1));
 
-			return actions[i].fixedState;
+			return Actions[i].FixedState;
 		}
 
 		Debug.LogError($"Action \"{name}\" was not found!");
@@ -134,24 +134,24 @@ public class ActionInputManager : MonoBehaviour
 	}
 	public static bool GetFixedInputDown(string name)
 	{
-		for (int i = 0; i < actions.Length; i++)
+		for (int i = 0; i < Actions.Length; i++)
 		{
-			if (actions[i].name != name)
+			if (Actions[i].Name != name)
 				continue;
 
-			return actions[i].fixedState == 1f && actions[i].lastFixedState == 0f;
+			return Actions[i].FixedState == 1f && Actions[i].LastFixedState == 0f;
 		}
 
 		return false;
 	}
 	public static bool GetFixedInputUp(string name)
 	{
-		for (int i = 0; i < actions.Length; i++)
+		for (int i = 0; i < Actions.Length; i++)
 		{
-			if (actions[i].name != name)
+			if (Actions[i].Name != name)
 				continue;
 
-			return actions[i].fixedState == 0f && actions[i].lastFixedState == 1f;
+			return Actions[i].FixedState == 0f && Actions[i].LastFixedState == 1f;
 		}
 
 		Debug.LogError($"Action \"{name}\" was not found!");

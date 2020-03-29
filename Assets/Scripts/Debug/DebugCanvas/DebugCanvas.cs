@@ -13,35 +13,35 @@ public class DebugCanvas : MonoBehaviour
 {
 	public struct DebugTextSet
 	{
-		public DebugCanvasVariable debugCanvasVariable;
-		public MemberInfo memberInfo;
-		public object obj;
-		public string displayName;
+		public DebugCanvasVariable DebugCanvasVariable;
+		public MemberInfo MemberInfo;
+		public object Obj;
+		public string DisplayName;
 	}
 
-	public static DebugCanvas current;
+	public static DebugCanvas Instance;
 
-	public static GameObject CurrentGameObject
+	public static GameObject GameObject
 	{
 		get
 		{
-			return current.gameObject;
+			return Instance.gameObject;
 		}
 	}
 
-	public static List<DebugTextSet> textboxes = new List<DebugTextSet>();
-	public static List<HorizontalLayoutGroup> groups = new List<HorizontalLayoutGroup>();
-	public static List<TMP_Text> titles = new List<TMP_Text>();
+	public static List<DebugTextSet> TextBoxes = new List<DebugTextSet>();
+	public static List<HorizontalLayoutGroup> Groups = new List<HorizontalLayoutGroup>();
+	public static List<TMP_Text> Titles = new List<TMP_Text>();
 
-	public DebugDisplaySettings settings;
-	public GameObject panel;
-	public VerticalLayoutGroup parent;
-	public TMP_Text dividerPrefab;
-	public HorizontalLayoutGroup horizontalLayoutPrefab;
+	public DebugDisplaySettings Settings;
+	public GameObject Panel;
+	public VerticalLayoutGroup Parent;
+	public TMP_Text DividerPrefab;
+	public HorizontalLayoutGroup HorizontalLayoutPrefab;
 
 	private void Awake()
 	{
-		current = this;
+		Instance = this;
 	}
 
 	private void Load()
@@ -64,7 +64,7 @@ public class DebugCanvas : MonoBehaviour
 				{
 					if (Attribute.GetCustomAttribute(objectFields[i], typeof(DebugDisplayAttribute)) is DebugDisplayAttribute attribute)
 					{
-						InstantiateCanvasVariable(objectFields[i], mono, attribute.displayName, ref titleAdded);
+						InstantiateCanvasVariable(objectFields[i], mono, attribute.DisplayName, ref titleAdded);
 					}
 				}
 			}
@@ -75,7 +75,7 @@ public class DebugCanvas : MonoBehaviour
 				{
 					if (Attribute.GetCustomAttribute(objectProperties[i], typeof(DebugDisplayAttribute)) is DebugDisplayAttribute attribute)
 					{
-						InstantiateCanvasVariable(objectProperties[i], mono, attribute.displayName, ref titleAdded);
+						InstantiateCanvasVariable(objectProperties[i], mono, attribute.DisplayName, ref titleAdded);
 					}
 				}
 			}
@@ -84,19 +84,19 @@ public class DebugCanvas : MonoBehaviour
 
 	private void Unload()
 	{
-		foreach (HorizontalLayoutGroup group in groups)
+		foreach (HorizontalLayoutGroup group in Groups)
 		{
 			Destroy(group.gameObject);
 		}
 
-		foreach (TMP_Text title in titles)
+		foreach (TMP_Text title in Titles)
 		{
 			Destroy(title.gameObject);
 		}
 
-		textboxes.Clear();
-		groups.Clear();
-		titles.Clear();
+		TextBoxes.Clear();
+		Groups.Clear();
+		Titles.Clear();
 	}
 
 	public void Reload()
@@ -109,29 +109,29 @@ public class DebugCanvas : MonoBehaviour
 	{
 		if (!titleAdded)
 		{
-			TMP_Text titleText = Instantiate(dividerPrefab, parent.transform);
+			TMP_Text titleText = Instantiate(DividerPrefab, Parent.transform);
 			titleText.text = mono.ToString();
-			titles.Add(titleText);
+			Titles.Add(titleText);
 			titleAdded = true;
 		}
 
-		HorizontalLayoutGroup group = Instantiate(horizontalLayoutPrefab, parent.transform);
+		HorizontalLayoutGroup group = Instantiate(HorizontalLayoutPrefab, Parent.transform);
 
 		DebugTextSet debugTextSet = new DebugTextSet
 		{
-			debugCanvasVariable = group.GetComponent<DebugCanvasVariable>(),
-			memberInfo = memberInfo,
-			obj = mono,
-			displayName = displayName
+			DebugCanvasVariable = group.GetComponent<DebugCanvasVariable>(),
+			MemberInfo = memberInfo,
+			Obj = mono,
+			DisplayName = displayName
 		};
 
-		textboxes.Add(debugTextSet);
-		groups.Add(group);
+		TextBoxes.Add(debugTextSet);
+		Groups.Add(group);
 	}
 
 	private void Update()
 	{
-		if (this != current)
+		if (this != Instance)
 		{
 			Destroy(gameObject);
 			return;
@@ -139,29 +139,29 @@ public class DebugCanvas : MonoBehaviour
 
 		if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Equals))
 		{
-			panel.gameObject.SetActive(!panel.gameObject.activeSelf);
+			Panel.gameObject.SetActive(!Panel.gameObject.activeSelf);
 
-			if (panel.gameObject.activeSelf)
+			if (Panel.gameObject.activeSelf)
 				Load();
 			else
 				Unload();
 		}
 
-		if (!panel.gameObject.activeSelf)
+		if (!Panel.gameObject.activeSelf)
 			return;
 
-		if (textboxes == null)
+		if (TextBoxes == null)
 			Load();
 
-		foreach (DebugTextSet debugTextSet in textboxes)
+		foreach (DebugTextSet debugTextSet in TextBoxes)
 		{
-			TMP_Text nameText = debugTextSet.debugCanvasVariable.nameText;
-			TMP_Text valueText = debugTextSet.debugCanvasVariable.valueText;
-			MemberInfo info = debugTextSet.memberInfo;
-			object obj = debugTextSet.obj;
-			string display = debugTextSet.displayName;
+			TMP_Text nameText = debugTextSet.DebugCanvasVariable.NameText;
+			TMP_Text valueText = debugTextSet.DebugCanvasVariable.ValueText;
+			MemberInfo info = debugTextSet.MemberInfo;
+			object obj = debugTextSet.Obj;
+			string display = debugTextSet.DisplayName;
 
-			debugTextSet.debugCanvasVariable.name = info.Name;
+			debugTextSet.DebugCanvasVariable.name = info.Name;
 
 			nameText.text = (display ?? info.Name) + ": ";
 
@@ -185,7 +185,7 @@ public class DebugCanvas : MonoBehaviour
 
 			if (value.GetType().Equals(typeof(Color)))
 			{
-				valueText.text = settings.colorString;
+				valueText.text = Settings.ColorString;
 				valueText.color = (Color) value;
 				valueText.faceColor = (Color) value;
 				valueText.fontStyle = FontStyles.Highlight;
@@ -196,79 +196,79 @@ public class DebugCanvas : MonoBehaviour
 				valueText.text = value.ToString();
 
 				if ((bool) value)
-					valueText.color = settings._bool.trueColor;
+					valueText.color = Settings.Bool.TrueColor;
 				else
-					valueText.color = settings._bool.falseColor;
+					valueText.color = Settings.Bool.FalseColor;
 
-				valueText.fontStyle = settings._bool.fontStyle;
+				valueText.fontStyle = Settings.Bool.FontStyle;
 			}
 			else if (value.GetType().Equals(typeof(string)))
 			{
-				UpdateTextBox(valueText, value, settings._string);
+				UpdateTextBox(valueText, value, Settings.String);
 			}
 			else if (value.GetType().Equals(typeof(char)))
 			{
-				UpdateTextBox(valueText, value, settings._char);
+				UpdateTextBox(valueText, value, Settings.Char);
 			}
 			else if (value.GetType().Equals(typeof(byte)))
 			{
-				UpdateTextBox(valueText, value, settings._byte);
+				UpdateTextBox(valueText, value, Settings.Byte, false);
 			}
 			else if (value.GetType().Equals(typeof(sbyte)))
 			{
-				UpdateTextBox(valueText, value, settings._sbyte, true);
+				UpdateTextBox(valueText, value, Settings.Sbyte, true);
 			}
 			else if (value.GetType().Equals(typeof(short)))
 			{
-				UpdateTextBox(valueText, value, settings._short, true);
+				UpdateTextBox(valueText, value, Settings.Short, true);
 			}
 			else if (value.GetType().Equals(typeof(ushort)))
 			{
-				UpdateTextBox(valueText, value, settings._ushort);
+				UpdateTextBox(valueText, value, Settings.Ushort, false);
 			}
 			else if (value.GetType().Equals(typeof(int)))
 			{
-				UpdateTextBox(valueText, value, settings._int, true);
+				UpdateTextBox(valueText, value, Settings.Int, true);
 			}
 			else if (value.GetType().Equals(typeof(uint)))
 			{
-				UpdateTextBox(valueText, value, settings._uint);
+				UpdateTextBox(valueText, value, Settings.Uint, false);
 			}
 			else if (value.GetType().Equals(typeof(long)))
 			{
-				UpdateTextBox(valueText, value, settings._long, true);
+				UpdateTextBox(valueText, value, Settings.Long, true);
 			}
 			else if (value.GetType().Equals(typeof(ulong)))
 			{
-				UpdateTextBox(valueText, value, settings._ulong);
+				UpdateTextBox(valueText, value, Settings.Ulong, false);
 			}
 			else if (value.GetType().Equals(typeof(float)))
 			{
-				UpdateTextBox(valueText, ((float) value).ToString("0.0000"), settings._float);
+				UpdateTextBox(valueText, ((float) value).ToString("0.0000"), Settings.Float);
 			}
 			else if (value.GetType().Equals(typeof(double)))
 			{
-				UpdateTextBox(valueText, ((double) value).ToString("0.0000"), settings._double);
+				UpdateTextBox(valueText, ((double) value).ToString("0.0000"), Settings.Double);
 			}
 			else if (value.GetType().Equals(typeof(Vector2)) || value.GetType().Equals(typeof(Vector2Int)) || value.GetType().Equals(typeof(Vector3)) || value.GetType().Equals(typeof(Vector3Int)) || value.GetType().Equals(typeof(Vector4)))
 			{
-				UpdateTextBox(valueText, value, settings._vector);
+				UpdateTextBox(valueText, value, Settings.Vector);
 			}
 			else
 			{
-				UpdateTextBox(valueText, value, settings._default);
+				UpdateTextBox(valueText, value, Settings.Default);
 			}
 		}
 	}
 
 	private void UpdateTextBox(TMP_Text valueText, object value, DebugDisplaySettings.TypeData typeData, bool forcePositive = false)
 	{
-		valueText.color = typeData.color;
-		valueText.fontStyle = typeData.fontStyle;
+		valueText.color = typeData.Color;
+		valueText.fontStyle = typeData.FontStyle;
 		string prefix = "";
 		if (forcePositive && ((int) value >= 0))
 			prefix = "+";
-		valueText.text = prefix + value.ToString() + typeData.suffix;
-		typeData.color.a = 1f;
+		valueText.text = prefix + value.ToString() + typeData.Suffix;
+		typeData.Color.a = 1f;
 	}
 }

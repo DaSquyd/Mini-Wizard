@@ -8,14 +8,14 @@ using DG.Tweening;
 
 public class PlayerController : Entity
 {
-	public static PlayerController instance;
+	public static PlayerController Instance;
 
 
-	public PlayerSettings settings;
-	public CameraSettings cameraSettings;
-	public GameObject meshContainer;
-	public ProjectileController fireballPrefab;
-	public ProjectileController iceballPrefab;
+	public PlayerSettings Settings;
+	public CameraSettings CameraSettings;
+	public GameObject MeshContainer;
+	public ProjectileController FireballPrefab;
+	public ProjectileController IceballPrefab;
 
 	public enum MeleeState
 	{
@@ -42,11 +42,13 @@ public class PlayerController : Entity
 		Auto
 	}
 
-	CinemachineVirtualCamera _vcam;
-	Rigidbody _rb;
+	CinemachineVirtualCamera vcam;
+	Rigidbody rb;
 
-	Vector3 _move;
+	[DebugDisplay]
+	Vector3 move;
 	Vector3 _targetMove;
+	[DebugDisplay]
 	public Vector3 TargetMove
 	{
 		get
@@ -55,10 +57,7 @@ public class PlayerController : Entity
 		}
 		private set
 		{
-			if (value.magnitude > 1f)
-				_targetMove = value.normalized;
-			else
-				_targetMove = value;
+			_targetMove = Vector3.ClampMagnitude(value, 1f);
 		}
 	}
 
@@ -76,9 +75,21 @@ public class PlayerController : Entity
 	}
 
 	Vector3 _meshMove;
-	Vector3 _meshTargetMove = Vector3.forward;
+	public Vector3 MeshMove
+	{
+		get
+		{
+			return _meshMove;
+		}
+		private set
+		{
+			_meshMove = Vector3.ClampMagnitude(value, 1f);
+		}
+	}
 
-	[DebugDisplay("Velocity")] Vector3 _velocityDisplay;
+	Vector3 meshTargetMove = Vector3.forward;
+
+	[DebugDisplay("Velocity")] Vector3 velocityDisplay;
 
 	public bool IsGrounded
 	{
@@ -99,20 +110,20 @@ public class PlayerController : Entity
 	}
 
 	// Attack
-	[DebugDisplay] WeaponState _weaponState;
+	[DebugDisplay] WeaponState weaponState;
 
 
-	[DebugDisplay("Melee State")] MeleeState _meleeState;
-	byte _currentMeleeAttack;
-	bool _meleeAttackBuffer;
-	float _meleeAttackTime;
+	[DebugDisplay("Melee State")] MeleeState meleeState;
+	byte currentMeleeAttack;
+	bool meleeAttackBuffer;
+	float meleeAttackTime;
 
-	Vector3 _meleeEffectAmount;
-	Tween _meleeEffectTween;
+	Vector3 meleeEffectAmount;
+	Tween meleeEffectTween;
 
-	bool _airMelee;
+	bool airMelee;
 
-	float _shootCooldown;
+	float shootCooldown;
 	public byte Ammo
 	{
 		get;
@@ -121,40 +132,43 @@ public class PlayerController : Entity
 
 
 	// Jump
-	bool _jumpInput;
-	bool _jumpInputChange;
-	[DebugDisplay("Air Jumps")] byte _airJumps;
-	float _jumpForgivenessTime;
-	float _jumpTime;
+	bool jumpInput;
+	bool jumpInputChange;
+	[DebugDisplay("Air Jumps")] byte airJumps;
+	float jumpForgivenessTime;
+	float jumpCooldown;
+	float airTime;
+	[DebugDisplay] bool hasJumped;
 
 	// Rotation
-	float _pitch;
-	float _yaw;
+	float _cameraPitch;
+	float _cameraYaw;
 	[DebugDisplay]
-	public Vector2 Rotation
+	public Vector2 CameraRotation
 	{
 		get
 		{
-			return new Vector2(_pitch, _yaw);
+			return new Vector2(_cameraPitch, _cameraYaw);
 		}
 
 		private set
 		{
-			_pitch = value.x;
-			_yaw = value.y;
+			_cameraPitch = value.x;
+			_cameraYaw = value.y;
 		}
 	}
 
 
-	Vector3 _cameraCurrentVelocity;
-	Vector3 _cameraBasePosition;
+	Vector3 cameraCurrentVelocity;
+	Vector3 cameraBasePosition;
 
-	[DebugDisplay("Camera")] CameraMode _cameraMode = CameraMode.Auto;
-	[DebugDisplay("Cam CD")] float _cameraCooldownTime;
+	[DebugDisplay("Camera")] CameraMode cameraMode = CameraMode.Auto;
+	[DebugDisplay("Cam CD")] float cameraCooldownTime;
 
-	CinemachineSmoothPath _path;
+	CinemachineSmoothPath path;
 
-	Vector3 _contactVelocity = new Vector3();
+	[DebugDisplay]
+	Vector3 contactVelocity = new Vector3();
 
 #if DEBUG
 	float DebugCurrentPath
@@ -162,13 +176,13 @@ public class PlayerController : Entity
 		get
 		{
 			if (this != null)
-				return _path.FindClosestPoint(transform.position, 0, 100, 10);
+				return path.FindClosestPoint(transform.position, 0, 100, 10);
 
 			return 0f;
 		}
 	}
 
-	bool _debugMouseDisabled =
+	bool debugMouseDisabled =
 #if UNITY_EDITOR
 		true;
 #else
@@ -179,27 +193,27 @@ public class PlayerController : Entity
 	protected sealed override void Start()
 	{
 		base.Start();
-		instance = this;
+		Instance = this;
 
-		_vcam = GameManager.instance.playerVcam;
+		vcam = GameManager.Instance.PlayerVcam;
 
-		_meleeEffectAmount = Vector3.right * _vcam.m_Lens.FieldOfView;
+		meleeEffectAmount = Vector3.right * vcam.m_Lens.FieldOfView;
 
-		_rb = GetComponent<Rigidbody>();
+		rb = GetComponent<Rigidbody>();
 
-		_yaw = transform.eulerAngles.y;
-		meshContainer.transform.rotation = Quaternion.Euler(Rotation);
+		_cameraYaw = transform.eulerAngles.y;
+		MeshContainer.transform.rotation = Quaternion.Euler(CameraRotation);
 		LastTargetMove = transform.forward;
 
 		// TODO Find a more universal way of doing this.
-		_path = FindObjectOfType<CinemachineSmoothPath>();
+		path = FindObjectOfType<CinemachineSmoothPath>();
 
-		MaxHealth = settings.maxHealth;
+		MaxHealth = Settings.MaxHealth;
 		Health = MaxHealth;
 
-		_cameraBasePosition = transform.position;
+		cameraBasePosition = transform.position;
 
-		_meshTargetMove = transform.forward;
+		meshTargetMove = transform.forward;
 		TurnMesh(false);
 
 		CanAttack = true;
@@ -210,9 +224,9 @@ public class PlayerController : Entity
 	{
 		base.Update();
 
-		_vcam.m_Lens.FieldOfView = _meleeEffectAmount.x;
+		vcam.m_Lens.FieldOfView = meleeEffectAmount.x;
 
-		MaxHealth = settings.maxHealth;
+		MaxHealth = Settings.MaxHealth;
 
 #if DEBUG
 		if (Input.GetKeyDown(KeyCode.T))
@@ -222,17 +236,17 @@ public class PlayerController : Entity
 
 		if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			_debugMouseDisabled = !_debugMouseDisabled;
+			debugMouseDisabled = !debugMouseDisabled;
 		}
 #endif
-		_yaw = transform.eulerAngles.y;
+		_cameraYaw = transform.eulerAngles.y;
 
 		if (ActionInputManager.GetInputDown("Swap") && CanAttack)
 		{
-			if (_weaponState.Equals(WeaponState.Fireballs))
-				_weaponState = WeaponState.Iceballs;
+			if (weaponState.Equals(WeaponState.Fireballs))
+				weaponState = WeaponState.Iceballs;
 			else
-				_weaponState = WeaponState.Fireballs;
+				weaponState = WeaponState.Fireballs;
 		}
 
 		MeleeUpdate();
@@ -241,47 +255,46 @@ public class PlayerController : Entity
 		TurnMesh(true);
 		UpdateCamera();
 
-		_velocityDisplay = _rb.velocity;
+		velocityDisplay = rb.velocity;
 	}
 
 	private void MeleeUpdate()
 	{
-		if (_meleeState == MeleeState.Attack)
+		if (meleeState == MeleeState.Attack)
 		{
-			_rb.velocity = Vector3.Lerp(LastTargetMove * settings.attackCooldowns[_currentMeleeAttack - 1].force + (IsGrounded ? Vector3.zero : Vector3.down * settings.attackDownForce),
-				IsGrounded ? Vector3.zero : Vector3.down * settings.attackDownForce,
-				(settings.attackCooldowns[_currentMeleeAttack - 1].time - _meleeAttackTime) / settings.attackCooldowns[_currentMeleeAttack - 1].time);
+			rb.velocity = Vector3.Lerp(LastTargetMove * Settings.AttackCooldowns[currentMeleeAttack - 1].Force + (IsGrounded ? Vector3.zero : Vector3.down * Settings.AttackDownForce),
+				IsGrounded ? Vector3.zero : Vector3.down * Settings.AttackDownForce,
+				(Settings.AttackCooldowns[currentMeleeAttack - 1].Time - meleeAttackTime) / Settings.AttackCooldowns[currentMeleeAttack - 1].Time);
 		}
 
-		if (_meleeAttackTime == 0)
+		if (meleeAttackTime == 0)
 		{
 
-			switch (_meleeState)
+			switch (meleeState)
 			{
 				case MeleeState.Attack:
 					IsLocked = false;
-					_meleeAttackBuffer = false;
-					_rb.useGravity = true;
-					if (settings.attackCooldowns.Length > _currentMeleeAttack)
+					meleeAttackBuffer = false;
+					if (Settings.AttackCooldowns.Length > currentMeleeAttack)
 					{
-						_meleeState = MeleeState.Wait;
-						_meleeAttackTime = settings.attackCooldowns[_currentMeleeAttack].wait;
+						meleeState = MeleeState.Wait;
+						meleeAttackTime = Settings.AttackCooldowns[currentMeleeAttack].Wait;
 					}
 					else
 					{
-						_meleeState = MeleeState.Idle;
-						_meleeAttackTime = settings.attackCooldowns[0].wait;
-						_currentMeleeAttack = 0;
+						meleeState = MeleeState.Idle;
+						meleeAttackTime = Settings.AttackCooldowns[0].Wait;
+						currentMeleeAttack = 0;
 					}
 					break;
 				case MeleeState.Wait:
-					_meleeState = MeleeState.PostAttack;
-					_meleeAttackTime = settings.attackCooldowns[_currentMeleeAttack].comboForgiveness;
+					meleeState = MeleeState.PostAttack;
+					meleeAttackTime = Settings.AttackCooldowns[currentMeleeAttack].ComboForgiveness;
 					break;
 				case MeleeState.PostAttack:
-					_meleeState = MeleeState.Idle;
-					_currentMeleeAttack = 0;
-					_meleeAttackBuffer = false;
+					meleeState = MeleeState.Idle;
+					currentMeleeAttack = 0;
+					meleeAttackBuffer = false;
 					break;
 			}
 
@@ -289,7 +302,7 @@ public class PlayerController : Entity
 		}
 		else
 		{
-			_meleeAttackTime = Mathf.MoveTowards(_meleeAttackTime, 0f, Time.deltaTime);
+			meleeAttackTime = Mathf.MoveTowards(meleeAttackTime, 0f, Time.deltaTime);
 		}
 
 		// Stops if lock state or can't attack
@@ -298,37 +311,36 @@ public class PlayerController : Entity
 
 		if (ActionInputManager.GetInputDown("Melee"))
 		{
-			if (_meleeState == MeleeState.Idle)
+			if (meleeState == MeleeState.Idle)
 			{
-				if (_meleeAttackTime == 0f)
+				if (meleeAttackTime == 0f)
 					MeleeAttack();
 			}
 			else
-				_meleeAttackBuffer = true;
+				meleeAttackBuffer = true;
 		}
-		if (_meleeState == MeleeState.PostAttack && _meleeAttackBuffer)
+		if (meleeState == MeleeState.PostAttack && meleeAttackBuffer)
 			MeleeAttack();
 	}
 
 	private void MeleeAttack()
 	{
-		if (_airMelee && _currentMeleeAttack == 0)
+		if (airMelee && currentMeleeAttack == 0)
 			return;
 
-		_meleeEffectAmount = new Vector3(cameraSettings.fov, 0f, 0f);
-		_meleeEffectTween = DOTween.Punch(() => _meleeEffectAmount, x => _meleeEffectAmount = x, Vector3.right * (cameraSettings.attackFov - cameraSettings.fov), 0.2f, 1, 1f);
+		meleeEffectAmount = new Vector3(CameraSettings.Fov, 0f, 0f);
+		meleeEffectTween = DOTween.Punch(() => meleeEffectAmount, x => meleeEffectAmount = x, Vector3.right * (CameraSettings.AttackFov - CameraSettings.Fov), 0.2f, 1, 1f);
 
 		TurnMesh(false);
 
 		if (!IsGrounded)
-			_airMelee = true;
+			airMelee = true;
 
-		_currentMeleeAttack++;
+		currentMeleeAttack++;
 
-		_meleeAttackTime = settings.attackCooldowns[_currentMeleeAttack - 1].time;
-		_meleeState = MeleeState.Attack;
+		meleeAttackTime = Settings.AttackCooldowns[currentMeleeAttack - 1].Time;
+		meleeState = MeleeState.Attack;
 
-		_rb.useGravity = false;
 		IsLocked = true;
 	}
 
@@ -338,7 +350,7 @@ public class PlayerController : Entity
 		if (Ammo == 0)
 			return;
 
-		if (_shootCooldown > 0f)
+		if (shootCooldown > 0f)
 			return;
 	}
 
@@ -353,52 +365,53 @@ public class PlayerController : Entity
 		if (IsLocked)
 			return;
 
-		if (_jumpTime > 0f)
+		if (jumpCooldown > 0f)
 		{
-			_jumpTime = Mathf.Max(0f, _jumpTime - Time.deltaTime);
+			jumpCooldown = Mathf.Max(0f, jumpCooldown - Time.deltaTime);
 			return;
 		}
 
 		if (ActionInputManager.GetInputDown("Jump"))
 		{
-			if (_jumpForgivenessTime > 0f)
+			if (jumpForgivenessTime > 0f)
 			{
 				Jump(false);
 			}
 #if DEBUG
-			else if (_airJumps < settings.maxAirJumps || InputManager.ActiveDevice.LeftBumper)
+			else if (airJumps < Settings.MaxAirJumps || InputManager.ActiveDevice.LeftBumper)
 #else
 			else if (_airJumps < settings.maxAirJumps)
 #endif
 			{
 				Jump(true);
-				_airJumps++;
+				airJumps++;
 			}
 		}
 	}
 
 	private void Jump(bool inAir)
 	{
-		_rb.velocity = new Vector3(_rb.velocity.x, inAir ? settings.airJumpStrength : settings.groundJumpStrength, _rb.velocity.z);
-		_jumpTime = settings.jumpCooldown;
+		rb.velocity = new Vector3(rb.velocity.x, inAir ? Settings.AirJumpStrength : Settings.GroundJumpStrength, rb.velocity.z);
+		jumpCooldown = Settings.JumpCooldown;
 		IsGrounded = false;
+		hasJumped = true;
 	}
 
 	private void TurnMesh(bool smoothed)
 	{
 		if (Mathf.Abs(TargetMove.magnitude) > 0f)
 		{
-			_meshTargetMove = TargetMove;
+			meshTargetMove = TargetMove;
 		}
 
 		if (smoothed)
-			_meshMove = Vector3.Slerp(_meshMove, _meshTargetMove, Time.deltaTime * settings.turnSpeed);
+			MeshMove = Vector3.Slerp(MeshMove, meshTargetMove, Time.deltaTime * Settings.TurnSpeed);
 		else
-			_meshMove = Vector3.RotateTowards(_meshMove, _meshTargetMove, Time.fixedDeltaTime * settings.attackTurnSpeed, 1f);
+			MeshMove = Vector3.RotateTowards(MeshMove, meshTargetMove, Time.fixedDeltaTime * Settings.AttackTurnSpeed, 1f);
 
-		float yaw = Mathf.Atan2(_meshMove.x, _meshMove.z) * Mathf.Rad2Deg;
+		float yaw = Mathf.Atan2(MeshMove.x, MeshMove.z) * Mathf.Rad2Deg;
 
-		meshContainer.transform.rotation = Quaternion.Euler(0f, yaw, 0f);
+		MeshContainer.transform.rotation = Quaternion.Euler(0f, yaw, 0f);
 	}
 
 	private void UpdateCamera()
@@ -406,13 +419,13 @@ public class PlayerController : Entity
 		float dist = 0f;
 		float autoYaw = 0f;
 		float autoPitch = 0f;
-		if (_path != null)
+		if (path != null)
 		{
 			// Finds the closest on the track and sets the tangent (direction player should be facing)
-			float posAlongPath = _path.FindClosestPoint(transform.position, 0, 100, 10);
+			float posAlongPath = path.FindClosestPoint(transform.position, 0, 100, 10);
 
-			Vector3 pathPointTangent = _path.EvaluateTangent(posAlongPath);
-			Vector3 pathPointPosition = _path.EvaluatePosition(posAlongPath);
+			Vector3 pathPointTangent = path.EvaluateTangent(posAlongPath);
+			Vector3 pathPointPosition = path.EvaluatePosition(posAlongPath);
 
 			float distanceFromPath = Vector3.Distance(transform.position, pathPointPosition);
 
@@ -420,66 +433,66 @@ public class PlayerController : Entity
 			float autoTangentYaw = Mathf.Atan2(pathPointTangent.x, pathPointTangent.z) * Mathf.Rad2Deg;
 			float autoTowardsYaw = Mathf.Atan2(pathPointPosition.x - transform.position.x, pathPointPosition.z - transform.position.z) * Mathf.Rad2Deg;
 
-			float activationPercent = Mathf.InverseLerp(settings.camera.activationMinDistance, settings.camera.activationMaxDistance, distanceFromPath);
+			float activationPercent = Mathf.InverseLerp(Settings.Camera.ActivationMinDistance, Settings.Camera.ActivationMaxDistance, distanceFromPath);
 
 			autoYaw = Mathf.LerpAngle(autoTangentYaw, autoTowardsYaw, activationPercent);
-			autoPitch = Mathf.LerpAngle(settings.camera.trackAngle, settings.camera.distanceAngle, activationPercent);
+			autoPitch = Mathf.LerpAngle(Settings.Camera.TrackAngle, Settings.Camera.DistanceAngle, activationPercent);
 #if UNITY_EDITOR
 			Debug.DrawLine(pathPointPosition, pathPointPosition + pathPointTangent, Color.green, Time.deltaTime);
 #endif
 
-			Vector2 delta = Quaternion.RotateTowards(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f), 10f).eulerAngles;
+			Vector2 delta = Quaternion.RotateTowards(Quaternion.Euler(CameraRotation), Quaternion.Euler(autoPitch, autoYaw, 0f), 10f).eulerAngles;
 			if (delta.x < 0f)
 			{
 				delta.x += 360;
 			}
 
 
-			dist = Quaternion.Angle(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f));
+			dist = Quaternion.Angle(Quaternion.Euler(CameraRotation), Quaternion.Euler(autoPitch, autoYaw, 0f));
 		}
 
 		// User input
 #if DEBUG
-		float yaw = ((ActionInputManager.GetInput("Look Right") - ActionInputManager.GetInput("Look Left")) * settings.cameraJoystickSpeed) + (_debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse x") * settings.cameraMouseSpeed));
-		float pitch = ((ActionInputManager.GetInput("Look Up") - ActionInputManager.GetInput("Look Down")) * settings.cameraJoystickSpeed) + (_debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse y") * settings.cameraMouseSpeed));
+		float yaw = ((ActionInputManager.GetInput("Look Right") - ActionInputManager.GetInput("Look Left")) * Settings.CameraJoystickSpeed) + (debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse x") * Settings.CameraMouseSpeed));
+		float pitch = ((ActionInputManager.GetInput("Look Up") - ActionInputManager.GetInput("Look Down")) * Settings.CameraJoystickSpeed) + (debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse y") * Settings.CameraMouseSpeed));
 #else
 		float yaw = ((ActionInputManager.GetInput("Look Right") - ActionInputManager.GetInput("Look Left")) * settings.cameraJoystickSpeed) + (Input.GetAxisRaw("mouse x") * settings.cameraMouseSpeed);
 		float pitch = ((ActionInputManager.GetInput("Look Up") - ActionInputManager.GetInput("Look Down")) * settings.cameraJoystickSpeed) + (Input.GetAxisRaw("mouse y") * settings.cameraMouseSpeed);
 #endif
 
-		if (_path == null)
-			_cameraMode = CameraMode.Manual;
+		if (path == null)
+			cameraMode = CameraMode.Manual;
 
-		switch (_cameraMode)
+		switch (cameraMode)
 		{
 			// MANUAL
 			case CameraMode.Manual:
 				// Set mode to locked
-				if (ActionInputManager.GetInputDown("Auto Camera") && _path != null)
+				if (ActionInputManager.GetInputDown("Auto Camera") && path != null)
 				{
-					_cameraMode = CameraMode.SettingToAuto;
+					cameraMode = CameraMode.SettingToAuto;
 				}
 
 				// If player moves camera, reset cooldown
 				if (!Mathf.Approximately(yaw, 0f) || !Mathf.Approximately(pitch, 0f))
 				{
-					_cameraCooldownTime = settings.camera.autoCooldown;
+					cameraCooldownTime = Settings.Camera.AutoCooldown;
 				}
 
 				// If in air, reset cooldown
 				if (!IsGrounded)
 				{
-					_cameraCooldownTime = Mathf.MoveTowards(_cameraCooldownTime, settings.camera.autoCooldown, (settings.camera.autoCooldownResetAir + 1) * Time.deltaTime);
+					cameraCooldownTime = Mathf.MoveTowards(cameraCooldownTime, Settings.Camera.AutoCooldown, (Settings.Camera.AutoCooldownResetAir + 1) * Time.deltaTime);
 				}
-				else if (_rb.velocity.magnitude > 0.1f)
+				else if (rb.velocity.magnitude > 0.1f)
 				{
-					_cameraCooldownTime = Mathf.MoveTowards(_cameraCooldownTime, settings.camera.autoCooldown, (settings.camera.autoCooldownResetMove + 1) * Time.deltaTime);
+					cameraCooldownTime = Mathf.MoveTowards(cameraCooldownTime, Settings.Camera.AutoCooldown, (Settings.Camera.AutoCooldownResetMove + 1) * Time.deltaTime);
 				}
 
 				// Once cooldown is 0, switch to locked mode
-				if (_cameraCooldownTime == 0f && _path != null)
+				if (cameraCooldownTime == 0f && path != null)
 				{
-					_cameraMode = CameraMode.Auto;
+					cameraMode = CameraMode.Auto;
 				}
 				break;
 
@@ -489,20 +502,20 @@ public class PlayerController : Entity
 				pitch = 0f;
 
 
-				float distManual = Mathf.Min(dist, settings.camera.settingToAutoFineTuneAngle) / settings.camera.settingToAutoFineTuneAngle;
-				Rotation = Quaternion.RotateTowards(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f), settings.camera.settingToAutoSpeed * distManual * Time.deltaTime).eulerAngles;
-				transform.rotation = Quaternion.Euler(transform.eulerAngles.x, _yaw, transform.eulerAngles.z);
+				float distManual = Mathf.Min(dist, Settings.Camera.SettingToAutoFineTuneAngle) / Settings.Camera.SettingToAutoFineTuneAngle;
+				CameraRotation = Quaternion.RotateTowards(Quaternion.Euler(CameraRotation), Quaternion.Euler(autoPitch, autoYaw, 0f), Settings.Camera.SettingToAutoSpeed * distManual * Time.deltaTime).eulerAngles;
+				transform.rotation = Quaternion.Euler(transform.eulerAngles.x, _cameraYaw, transform.eulerAngles.z);
 
 				if (dist < 5f)
 				{
-					_cameraMode = CameraMode.Auto;
-					_cameraCooldownTime = settings.camera.settingToAutoCooldown;
+					cameraMode = CameraMode.Auto;
+					cameraCooldownTime = Settings.Camera.SettingToAutoCooldown;
 				}
 				break;
 
 			// AUTO
 			case CameraMode.Auto:
-				if (_cameraCooldownTime > 0f)
+				if (cameraCooldownTime > 0f)
 				{
 					yaw = 0f;
 					pitch = 0f;
@@ -510,53 +523,53 @@ public class PlayerController : Entity
 
 				if (ActionInputManager.GetInputDown("Auto Camera"))
 				{
-					_cameraMode = CameraMode.SettingToAuto;
+					cameraMode = CameraMode.SettingToAuto;
 				}
 
-				float distLocked = Mathf.Min(dist, settings.camera.autoFineTuneAngle) / settings.camera.autoFineTuneAngle;
-				Rotation = Quaternion.RotateTowards(Quaternion.Euler(Rotation), Quaternion.Euler(autoPitch, autoYaw, 0f), settings.camera.autoSpeed * distLocked * Time.deltaTime).eulerAngles;
-				transform.rotation = Quaternion.Euler(transform.eulerAngles.x, _yaw, transform.eulerAngles.z);
+				float distLocked = Mathf.Min(dist, Settings.Camera.AutoFineTuneAngle) / Settings.Camera.AutoFineTuneAngle;
+				CameraRotation = Quaternion.RotateTowards(Quaternion.Euler(CameraRotation), Quaternion.Euler(autoPitch, autoYaw, 0f), Settings.Camera.AutoSpeed * distLocked * Time.deltaTime).eulerAngles;
+				transform.rotation = Quaternion.Euler(transform.eulerAngles.x, _cameraYaw, transform.eulerAngles.z);
 
 				// Check if player has changed camera                                  Checks buffer so it doesn't automatically activate right after setting to locked mode
-				if ((!Mathf.Approximately(yaw, 0f) || !Mathf.Approximately(pitch, 0f)) && _cameraCooldownTime == 0)
+				if ((!Mathf.Approximately(yaw, 0f) || !Mathf.Approximately(pitch, 0f)) && cameraCooldownTime == 0)
 				{
-					_cameraMode = CameraMode.Manual;
+					cameraMode = CameraMode.Manual;
 				}
 				break;
 		}
 
 		// Decrement _cameraCooldownTime by deltaTime
-		if (_cameraCooldownTime > 0f)
+		if (cameraCooldownTime > 0f)
 		{
-			_cameraCooldownTime = Mathf.MoveTowards(_cameraCooldownTime, 0f, Time.deltaTime);
+			cameraCooldownTime = Mathf.MoveTowards(cameraCooldownTime, 0f, Time.deltaTime);
 		}
 
 
-		float offsetPercent = Mathf.InverseLerp(cameraSettings.minOffsetPitch, cameraSettings.maxOffsetPitch, _pitch);
-		float offset = Mathf.Lerp(cameraSettings.minOffset, cameraSettings.maxOffset, offsetPercent);
+		float offsetPercent = Mathf.InverseLerp(CameraSettings.MinOffsetPitch, CameraSettings.MaxOffsetPitch, _cameraPitch);
+		float offset = Mathf.Lerp(CameraSettings.MinOffset, CameraSettings.MaxOffset, offsetPercent);
 
-		Vector3 start = _cameraBasePosition + (Vector3.up * offset);
-		Vector3 direction = Quaternion.Euler(Rotation) * Vector3.back;
+		Vector3 start = cameraBasePosition + (Vector3.up * offset);
+		Vector3 direction = Quaternion.Euler(CameraRotation) * Vector3.back;
 
 		LayerMask layerMask = LayerMask.GetMask("Terrain");
-		bool hit = Physics.SphereCast(start, cameraSettings.buffer, direction, out RaycastHit info, cameraSettings.maxDistance, layerMask);
+		bool hit = Physics.SphereCast(start, CameraSettings.Buffer, direction, out RaycastHit info, CameraSettings.MaxDistance, layerMask);
 
-		float distance = Mathf.Max(cameraSettings.minDistance, info.distance);
+		float distance = Mathf.Max(CameraSettings.MinDistance, info.distance);
 
 		if (!hit)
-			distance = cameraSettings.maxDistance;
+			distance = CameraSettings.MaxDistance;
 
 		Debug.DrawRay(start, direction * distance, Color.cyan);
 
-		_pitch += pitch;
+		_cameraPitch += pitch;
 
-		while (_pitch > 180f)
-			_pitch -= 360f;
+		while (_cameraPitch > 180f)
+			_cameraPitch -= 360f;
 
-		_pitch = Mathf.Clamp(_pitch, cameraSettings.minAngle, cameraSettings.maxAngle);
+		_cameraPitch = Mathf.Clamp(_cameraPitch, CameraSettings.MinAngle, CameraSettings.MaxAngle);
 
-		_vcam.transform.rotation = Quaternion.Euler(Rotation);
-		_vcam.transform.position = start + (direction * (distance - cameraSettings.buffer));
+		vcam.transform.rotation = Quaternion.Euler(CameraRotation);
+		vcam.transform.position = start + (direction * (distance - CameraSettings.Buffer));
 
 		transform.Rotate(new Vector3(0f, yaw, 0f));
 	}
@@ -564,11 +577,20 @@ public class PlayerController : Entity
 	private void FixedUpdate()
 	{
 		if (!IsGrounded)
-			_jumpForgivenessTime -= Time.fixedDeltaTime;
+		{
+			jumpForgivenessTime -= Time.fixedDeltaTime;
+			airTime += Time.fixedDeltaTime;
+		}
+		else
+		{
+			if (jumpCooldown == 0)
+				hasJumped = false;
+			airTime = 0;
+		}
 
-		_jumpForgivenessTime = Mathf.Max(0f, _jumpForgivenessTime);
+		jumpForgivenessTime = Mathf.Max(0f, jumpForgivenessTime);
 
-		_cameraBasePosition = Vector3.SmoothDamp(_cameraBasePosition, transform.position, ref _cameraCurrentVelocity, 1f / cameraSettings.cameraSpeed);
+		cameraBasePosition = Vector3.SmoothDamp(cameraBasePosition, transform.position, ref cameraCurrentVelocity, 1f / CameraSettings.CameraSpeed);
 		//_cameraBasePosition = Vector3.MoveTowards(_cameraBasePosition, transform.position, Time.fixedDeltaTime * Vector3.Distance(_cameraBasePosition, transform.position) * cameraSettings.cameraSpeed);
 
 		TargetUpdate();
@@ -576,13 +598,13 @@ public class PlayerController : Entity
 
 		IsGrounded = false;
 
-		_velocityDisplay = _rb.velocity;
+		velocityDisplay = rb.velocity;
 	}
 
 	private void TargetUpdate()
 	{
 		// Custom "conecast" to find all objects in range
-		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, meshContainer.transform.forward, settings.targetingMaxDistance, settings.targetingMaxAngle, LayerMask.GetMask("Default"));
+		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, MeshContainer.transform.forward, Settings.TargetingMaxDistance, Settings.TargetingMaxAngle, LayerMask.GetMask("Default"));
 
 		// Create a new list and only add enemies from coneHit
 		List<RaycastHit> enemies = new List<RaycastHit>();
@@ -606,11 +628,11 @@ public class PlayerController : Entity
 		for (int i = 0; i < enemies.Count; i++)
 		{
 			Quaternion lookRotation = Quaternion.LookRotation(enemies[i].transform.position - transform.position);
-			float angleTowardsEnemy = Quaternion.Angle(meshContainer.transform.rotation, lookRotation);
+			float angleTowardsEnemy = Quaternion.Angle(MeshContainer.transform.rotation, lookRotation);
 
 			// Priority is a combination of the angle from the player and the distance
 			// Lower priority = better
-			float enemyPriority = angleTowardsEnemy + Vector3.Distance(transform.position, enemies[i].transform.position) * settings.targetingDistanceWeight;
+			float enemyPriority = angleTowardsEnemy + Vector3.Distance(transform.position, enemies[i].transform.position) * Settings.TargetingDistanceWeight;
 
 			// If the latest check is less than the current target, set as new target
 			if (enemyPriority < targetEnemyPriority)
@@ -636,15 +658,15 @@ public class PlayerController : Entity
 #if UNITY_EDITOR
 				Debug.DrawLine(transform.position, enemies[targetEnemyIndex].point, Color.yellow);
 #endif
-				ProjectileController fireball = Instantiate(fireballPrefab, transform.position, targetLookRotation);
-				fireball.target = enemies[targetEnemyIndex].transform;
-				fireball.owner = this;
+				ProjectileController fireball = Instantiate(FireballPrefab, transform.position, targetLookRotation);
+				fireball.Target = enemies[targetEnemyIndex].transform;
+				fireball.Owner = this;
 			}
 			else
 			{
 				// If there was no enemy to target, send the fireball forward
-				ProjectileController fireball = Instantiate(fireballPrefab, transform.position, meshContainer.transform.rotation);
-				fireball.owner = this;
+				ProjectileController fireball = Instantiate(FireballPrefab, transform.position, MeshContainer.transform.rotation);
+				fireball.Owner = this;
 			}
 		}
 	}
@@ -670,11 +692,14 @@ public class PlayerController : Entity
 			TargetMove.Normalize();
 		}
 
-		_move = Vector3.Lerp(_move, TargetMove, Time.fixedDeltaTime * (IsGrounded ? settings.groundAcceleration : settings.airAcceleration));
+		//contactVelocity = Vector3.ClampMagnitude(contactVelocity, 1f);
+		move = Vector3.Lerp(move, TargetMove, Time.fixedDeltaTime * (IsGrounded ? Settings.GroundAcceleration : Settings.AirAcceleration));
+		move = new Vector3(move.x * 1 - contactVelocity.x, 0f, move.z * 1 - contactVelocity.z);
 
-		_rb.velocity = (_move * settings.speed) + (Vector3.up * _rb.velocity.y) + _contactVelocity;
-		Debug.Log($"{_move * settings.speed} + {Vector3.up * _rb.velocity.y} + {_contactVelocity}");
-		_contactVelocity = Vector3.MoveTowards(_contactVelocity, new Vector3(), 1f / Time.fixedDeltaTime);
+		rb.velocity = (move * Settings.Speed) + (Vector3.up * Mathf.Min(rb.velocity.y + Settings.Gravity * Time.fixedDeltaTime, (!IsGrounded && !hasJumped) ? 0.1f : 100f));
+		Debug.Log($"{move * Settings.Speed} + {Vector3.up * rb.velocity.y} + {contactVelocity}");
+
+		contactVelocity = new Vector3();
 	}
 
 	void OnCollisionStay(Collision collision)
@@ -682,25 +707,32 @@ public class PlayerController : Entity
 		bool collisionIsGround = false;
 		foreach (ContactPoint contactPoint in collision.contacts)
 		{
-			if (Vector3.Angle(Vector3.up, contactPoint.normal) < settings.maxSlope && collision.gameObject.layer == 9)
+			if (Vector3.Angle(Vector3.up, contactPoint.normal) < Settings.MaxSlope && collision.gameObject.layer == 9)
 			{
 				collisionIsGround = true;
 			}
 		}
 
+		move.x = Mathf.MoveTowards(move.x, 0f, Mathf.Abs(collision.impulse.x) * Time.fixedDeltaTime);
+		move.z = Mathf.MoveTowards(move.z, 0f, Mathf.Abs(collision.impulse.z) * Time.fixedDeltaTime);
+
+		print(move.x);
+		print(move.z);
+
+		//contactVelocity = Vector3.MoveTowards(contactVelocity, new Vector3(1f - Mathf.Abs(collision.impulse.normalized.x), 1f - Mathf.Abs(collision.impulse.normalized.y), 1f - Mathf.Abs(collision.impulse.normalized.z)), Time.fixedDeltaTime);
+
 		if (collisionIsGround)
 		{
 			IsGrounded = true;
-			_airJumps = 0;
-			_airMelee = false;
-			_jumpForgivenessTime = settings.jumpForgiveness;
+			airJumps = 0;
+			airMelee = false;
+			jumpForgivenessTime = Settings.JumpForgiveness;
 		}
 	}
 
-
 	private void LateUpdate()
 	{
-		if (this != instance)
+		if (this != Instance)
 		{
 			Destroy(gameObject);
 		}

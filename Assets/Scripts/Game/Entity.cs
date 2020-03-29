@@ -29,28 +29,28 @@ public abstract class Entity : MonoBehaviour
 		protected set;
 	}
 
-	protected MeshRenderer _meshRenderer;
+	protected Renderer renderer;
 	protected virtual void Start()
 	{
 		if (Debug.isDebugBuild)
 		{
-			DebugCanvas.current.Reload();
+			DebugCanvas.Instance.Reload();
 		}
 
-		_meshRenderer = GetComponentInChildren<MeshRenderer>();
+		renderer = GetComponentInChildren<Renderer>();
 	}
 
 
-	Vector3 _lightDirection;
-	Vector3 _lightDirectionVelocity;
-	float _lightIntensity;
-	float _lightIntensityVelocity;
-	Vector3 _lightColorVector;
-	Vector3 _lightColorVectorVelocity;
-	float _shadowStrength;
-	float _shadowStrengthVelocity;
+	Vector3 lightDirection;
+	Vector3 lightDirectionVelocity;
+	float lightIntensity;
+	float lightIntensityVelocity;
+	Vector3 lightColorVector;
+	Vector3 lightColorVectorVelocity;
+	float shadowStrength;
+	float shadowStrengthVelocity;
 
-	public List<Light> lights = new List<Light>();
+	public List<Light> Lights = new List<Light>();
 	protected virtual void Update()
 	{
 		if (transform.position.y <= -15)
@@ -60,7 +60,7 @@ public abstract class Entity : MonoBehaviour
 
 		Light closestLight = null;
 		float closestLightDistance = 0f;
-		foreach (Light light in lights)
+		foreach (Light light in Lights)
 		{
 			float distance = Vector3.Distance(entityPosition, light.transform.position);
 
@@ -83,7 +83,7 @@ public abstract class Entity : MonoBehaviour
 		Color newLightColorVector = Color.white;
 		float newShadowStrength = 0f;
 
-		if (closestLight != null && closestLightDistance < closestLight.range && closestLight != ToonLight.main)
+		if (closestLight != null && closestLightDistance < closestLight.range && closestLight != ToonLight.Main)
 		{
 			Transform closestLightTransform = closestLight.transform;
 
@@ -103,49 +103,49 @@ public abstract class Entity : MonoBehaviour
 				newDirection = closestLightTransform.position - entityPosition;
 			float weightedDistance = Mathf.Pow(closestLightDistance, closestLight.intensity / 1.5f) / Mathf.Pow(closestLight.range, closestLight.intensity / 1.5f);
 			newIntensity = Mathf.Lerp(0.9f, 0f, weightedDistance);
-			newLightColorVector = Color.Lerp(ToonLight.main.color, closestLight.color, Mathf.Lerp(0.9f, 0f, weightedDistance));
+			newLightColorVector = Color.Lerp(ToonLight.Main.color, closestLight.color, Mathf.Lerp(0.9f, 0f, weightedDistance));
 			newShadowStrength = Mathf.Lerp(0.9f, 0.65f, weightedDistance);
 		}
 		else
 		{
-			newDirection = -ToonLight.main.transform.forward;
-			newIntensity = Mathf.Log10(ToonLight.main.intensity + 1f);
-			newLightColorVector = ToonLight.main.color;
+			newDirection = -ToonLight.Main.transform.forward;
+			newIntensity = Mathf.Log10(ToonLight.Main.intensity + 1f);
+			newLightColorVector = ToonLight.Main.color;
 			newShadowStrength = 0.65f;
 		}
 
 		var changeTime = 0.1f;
-		_lightDirection = Vector3.SmoothDamp(_lightDirection, newDirection, ref _lightDirectionVelocity, changeTime);
-		_lightIntensity = Mathf.SmoothDamp(_lightIntensity, newIntensity, ref _lightIntensityVelocity, changeTime);
-		_lightColorVector = Vector3.SmoothDamp(_lightColorVector, new Vector3(newLightColorVector.r, newLightColorVector.g, newLightColorVector.b), ref _lightColorVectorVelocity, changeTime);
-		_shadowStrength = Mathf.SmoothDamp(_shadowStrength, newShadowStrength, ref _shadowStrengthVelocity, changeTime);
+		lightDirection = Vector3.SmoothDamp(lightDirection, newDirection, ref lightDirectionVelocity, changeTime);
+		lightIntensity = Mathf.SmoothDamp(lightIntensity, newIntensity, ref lightIntensityVelocity, changeTime);
+		lightColorVector = Vector3.SmoothDamp(lightColorVector, new Vector3(newLightColorVector.r, newLightColorVector.g, newLightColorVector.b), ref lightColorVectorVelocity, changeTime);
+		shadowStrength = Mathf.SmoothDamp(shadowStrength, newShadowStrength, ref shadowStrengthVelocity, changeTime);
 
-		Color newLightColor = new Color(_lightColorVector.x, _lightColorVector.y, _lightColorVector.z);
+		Color newLightColor = new Color(lightColorVector.x, lightColorVector.y, lightColorVector.z);
 
-		foreach (Material mat in _meshRenderer.materials)
+		foreach (Material mat in renderer.materials)
 		{
-			mat.SetVector("_ToonLightDirection", _lightDirection);
-			mat.SetFloat("_ToonLightIntensity", _lightIntensity);
-			mat.SetFloat("_ToonShadowIntensity", _lightIntensity);
+			mat.SetVector("_ToonLightDirection", lightDirection);
+			mat.SetFloat("_ToonLightIntensity", lightIntensity);
+			mat.SetFloat("_ToonShadowIntensity", lightIntensity);
 			mat.SetColor("_ToonLightColor", newLightColor);
-			mat.SetFloat("_ToonShadowStrength", _shadowStrength);
+			mat.SetFloat("_ToonShadowStrength", shadowStrength);
 		}
 
 		
 	}
 
-	private Entity _lastAttacker;
-	private float _lastDamage = 0f;
+	private Entity lastAttacker;
+	private float lastDamage = 0f;
 	public float ApplyDamage(Entity attacker, int amount)
 	{
 		if (Invincible)
 			return Health;
 
-		_lastAttacker = attacker;
+		lastAttacker = attacker;
 
 		int oldHealth = Health;
 		Health = (int) Mathf.MoveTowards(Health, 0f, amount);
-		_lastDamage = oldHealth - Health;
+		lastDamage = oldHealth - Health;
 
 		OnReceiveDamage();
 

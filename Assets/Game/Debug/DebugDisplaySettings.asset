@@ -12,64 +12,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ee9c36d9fadaf49a3f4e70ec73a0b1, type: 3}
   m_Name: DebugDisplaySettings
   m_EditorClassIdentifier: 
-  colorString: '----------'
-  _default:
-    color: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
-    fontStyle: 0
-    suffix: 
-  _bool:
-    trueColor: {r: 0, g: 0.8627451, b: 0, a: 1}
-    falseColor: {r: 0.8627451, g: 0, b: 0, a: 1}
-    fontStyle: 33
-  _byte:
-    color: {r: 0.33333334, g: 0.5686275, b: 1, a: 1}
-    fontStyle: 1
-    suffix: b
-  _sbyte:
-    color: {r: 0.33333334, g: 0.5686275, b: 1, a: 1}
-    fontStyle: 1
-    suffix: sb
-  _short:
-    color: {r: 0, g: 0.6666667, b: 1, a: 1}
-    fontStyle: 1
-    suffix: s
-  _ushort:
-    color: {r: 0, g: 0.6666667, b: 1, a: 1}
-    fontStyle: 1
-    suffix: us
-  _int:
-    color: {r: 0, g: 1, b: 1, a: 1}
-    fontStyle: 1
-    suffix: 
-  _uint:
-    color: {r: 0, g: 1, b: 1, a: 1}
-    fontStyle: 1
-    suffix: u
-  _long:
-    color: {r: 0, g: 1, b: 0.6666667, a: 1}
-    fontStyle: 1
-    suffix: L
-  _ulong:
-    color: {r: 0, g: 1, b: 0.6666667, a: 1}
-    fontStyle: 1
-    suffix: uL
-  _float:
-    color: {r: 0, g: 1, b: 0.33333334, a: 1}
-    fontStyle: 1
-    suffix: f
-  _double:
-    color: {r: 0, g: 1, b: 0, a: 1}
-    fontStyle: 1
-    suffix: d
-  _char:
-    color: {r: 0.8773585, g: 0.75860083, b: 0.31038627, a: 1}
-    fontStyle: 0
-    suffix: ''''
-  _string:
-    color: {r: 1, g: 0.8783997, b: 0.4198113, a: 1}
-    fontStyle: 2
-    suffix: '"'
-  _vector:
-    color: {r: 1, g: 0.5019608, b: 1, a: 1}
-    fontStyle: 0
-    suffix: 
+  ColorString: '----------'
+  Default:
+    Color: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
+    FontStyle: 0
+    Suffix: 
+  Bool:
+    TrueColor: {r: 0, g: 0.8627451, b: 0, a: 1}
+    FalseColor: {r: 0.8627451, g: 0, b: 0, a: 1}
+    FontStyle: 33
+  Byte:
+    Color: {r: 0.33333334, g: 0.5686275, b: 1, a: 1}
+    FontStyle: 1
+    Suffix: b
+  Sbyte:
+    Color: {r: 0.33333334, g: 0.5686275, b: 1, a: 1}
+    FontStyle: 1
+    Suffix: b
+  Short:
+    Color: {r: 0, g: 0.6666667, b: 1, a: 1}
+    FontStyle: 1
+    Suffix: s
+  Ushort:
+    Color: {r: 0, g: 0.6666667, b: 1, a: 1}
+    FontStyle: 1
+    Suffix: s
+  Int:
+    Color: {r: 0, g: 1, b: 1, a: 1}
+    FontStyle: 1
+    Suffix: 
+  Uint:
+    Color: {r: 0, g: 1, b: 1, a: 1}
+    FontStyle: 1
+    Suffix: 
+  Long:
+    Color: {r: 0, g: 1, b: 0.6666667, a: 1}
+    FontStyle: 1
+    Suffix: L
+  Ulong:
+    Color: {r: 0, g: 1, b: 0.6666667, a: 1}
+    FontStyle: 1
+    Suffix: L
+  Float:
+    Color: {r: 0, g: 1, b: 0.33333334, a: 1}
+    FontStyle: 0
+    Suffix: f
+  Double:
+    Color: {r: 0, g: 0.6666667, b: 0.33333334, a: 1}
+    FontStyle: 1
+    Suffix: d
+  Char:
+    Color: {r: 0.85300004, g: 0.71083343, b: 0, a: 1}
+    FontStyle: 0
+    Suffix: ''''
+  String:
+    Color: {r: 1, g: 0.90000004, b: 0.39999998, a: 1}
+    FontStyle: 2
+    Suffix: '"'
+  Vector:
+    Color: {r: 1, g: 0.5019608, b: 1, a: 1}
+    FontStyle: 0
+    Suffix: 

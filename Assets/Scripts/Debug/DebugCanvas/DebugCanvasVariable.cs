@@ -6,6 +6,6 @@ using TMPro;
 
 public class DebugCanvasVariable : MonoBehaviour
 {
-	public TMP_Text nameText;
-	public TMP_Text valueText;
+	public TMP_Text NameText;
+	public TMP_Text ValueText;
 }

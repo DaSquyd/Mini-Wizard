@@ -12,53 +12,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6a3d1fb0298bf499f6f9e3ec6d81ac, type: 3}
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
-  maxHealth: 3
-  speed: 3.5
-  groundAcceleration: 20
-  airAcceleration: 10
-  turnSpeed: 10
-  lockedTurnSpeed: 0
-  maxSlope: 80
-  maxFallSpeed: 10
-  maxAirJumps: 2
-  groundJumpStrength: 5.5
-  airJumpStrength: 4
-  jumpCooldown: 0.25
-  jumpForgiveness: 0.15
-  gravity: -18
-  attackDownForce: 0.25
-  attackTurnSpeed: 20
-  attackCooldowns:
-  - wait: 0.6
-    comboForgiveness: 0
-    force: 6
-    time: 0.3
-  - wait: 0.2
-    comboForgiveness: 0.3
-    force: 8
-    time: 0.2
-  - wait: 0.3
-    comboForgiveness: 0.1
-    force: 8
-    time: 0.65
-  targetingMaxDistance: 20
-  targetingMaxAngle: 45
-  targetingDistanceWeight: 2.5
-  cameraJoystickSpeed: 1
-  cameraMouseSpeed: 0.2
-  camera:
-    autoCooldown: 4
-    autoCooldownResetAir: 0.3
-    autoCooldownResetMove: 0.05
-    settingToAutoCooldown: 0.2
-    autoSpeed: 40
-    settingToAutoSpeed: 360
-    autoFineTuneAngle: 15
-    settingToAutoFineTuneAngle: 45
-    trackAngle: 20
-    distanceAngle: 5
-    activationMinDistance: 4
-    activationMaxDistance: 10
-    maxCameraRelativeHeight: 3
-    minCameraRelativeHeight: -10
-    cameraSmoothTime: 1
+  MaxHealth: 3
+  Speed: 3.8
+  GroundAcceleration: 20
+  AirAcceleration: 5
+  TurnSpeed: 10
+  LockedTurnSpeed: 0
+  MaxSlope: 80
+  MaxFallSpeed: 10
+  MaxAirJumps: 2
+  GroundJumpStrength: 5.5
+  AirJumpStrength: 4
+  JumpCooldown: 0.25
+  JumpForgiveness: 0.15
+  Gravity: -9.8
+  AttackDownForce: 0.25
+  AttackTurnSpeed: 20
+  AttackCooldowns:
+  - Wait: 0.6
+    ComboForgiveness: 0
+    Force: 6
+    Time: 0.3
+  - Wait: 0.2
+    ComboForgiveness: 0.3
+    Force: 8
+    Time: 0.2
+  - Wait: 0.3
+    ComboForgiveness: 0.1
+    Force: 8
+    Time: 0.65
+  TargetingMaxDistance: 20
+  TargetingMaxAngle: 45
+  TargetingDistanceWeight: 2.5
+  CameraJoystickSpeed: 1
+  CameraMouseSpeed: 0.2
+  Camera:
+    AutoCooldown: 4
+    AutoCooldownResetAir: 0.3
+    AutoCooldownResetMove: 0.05
+    SettingToAutoCooldown: 0.2
+    AutoSpeed: 40
+    SettingToAutoSpeed: 360
+    AutoFineTuneAngle: 15
+    SettingToAutoFineTuneAngle: 45
+    TrackAngle: 20
+    DistanceAngle: 5
+    ActivationMinDistance: 4
+    ActivationMaxDistance: 10
+    MaxCameraRelativeHeight: 3
+    MinCameraRelativeHeight: -10
+    CameraSmoothTime: 1

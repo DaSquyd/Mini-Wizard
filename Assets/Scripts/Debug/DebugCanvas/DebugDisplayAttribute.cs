@@ -6,7 +6,7 @@ using System;
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 public class DebugDisplayAttribute : Attribute
 {
-	public string displayName;
+	public string DisplayName;
 
 	public DebugDisplayAttribute()
 	{
@@ -14,6 +14,6 @@ public class DebugDisplayAttribute : Attribute
 
 	public DebugDisplayAttribute(string name)
 	{
-		displayName = name;
+		DisplayName = name;
 	}
 }

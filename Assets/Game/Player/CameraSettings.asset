@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e359e31cfccb2db42bf1c76f35e5ba9f, type: 3}
   m_Name: CameraSettings
   m_EditorClassIdentifier: 
-  cameraSpeed: 4
-  fov: 40
-  attackFov: 37.5
-  minOffset: 0.25
-  maxOffset: 1
-  minOffsetPitch: -15
-  maxOffsetPitch: 20
-  minDistance: 0
-  maxDistance: 8
-  minAngle: -25
-  maxAngle: 70
-  buffer: 0.07
+  CameraSpeed: 4
+  Fov: 40
+  AttackFov: 37.5
+  MinOffset: 0.25
+  MaxOffset: 1
+  MinOffsetPitch: -15
+  MaxOffsetPitch: 20
+  MinDistance: 0
+  MaxDistance: 8
+  MinAngle: -25
+  MaxAngle: 70
+  Buffer: 0.07

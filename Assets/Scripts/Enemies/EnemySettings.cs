@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Fire and Ice/Enemy/Enemy Settings")]
 public class EnemySettings : ScriptableObject
 {
-	public float maxHealth;
+	public float MaxHealth;
 }

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca6e907984fc4a4b9a0bd6aa6c3ce5f, type: 3}
   m_Name: FireIceBallSettings
   m_EditorClassIdentifier: 
-  speed: 20
-  rotationSpeed: 360
-  maxRotationAngle: 90
-  damage: 10
-  lifetime: 4
+  Speed: 20
+  RotationSpeed: 360
+  MaxRotationAngle: 90
+  Damage: 10
+  Lifetime: 4

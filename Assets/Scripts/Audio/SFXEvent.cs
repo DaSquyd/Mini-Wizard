@@ -8,24 +8,24 @@ using Random = UnityEngine.Random;
 [CreateAssetMenu(menuName = "Fire and Ice/Audio/SFXEvent")]
 public class SFXEvent : AudioEvent
 {
-	public AudioClip[] sFX;
-	public AudioMixerGroup audioOutput;
+	public AudioClip[] Sfx;
+	public AudioMixerGroup AudioOutput;
 
 	[Range(0f, 2f)]
-	public RangedFloat volume;
+	public RangedFloat Volume;
 
 	[Range(0f, 2f)]
-	public RangedFloat pitch;
+	public RangedFloat Pitch;
 
 	public override void Play(AudioSource source)
 	{
-		if (sFX.Length == 0)
+		if (Sfx.Length == 0)
 			return;
 
-		source.clip = sFX[Random.Range(0, sFX.Length)];
-		source.volume = Random.Range(volume.minValue, volume.maxValue);
-		source.pitch = Random.Range(pitch.minValue, pitch.maxValue);
-		source.outputAudioMixerGroup = audioOutput;
+		source.clip = Sfx[Random.Range(0, Sfx.Length)];
+		source.volume = Random.Range(Volume.MinValue, Volume.MaxValue);
+		source.pitch = Random.Range(Pitch.MinValue, Pitch.MaxValue);
+		source.outputAudioMixerGroup = AudioOutput;
 		source.Play();
 	}
 

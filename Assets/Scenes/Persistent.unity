@@ -582,7 +582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1201347935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1040,11 +1040,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5572af703ffd1de469303dad3704f5d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingScreen: {fileID: 346480547}
-  progressBar: {fileID: 137477629}
-  playerPrefab: {fileID: 1758857846000171217, guid: 4b2e43f607ea3874d887fdbd75a007be,
+  LoadingScreen: {fileID: 346480547}
+  ProgressBar: {fileID: 137477629}
+  PlayerPrefab: {fileID: 1758857846000171217, guid: 4b2e43f607ea3874d887fdbd75a007be,
     type: 3}
-  playerVcam: {fileID: 551836624}
+  PlayerVcam: {fileID: 551836624}
 --- !u!4 &1585775995
 Transform:
   m_ObjectHideFlags: 0
@@ -1073,7 +1073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b61ec3369ffb5449afaab43b88eea04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 514499458df0de94e96a68c116d2790d, type: 2}
+  Settings: {fileID: 11400000, guid: 514499458df0de94e96a68c116d2790d, type: 2}
 --- !u!114 &1585775997
 MonoBehaviour:
   m_ObjectHideFlags: 0

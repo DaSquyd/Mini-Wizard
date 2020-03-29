@@ -12,69 +12,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ac74ed2bff191a418ddef65a6c011fa, type: 3}
   m_Name: ActionInputSettings
   m_EditorClassIdentifier: 
-  inputs:
-  - name: Forward
-    gamepad: 2
-    gamepadInverse: 0
-    key1: 119
-    key2: 273
-  - name: Back
-    gamepad: 2
-    gamepadInverse: 1
-    key1: 115
-    key2: 274
-  - name: Right
-    gamepad: 1
-    gamepadInverse: 0
-    key1: 100
-    key2: 275
-  - name: Left
-    gamepad: 1
-    gamepadInverse: 1
-    key1: 97
-    key2: 276
-  - name: Look Up
-    gamepad: 5
-    gamepadInverse: 0
-    key1: 0
-    key2: 0
-  - name: Look Down
-    gamepad: 5
-    gamepadInverse: 1
-    key1: 0
-    key2: 0
-  - name: Look Right
-    gamepad: 4
-    gamepadInverse: 0
-    key1: 0
-    key2: 0
-  - name: Look Left
-    gamepad: 4
-    gamepadInverse: 1
-    key1: 0
-    key2: 0
-  - name: Jump
-    gamepad: 11
-    gamepadInverse: 0
-    key1: 32
-    key2: 0
-  - name: Melee
-    gamepad: 13
-    gamepadInverse: 0
-    key1: 323
-    key2: 106
-  - name: Shoot
-    gamepad: 12
-    gamepadInverse: 0
-    key1: 324
-    key2: 104
-  - name: Swap
-    gamepad: 14
-    gamepadInverse: 0
-    key1: 101
-    key2: 103
-  - name: Auto Camera
-    gamepad: 6
-    gamepadInverse: 0
-    key1: 325
-    key2: 0
+  Inputs:
+  - Name: Forward
+    Gamepad: 2
+    GamepadInverse: 0
+    Key1: 119
+    Key2: 273
+  - Name: Back
+    Gamepad: 2
+    GamepadInverse: 1
+    Key1: 115
+    Key2: 274
+  - Name: Right
+    Gamepad: 1
+    GamepadInverse: 0
+    Key1: 100
+    Key2: 275
+  - Name: Left
+    Gamepad: 1
+    GamepadInverse: 1
+    Key1: 97
+    Key2: 276
+  - Name: Look Up
+    Gamepad: 5
+    GamepadInverse: 0
+    Key1: 0
+    Key2: 0
+  - Name: Look Down
+    Gamepad: 5
+    GamepadInverse: 1
+    Key1: 0
+    Key2: 0
+  - Name: Look Right
+    Gamepad: 4
+    GamepadInverse: 0
+    Key1: 0
+    Key2: 0
+  - Name: Look Left
+    Gamepad: 4
+    GamepadInverse: 1
+    Key1: 0
+    Key2: 0
+  - Name: Jump
+    Gamepad: 11
+    GamepadInverse: 0
+    Key1: 32
+    Key2: 0
+  - Name: Melee
+    Gamepad: 13
+    GamepadInverse: 0
+    Key1: 323
+    Key2: 106
+  - Name: Shoot
+    Gamepad: 12
+    GamepadInverse: 0
+    Key1: 324
+    Key2: 104
+  - Name: Swap
+    Gamepad: 14
+    GamepadInverse: 0
+    Key1: 101
+    Key2: 103
+  - Name: Auto Camera
+    Gamepad: 6
+    GamepadInverse: 0
+    Key1: 325
+    Key2: 0

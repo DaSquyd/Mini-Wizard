@@ -11,28 +11,28 @@ using Cinemachine;
 [RequireComponent(typeof(ActionInputManager), typeof(EventSystem))]
 public class GameManager : MonoBehaviour
 {
-	public static GameManager instance;
+	public static GameManager Instance;
 	
-	public GameObject loadingScreen;
-	public Image progressBar;
+	public GameObject LoadingScreen;
+	public Image ProgressBar;
 
-	public PlayerController playerPrefab;
+	public PlayerController PlayerPrefab;
 
-	public CinemachineVirtualCamera playerVcam;
+	public CinemachineVirtualCamera PlayerVcam;
 
-	private ActionInputManager _actionInputManager;
-	private EventSystem _eventSystem;
+	private ActionInputManager actionInputManager;
+	private EventSystem eventSystem;
 
 	private void Awake()
 	{
-		instance = this;
+		Instance = this;
 		DontDestroyOnLoad(gameObject);
-		DontDestroyOnLoad(loadingScreen.gameObject);
+		DontDestroyOnLoad(LoadingScreen.gameObject);
 
-		_eventSystem = GetComponent<EventSystem>();
-		EventSystem.current = _eventSystem;
+		eventSystem = GetComponent<EventSystem>();
+		EventSystem.current = eventSystem;
 
-		_actionInputManager = GetComponent<ActionInputManager>();
+		actionInputManager = GetComponent<ActionInputManager>();
 	}
 
 	private void Start()
@@ -42,20 +42,20 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (instance != this)
+		if (Instance != this)
 		{
 			Destroy(gameObject);
 			return;
 		}
 
-		if (instance == null)
-			instance = this;
+		if (Instance == null)
+			Instance = this;
 
-		if (EventSystem.current != _eventSystem)
+		if (EventSystem.current != eventSystem)
 		{
 			Destroy(EventSystem.current.gameObject);
 
-			EventSystem.current = _eventSystem;
+			EventSystem.current = eventSystem;
 		}
 		/*
 		if (Camera.current != null && Camera.current != _camera)
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
 
 	public void LoadGame()
 	{
-		loadingScreen.gameObject.SetActive(true);
+		LoadingScreen.gameObject.SetActive(true);
 
 		scenesLoading.Add(SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive));
 
@@ -98,12 +98,12 @@ public class GameManager : MonoBehaviour
 
 				totalSceneProgress = (totalSceneProgress / scenesLoading.Count);
 
-				progressBar.fillAmount = totalSceneProgress;
+				ProgressBar.fillAmount = totalSceneProgress;
 
 				yield return null;
 			}
 		}
 
-		loadingScreen.gameObject.SetActive(false);
+		LoadingScreen.gameObject.SetActive(false);
 	}
 }

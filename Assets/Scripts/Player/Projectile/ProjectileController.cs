@@ -4,53 +4,53 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-	public ProjectileSettings settings;
+	public ProjectileSettings Settings;
 
-	public Transform target;
-	public Entity owner;
+	public Transform Target;
+	public Entity Owner;
 
-	float _speed;
-	float _rotationSpeed;
-	float _maxRotationAngle;
-	int _damage;
+	float speed;
+	float rotationSpeed;
+	float maxRotationAngle;
+	int damage;
 
 	// Debug
-	Color _color = Color.red;
+	Color color = Color.red;
 
 	private void Start()
 	{
-		_speed = settings.speed;
-		_rotationSpeed = settings.rotationSpeed;
-		_maxRotationAngle = settings.maxRotationAngle;
-		_damage = settings.damage;
-		Destroy(gameObject, settings.lifetime);
+		speed = Settings.Speed;
+		rotationSpeed = Settings.RotationSpeed;
+		maxRotationAngle = Settings.MaxRotationAngle;
+		damage = Settings.Damage;
+		Destroy(gameObject, Settings.Lifetime);
 	}
 
 	private void Update()
 	{
-		Debug.DrawLine(transform.position, transform.position + transform.forward, _color);
+		Debug.DrawLine(transform.position, transform.position + transform.forward, color);
 
-		if (target != null)
+		if (Target != null)
 		{
-			Quaternion lookRotation = Quaternion.LookRotation(target.position - transform.position);
+			Quaternion lookRotation = Quaternion.LookRotation(Target.position - transform.position);
 
-			if (Quaternion.Angle(transform.rotation, lookRotation) > _maxRotationAngle)
+			if (Quaternion.Angle(transform.rotation, lookRotation) > maxRotationAngle)
 			{
-				_color = Color.red;
+				color = Color.red;
 			}
 			else
 			{
-				_color = Color.green;
-				transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * _rotationSpeed);
+				color = Color.green;
+				transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
 			}
 		}
 
-		transform.Translate(transform.forward * _speed * Time.deltaTime, Space.World);
+		transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
 	}
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (owner == null)
+		if (Owner == null)
 			return;
 
 		if (other.gameObject.layer == 9)
@@ -60,9 +60,9 @@ public class ProjectileController : MonoBehaviour
 		}
 
 		Entity entity = other.GetComponentInParent<Entity>();
-		if (entity != null && !entity.Equals(owner) && entity.tag != "Projectile")
+		if (entity != null && !entity.Equals(Owner) && entity.tag != "Projectile")
 		{
-			entity.ApplyDamage(owner, _damage);
+			entity.ApplyDamage(Owner, damage);
 
 			Destroy(gameObject);
 			return;
