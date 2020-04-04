@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/ArtTest.unity
     guid: a8f10348d81bae04eb341c8eb091d40d
+  - enabled: 1
+    path: Assets/Scenes/Ice Cave.unity
+    guid: af6bde2f27607cb409841ea5cc5c68a1
   m_configObjects: {}
