@@ -10,6 +10,8 @@ public class CameraPathEditor : Editor
 	SerializedProperty sourceMin;
 	SerializedProperty sourceMax;
 
+	SerializedProperty newIndex;
+
 	float[] min;
 	float[] max;
 

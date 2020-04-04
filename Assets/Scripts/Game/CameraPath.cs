@@ -6,12 +6,14 @@ using Cinemachine;
 [RequireComponent(typeof(CinemachineSmoothPath)), ExecuteInEditMode]
 public class CameraPath : MonoBehaviour
 {
-	[HideInInspector]
 	public float[] min = new float[0];
-	[HideInInspector]
 	public float[] max = new float[0];
 
 	public CinemachineSmoothPath smoothPath;
+
+	public int newIndex;
+
+	Vector3[] positions;
 
 	private void Start()
 	{
@@ -20,6 +22,12 @@ public class CameraPath : MonoBehaviour
 
 	private void Update()
 	{
+		positions = new Vector3[smoothPath.m_Waypoints.Length];
+		for (int i = 0; i < positions.Length; i++)
+		{
+			positions[i] = smoothPath.m_Waypoints[i].position;
+		}
+
 		if (smoothPath.m_Waypoints.Length == min.Length && min.Length == max.Length)
 			return;
 

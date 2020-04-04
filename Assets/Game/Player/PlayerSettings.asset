@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
   MaxHealth: 3
-  Speed: 5.7
+  Speed: 6
   GroundAcceleration: 5
   AirAcceleration: 2.5
   TurnSpeed: 10
@@ -31,15 +31,15 @@ MonoBehaviour:
   AttackCooldowns:
   - Wait: 0.6
     ComboForgiveness: 0
-    Force: 8
+    Force: 12
     Time: 0.3
   - Wait: 0.2
     ComboForgiveness: 0.3
-    Force: 12
+    Force: 16
     Time: 0.2
   - Wait: 0.3
     ComboForgiveness: 0.1
-    Force: 12
+    Force: 16
     Time: 0.65
   TargetingMaxDistance: 20
   TargetingMaxAngle: 45
