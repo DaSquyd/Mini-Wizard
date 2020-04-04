@@ -23,4 +23,4 @@ MonoBehaviour:
   MaxDistance: 8
   MinAngle: -25
   MaxAngle: 70
-  Buffer: 0.07
+  Buffer: 0.2
