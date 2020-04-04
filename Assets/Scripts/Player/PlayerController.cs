@@ -165,7 +165,7 @@ public class PlayerController : Entity
 	[DebugDisplay("Camera")] CameraMode cameraMode = CameraMode.Auto;
 	[DebugDisplay("Cam CD")] float cameraCooldownTime;
 
-	CinemachineSmoothPath path;
+	CameraPath path;
 
 	[DebugDisplay]
 	Vector3 contactVelocity = new Vector3();
@@ -176,7 +176,7 @@ public class PlayerController : Entity
 		get
 		{
 			if (this != null)
-				return path.FindClosestPoint(transform.position, 0, 100, 10);
+				return path.smoothPath.FindClosestPoint(transform.position, 0, 100, 10);
 
 			return 0f;
 		}
@@ -206,7 +206,7 @@ public class PlayerController : Entity
 		LastTargetMove = transform.forward;
 
 		// TODO Find a more universal way of doing this.
-		path = FindObjectOfType<CinemachineSmoothPath>();
+		path = FindObjectOfType<CameraPath>();
 
 		MaxHealth = Settings.MaxHealth;
 		Health = MaxHealth;
@@ -422,10 +422,10 @@ public class PlayerController : Entity
 		if (path != null)
 		{
 			// Finds the closest on the track and sets the tangent (direction player should be facing)
-			float posAlongPath = path.FindClosestPoint(transform.position, 0, 100, 10);
+			float posAlongPath = path.smoothPath.FindClosestPoint(transform.position, 0, 100, 10);
 
-			Vector3 pathPointTangent = path.EvaluateTangent(posAlongPath);
-			Vector3 pathPointPosition = path.EvaluatePosition(posAlongPath);
+			Vector3 pathPointTangent = path.smoothPath.EvaluateTangent(posAlongPath);
+			Vector3 pathPointPosition = path.smoothPath.EvaluatePosition(posAlongPath);
 
 			float distanceFromPath = Vector3.Distance(transform.position, pathPointPosition);
 
@@ -433,7 +433,11 @@ public class PlayerController : Entity
 			float autoTangentYaw = Mathf.Atan2(pathPointTangent.x, pathPointTangent.z) * Mathf.Rad2Deg;
 			float autoTowardsYaw = Mathf.Atan2(pathPointPosition.x - transform.position.x, pathPointPosition.z - transform.position.z) * Mathf.Rad2Deg;
 
-			float activationPercent = Mathf.InverseLerp(Settings.Camera.ActivationMinDistance, Settings.Camera.ActivationMaxDistance, distanceFromPath);
+			float positionAmount = Mathf.InverseLerp(Mathf.FloorToInt(posAlongPath), Mathf.CeilToInt(posAlongPath), posAlongPath);
+			float minActivation = Mathf.Lerp(path.min[Mathf.FloorToInt(posAlongPath)], path.min[Mathf.CeilToInt(posAlongPath)], positionAmount);
+			float maxActivation = Mathf.Lerp(path.max[Mathf.FloorToInt(posAlongPath)], path.max[Mathf.CeilToInt(posAlongPath)], positionAmount);
+			Debug.Log($"{path.min[Mathf.FloorToInt(posAlongPath)]} to {path.min[Mathf.CeilToInt(posAlongPath)]} with {positionAmount}");
+			float activationPercent = Mathf.InverseLerp(minActivation, maxActivation, distanceFromPath);
 
 			float minDist = 4f;
 			float maxDist = 8f;
