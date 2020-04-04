@@ -1,13 +1,8 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Materials/Effects/Ice.meta
-guid: 35612dbe850a41c42b542139f7dde3ed
-=======
-guid: 3d8829ac873af27488b1412b8db301ab
->>>>>>> 75c254b3c88d5cc776a53d52ea79861d1688902d:Assets/SampleScenes.meta
+guid: 632e29822ea1a9d47a479f029f9d0309
 folderAsset: yes
-timeCreated: 1436977287
-licenseType: Store
 DefaultImporter:
+  externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 

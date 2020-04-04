@@ -1,16 +1,8 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Materials/Effects/Ice/Ice_Material.mat.meta
-guid: 264e434f22305f6448eddfb52bd3a7a0
+guid: bc9188cb1e8f64e4186b9990f59ab241
 NativeFormatImporter:
   externalObjects: {}
-  mainObjectFileID: 2100000
-=======
-guid: 48e4338a7d01577458bb723e3514edf1
-folderAsset: yes
-timeCreated: 1436977288
-licenseType: Store
-DefaultImporter:
->>>>>>> 75c254b3c88d5cc776a53d52ea79861d1688902d:Assets/SampleScenes/Menu.meta
+  mainObjectFileID: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

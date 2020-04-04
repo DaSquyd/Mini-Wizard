@@ -1,13 +1,8 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Materials/Effects/Lava.meta
-guid: 60be0df22ccc66b4c82fa62975f5e62a
-=======
 guid: 35e5b60069b1d4945af0cbaefb902d02
->>>>>>> 75c254b3c88d5cc776a53d52ea79861d1688902d:Assets/SampleScenes/Materials.meta
 folderAsset: yes
-timeCreated: 1436977288
-licenseType: Store
 DefaultImporter:
+  externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
