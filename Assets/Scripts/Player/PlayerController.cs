@@ -435,8 +435,17 @@ public class PlayerController : Entity
 
 			float activationPercent = Mathf.InverseLerp(Settings.Camera.ActivationMinDistance, Settings.Camera.ActivationMaxDistance, distanceFromPath);
 
+			float minDist = 4f;
+			float maxDist = 8f;
+
+			bool headSpaceHit = Physics.Raycast(transform.position + Vector3.up, Vector3.up, out RaycastHit hitInfo, maxDist);
+
+			float headSpaceAmount = Mathf.InverseLerp(maxDist, minDist, headSpaceHit ? hitInfo.distance : maxDist);
+
+			Debug.Log(headSpaceAmount);
+
 			autoYaw = Mathf.LerpAngle(autoTangentYaw, autoTowardsYaw, activationPercent);
-			autoPitch = Mathf.LerpAngle(Settings.Camera.TrackAngle, Settings.Camera.DistanceAngle, activationPercent);
+			autoPitch = Mathf.LerpAngle(Settings.Camera.TrackAngle, Settings.Camera.DistanceAngle, Mathf.Max(activationPercent, headSpaceAmount));
 #if UNITY_EDITOR
 			Debug.DrawLine(pathPointPosition, pathPointPosition + pathPointTangent, Color.green, Time.deltaTime);
 #endif
@@ -715,9 +724,6 @@ public class PlayerController : Entity
 
 		move.x = Mathf.MoveTowards(move.x, 0f, Mathf.Abs(collision.impulse.x) * Time.fixedDeltaTime);
 		move.z = Mathf.MoveTowards(move.z, 0f, Mathf.Abs(collision.impulse.z) * Time.fixedDeltaTime);
-
-		print(move.x);
-		print(move.z);
 
 		//contactVelocity = Vector3.MoveTowards(contactVelocity, new Vector3(1f - Mathf.Abs(collision.impulse.normalized.x), 1f - Mathf.Abs(collision.impulse.normalized.y), 1f - Mathf.Abs(collision.impulse.normalized.z)), Time.fixedDeltaTime);
 
