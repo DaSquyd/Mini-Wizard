@@ -710,7 +710,7 @@ public class PlayerController : Entity
 		move = new Vector3(move.x * 1 - contactVelocity.x, 0f, move.z * 1 - contactVelocity.z);
 
 		rb.velocity = (move * Settings.Speed) + (Vector3.up * Mathf.Min(rb.velocity.y + Settings.Gravity * Time.fixedDeltaTime, (!IsGrounded && !hasJumped) ? 0.1f : 100f));
-		Debug.Log($"{move * Settings.Speed} + {Vector3.up * rb.velocity.y} + {contactVelocity}");
+		//Debug.Log($"{move * Settings.Speed} + {Vector3.up * rb.velocity.y} + {contactVelocity}");
 
 		contactVelocity = new Vector3();
 	}

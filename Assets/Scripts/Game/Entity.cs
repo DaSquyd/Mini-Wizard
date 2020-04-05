@@ -29,7 +29,7 @@ public abstract class Entity : MonoBehaviour
 		protected set;
 	}
 
-	protected Renderer renderer;
+	protected new Renderer renderer;
 	protected virtual void Start()
 	{
 		if (Debug.isDebugBuild)
