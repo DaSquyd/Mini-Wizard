@@ -222,6 +222,8 @@ public class PlayerController : Entity
 
 	protected sealed override void Update()
 	{
+        if (Time.timeScale != 1)
+            Debug.Log("paused");
 		base.Update();
 
 		vcam.m_Lens.FieldOfView = meleeEffectAmount.x;

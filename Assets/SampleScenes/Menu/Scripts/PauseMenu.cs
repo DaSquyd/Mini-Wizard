@@ -4,60 +4,50 @@ using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    private Toggle m_MenuToggle;
-	private float m_TimeScaleRef = 1f;
-    private float m_VolumeRef = 1f;
-    private bool m_Paused;
 
+    private GameObject pauseMenu;
+    private bool paused;
 
-    void Awake()
+    private void Awake()
     {
-        m_MenuToggle = GetComponent <Toggle> ();
-	}
-
+        pauseMenu = GameObject.Find("Pause");
+        pauseMenu.SetActive(false);
+        pauseMenu.transform.GetChild(1).gameObject.SetActive(true);
+        pauseMenu.transform.GetChild(2).gameObject.SetActive(true);
+    }
 
     private void MenuOn ()
-    {
-        m_TimeScaleRef = Time.timeScale;
-        Time.timeScale = 0f;
-
-        m_VolumeRef = AudioListener.volume;
-        AudioListener.volume = 0f;
-
-        m_Paused = true;
+    {        
+        Time.timeScale = 0.0f;
+        paused = true;
+        pauseMenu.SetActive(true);
     }
 
 
     public void MenuOff ()
     {
-        Time.timeScale = m_TimeScaleRef;
-        AudioListener.volume = m_VolumeRef;
-        m_Paused = false;
+        Time.timeScale = 1.0f;
+        paused = false;
+        pauseMenu.SetActive(false);
     }
 
 
     public void OnMenuStatusChange ()
     {
-        if (m_MenuToggle.isOn && !m_Paused)
-        {
+        if (paused)
             MenuOn();
-        }
-        else if (!m_MenuToggle.isOn && m_Paused)
-        {
+        else
             MenuOff();
-        }
     }
 
 
-#if !MOBILE_INPUT
-	void Update()
+	private void Update()
 	{
-		if(Input.GetKeyUp(KeyCode.Escape))
+		if(Input.GetKeyDown(KeyCode.Escape))
 		{
-		    m_MenuToggle.isOn = !m_MenuToggle.isOn;
-            Cursor.visible = m_MenuToggle.isOn;//force the cursor visible if anythign had hidden it
-		}
+            paused = !paused;
+            OnMenuStatusChange();
+        }
 	}
-#endif
 
 }
