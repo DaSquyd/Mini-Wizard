@@ -53,7 +53,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ToonTexture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 9c574105fb229184194316abd09bf7aa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -87,7 +87,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _ToonBaseColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ToonBaseColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &3607398348720824213
 MonoBehaviour:
   m_ObjectHideFlags: 11
