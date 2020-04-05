@@ -86,12 +86,14 @@ public class DebugCanvas : MonoBehaviour
 	{
 		foreach (HorizontalLayoutGroup group in Groups)
 		{
-			Destroy(group.gameObject);
+			if (group != null)
+				Destroy(group.gameObject);
 		}
 
 		foreach (TMP_Text title in Titles)
 		{
-			Destroy(title.gameObject);
+			if (title != null)
+				Destroy(title.gameObject);
 		}
 
 		TextBoxes.Clear();
@@ -161,8 +163,8 @@ public class DebugCanvas : MonoBehaviour
 			object obj = debugTextSet.Obj;
 			string display = debugTextSet.DisplayName;
 
-            if (debugTextSet.DebugCanvasVariable != null)
-			    debugTextSet.DebugCanvasVariable.name = info.Name;
+			if (debugTextSet.DebugCanvasVariable != null)
+				debugTextSet.DebugCanvasVariable.name = info.Name;
 
 			nameText.text = (display ?? info.Name) + ": ";
 
