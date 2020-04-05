@@ -32,15 +32,16 @@ public class PlayerSpawner : MonoBehaviour
 
 	private void Update()
 	{
-		if (Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
 		{
 			Destroy(Instance.gameObject);
 			Instance = this;
 		}
 
-		if (PlayerController.Instance == null && !spawning)
+
+        if (PlayerController.Instance == null && !spawning)
 		{
-			StartCoroutine(SpawnPlayer(0.5f));
+            StartCoroutine(SpawnPlayer(0.5f));
 		}
 	}
 

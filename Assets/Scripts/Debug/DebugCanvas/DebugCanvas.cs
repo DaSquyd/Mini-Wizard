@@ -161,7 +161,8 @@ public class DebugCanvas : MonoBehaviour
 			object obj = debugTextSet.Obj;
 			string display = debugTextSet.DisplayName;
 
-			debugTextSet.DebugCanvasVariable.name = info.Name;
+            if (debugTextSet.DebugCanvasVariable != null)
+			    debugTextSet.DebugCanvasVariable.name = info.Name;
 
 			nameText.text = (display ?? info.Name) + ": ";
 

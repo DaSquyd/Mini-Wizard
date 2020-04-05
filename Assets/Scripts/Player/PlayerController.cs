@@ -5,6 +5,7 @@ using UnityEngine;
 using InControl;
 using Cinemachine;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class PlayerController : Entity
 {
@@ -222,8 +223,6 @@ public class PlayerController : Entity
 
 	protected sealed override void Update()
 	{
-        if (Time.timeScale != 1)
-            Debug.Log("paused");
 		base.Update();
 
 		vcam.m_Lens.FieldOfView = meleeEffectAmount.x;
@@ -749,4 +748,16 @@ public class PlayerController : Entity
 			Destroy(gameObject);
 		}
 	}
+
+    //Whenever the player gets destroyer it enables the lose screen
+    private void OnDestroy()
+    {
+        Time.timeScale = 0;
+        FindObjectOfType<GameManager>().enabled = false;
+        FindObjectOfType<GameManager>().gameObject.GetComponent<EventSystem>().enabled = false;
+        FindObjectOfType<GameManager>().transform.GetChild(0).gameObject.SetActive(false);
+        GameObject.Find("Lose").transform.GetChild(0).gameObject.SetActive(true);
+        GameObject.Find("Lose").transform.GetChild(1).gameObject.SetActive(true);
+    }
+
 }
