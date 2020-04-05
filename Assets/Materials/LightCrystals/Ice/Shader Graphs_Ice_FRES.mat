@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ice_Material
+  m_Name: Shader Graphs_Ice_FRES
   m_Shader: {fileID: -6465566751694194690, guid: 5736c1e95ea20ce429523a9d35379f57,
     type: 3}
   m_ShaderKeywords: 
@@ -20,15 +20,11 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _SampleTexture2D_C14036E3_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 8d0542634e7651c4bb5bc06c223aca35, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_DA566779_Texture_1:
-        m_Texture: {fileID: 2800000, guid: aebd52370672f72419ecbb8e288c7c25, type: 3}
+    - _SampleTexture2D_177FC385_Texture_1:
+        m_Texture: {fileID: 2800000, guid: e7c9d3399f0b20c48ba0fef3cd6fad19, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
-    - Color_27123CAD: {r: 0.39607838, g: 0.8270646, b: 0.8313726, a: 0}
-    - Color_C262B23A: {r: 0.07843136, g: 0.14495727, b: 0.21568623, a: 0}
+    - Color_27123CAD: {r: 0.58962256, g: 0.996303, b: 1, a: 0}
+    - Color_C262B23A: {r: 0, g: 0, b: 0, a: 0}
