@@ -57,11 +57,6 @@ public class GameManager : MonoBehaviour
 
 			EventSystem.current = eventSystem;
 		}
-		/*
-		if (Camera.current != null && Camera.current != _camera)
-		{
-			Destroy(Camera.current.gameObject);
-		}*/
 
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{

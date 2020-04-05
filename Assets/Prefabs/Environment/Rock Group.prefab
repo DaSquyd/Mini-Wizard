@@ -50,6 +50,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3497582351270781008, guid: b59b85de00d0be54eb9f5a0036758ea5,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9009949272636618659, guid: b59b85de00d0be54eb9f5a0036758ea5,
+        type: 3}
+      propertyPath: m_LightmapParameters
+      value: 
+      objectReference: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 9173232541780990399, guid: b59b85de00d0be54eb9f5a0036758ea5,
         type: 3}
       propertyPath: m_RootOrder
@@ -85,10 +95,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1104828651398334937}
     m_Modifications:
+    - target: {fileID: 2064748632694388591, guid: 429d33c30ea1930439b3fbacc0943a49,
+        type: 3}
+      propertyPath: m_LightmapParameters
+      value: 
+      objectReference: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 5368910830800849769, guid: 429d33c30ea1930439b3fbacc0943a49,
         type: 3}
       propertyPath: m_Name
       value: Rock 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368910830800849769, guid: 429d33c30ea1930439b3fbacc0943a49,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7776555903189656541, guid: 429d33c30ea1930439b3fbacc0943a49,
         type: 3}
@@ -125,6 +145,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1104828651398334937}
     m_Modifications:
+    - target: {fileID: 1690518229320138883, guid: fde5c9a208428f74e9c772cae5496f92,
+        type: 3}
+      propertyPath: m_LightmapParameters
+      value: 
+      objectReference: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 4281949750567728946, guid: fde5c9a208428f74e9c772cae5496f92,
         type: 3}
       propertyPath: m_RootOrder
@@ -150,6 +175,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4412496048226039387, guid: fde5c9a208428f74e9c772cae5496f92,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fde5c9a208428f74e9c772cae5496f92, type: 3}
 --- !u!4 &730859692930141441 stripped
@@ -170,6 +200,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1482488292626036598, guid: a14e724bf9304b44381ad5bcd65cba90,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7462108593968578922, guid: a14e724bf9304b44381ad5bcd65cba90,
+        type: 3}
+      propertyPath: m_LightmapParameters
+      value: 
+      objectReference: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7911220366643923770, guid: a14e724bf9304b44381ad5bcd65cba90,
         type: 3}
       propertyPath: m_RootOrder
@@ -210,6 +250,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock 8
       objectReference: {fileID: 0}
+    - target: {fileID: 2577803108259531379, guid: 8f64e9f90500d404bbad56b4f2d083b4,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8382069310913688436, guid: 8f64e9f90500d404bbad56b4f2d083b4,
         type: 3}
       propertyPath: m_RootOrder
@@ -230,6 +275,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8663639397689165502, guid: 8f64e9f90500d404bbad56b4f2d083b4,
+        type: 3}
+      propertyPath: m_LightmapParameters
+      value: 
+      objectReference: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f64e9f90500d404bbad56b4f2d083b4, type: 3}
 --- !u!4 &3573744606363166542 stripped
@@ -270,6 +320,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3613270899590303801, guid: 5fece03854bf67542a79d59954739b80,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4279195933166526789, guid: 5fece03854bf67542a79d59954739b80,
+        type: 3}
+      propertyPath: m_LightmapParameters
+      value: 
+      objectReference: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fece03854bf67542a79d59954739b80, type: 3}
 --- !u!4 &5132697333838540542 stripped
@@ -285,6 +345,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1104828651398334937}
     m_Modifications:
+    - target: {fileID: 202878834142579309, guid: fe565246232daa646b21d985fedcd8d7,
+        type: 3}
+      propertyPath: m_LightmapParameters
+      value: 
+      objectReference: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 5218975964762408026, guid: fe565246232daa646b21d985fedcd8d7,
         type: 3}
       propertyPath: m_RootOrder
@@ -310,6 +375,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock 7
       objectReference: {fileID: 0}
+    - target: {fileID: 6374037060556801479, guid: fe565246232daa646b21d985fedcd8d7,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe565246232daa646b21d985fedcd8d7, type: 3}
 --- !u!4 &254296978847395695 stripped
@@ -330,6 +400,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1959745810685925393, guid: b15b82b6cac25df458796f6686064b73,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2734945008205828034, guid: b15b82b6cac25df458796f6686064b73,
+        type: 3}
+      propertyPath: m_LightmapParameters
+      value: 
+      objectReference: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7172089781861807315, guid: b15b82b6cac25df458796f6686064b73,
         type: 3}
       propertyPath: m_RootOrder

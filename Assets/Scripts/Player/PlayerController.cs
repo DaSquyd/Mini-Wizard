@@ -437,20 +437,13 @@ public class PlayerController : Entity
 			float positionAmount = Mathf.InverseLerp(Mathf.FloorToInt(posAlongPath), Mathf.CeilToInt(posAlongPath), posAlongPath);
 			float minActivation = Mathf.Lerp(path.min[Mathf.FloorToInt(posAlongPath)], path.min[Mathf.CeilToInt(posAlongPath)], positionAmount);
 			float maxActivation = Mathf.Lerp(path.max[Mathf.FloorToInt(posAlongPath)], path.max[Mathf.CeilToInt(posAlongPath)], positionAmount);
-			Debug.Log($"{path.min[Mathf.FloorToInt(posAlongPath)]} to {path.min[Mathf.CeilToInt(posAlongPath)]} with {positionAmount}");
 			float activationPercent = Mathf.InverseLerp(minActivation, maxActivation, distanceFromPath);
 
 			float minDist = 4f;
 			float maxDist = 8f;
-
-			bool headSpaceHit = Physics.Raycast(transform.position + Vector3.up, Vector3.up, out RaycastHit hitInfo, maxDist);
-
-			float headSpaceAmount = Mathf.InverseLerp(maxDist, minDist, headSpaceHit ? hitInfo.distance : maxDist);
-
-			Debug.Log(headSpaceAmount);
-
+			
 			autoYaw = Mathf.LerpAngle(autoTangentYaw, autoTowardsYaw, activationPercent);
-			autoPitch = Mathf.LerpAngle(Settings.Camera.TrackAngle, Settings.Camera.DistanceAngle, Mathf.Max(activationPercent, headSpaceAmount));
+			autoPitch = Mathf.LerpAngle(path.pitch[Mathf.FloorToInt(posAlongPath)], path.pitch[Mathf.CeilToInt(posAlongPath)], positionAmount);
 #if UNITY_EDITOR
 			Debug.DrawLine(pathPointPosition, pathPointPosition + pathPointTangent, Color.green, Time.deltaTime);
 #endif
@@ -753,11 +746,10 @@ public class PlayerController : Entity
     private void OnDestroy()
     {
         Time.timeScale = 0;
-        FindObjectOfType<GameManager>().enabled = false;
-        FindObjectOfType<GameManager>().gameObject.GetComponent<EventSystem>().enabled = false;
-        FindObjectOfType<GameManager>().transform.GetChild(0).gameObject.SetActive(false);
+        //FindObjectOfType<GameManager>().enabled = false;
+        //FindObjectOfType<GameManager>().gameObject.GetComponent<EventSystem>().enabled = false;
+        //FindObjectOfType<GameManager>().transform.GetChild(0).gameObject.SetActive(false);
         GameObject.Find("Lose").transform.GetChild(0).gameObject.SetActive(true);
-        GameObject.Find("Lose").transform.GetChild(1).gameObject.SetActive(true);
     }
 
 }

@@ -9,6 +9,8 @@ public class CameraPath : MonoBehaviour
 	public float[] min = new float[0];
 	public float[] max = new float[0];
 
+	public float[] pitch = new float[0];
+
 	public CinemachineSmoothPath smoothPath;
 
 	public int newIndex;
@@ -28,13 +30,16 @@ public class CameraPath : MonoBehaviour
 			positions[i] = smoothPath.m_Waypoints[i].position;
 		}
 
-		if (smoothPath.m_Waypoints.Length == min.Length && min.Length == max.Length)
+		if (smoothPath.m_Waypoints.Length == min.Length && min.Length == max.Length && smoothPath.m_Waypoints.Length == pitch.Length)
 			return;
 
-		float[] newMin = new float[smoothPath.m_Waypoints.Length];
-		float[] newMax = new float[smoothPath.m_Waypoints.Length];
+		int length = smoothPath.m_Waypoints.Length;
 
-		for (int i = 0; i < smoothPath.m_Waypoints.Length; i++)
+		float[] newMin = new float[length];
+		float[] newMax = new float[length];
+		float[] newPitch = new float[length];
+
+		for (int i = 0; i < length; i++)
 		{
 			if (i < min.Length)
 				newMin[i] = min[i];
@@ -45,9 +50,15 @@ public class CameraPath : MonoBehaviour
 				newMax[i] = max[i];
 			else
 				newMax[i] = 10f;
+
+			if (i < pitch.Length)
+				newPitch[i] = pitch[i];
+			else
+				newPitch[i] = 20f;
 		}
 
 		min = newMin;
 		max = newMax;
+		pitch = newPitch;
 	}
 }
