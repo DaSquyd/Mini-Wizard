@@ -52,8 +52,17 @@ public class ToonLight : MonoBehaviour
 		if (transform.localScale != Vector3.one)
 			transform.localScale = Vector3.one;
 
-		if (type == LightType.Point && transform.rotation != new Quaternion())
-			transform.rotation = new Quaternion();
+		if (type == LightType.Point)
+		{
+			if (transform.rotation != new Quaternion())
+				transform.rotation = new Quaternion();
+
+			if (light.range > 10f)
+				light.range = 10f;
+
+			if (light.intensity > 100f)
+				light.intensity = 100f;
+		}
 #endif
 
 		if (collider == null)

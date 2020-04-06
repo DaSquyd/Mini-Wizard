@@ -749,7 +749,7 @@ public class PlayerController : Entity
         //FindObjectOfType<GameManager>().enabled = false;
         //FindObjectOfType<GameManager>().gameObject.GetComponent<EventSystem>().enabled = false;
         //FindObjectOfType<GameManager>().transform.GetChild(0).gameObject.SetActive(false);
-        GameObject.Find("Lose").transform.GetChild(0).gameObject.SetActive(true);
+        //GameObject.Find("Lose").transform.GetChild(0).gameObject.SetActive(true);
     }
 
 }
