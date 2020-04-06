@@ -9,23 +9,6 @@ public class UIManager : MonoBehaviour
     public GameObject howtoplay;
     public GameObject mainmenu;
 
-    private GameObject disableObject;
-
-    private void Start()
-    {
-        disableObject = FindObjectOfType<GameManager>().gameObject;
-        if (disableObject != null)
-            disableObject.SetActive(false);
-    }
-
-    public void StartGame()
-    {
-        if (disableObject != null)
-            disableObject.SetActive(true);
-
-        SceneManager.LoadScene("Ice Cave");
-    }
-
     public void HowToPlay()
     {
         mainmenu.SetActive(false);
@@ -42,6 +25,4 @@ public class UIManager : MonoBehaviour
     {
         Application.Quit();
     }
-
-
 }

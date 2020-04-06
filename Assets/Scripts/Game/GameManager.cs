@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 using Cinemachine;
 
-[RequireComponent(typeof(ActionInputManager), typeof(EventSystem))]
+[RequireComponent(typeof(ActionInputManager))]
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
@@ -20,7 +20,12 @@ public class GameManager : MonoBehaviour
 
 	public CinemachineVirtualCamera PlayerVcam;
 
+	public GameObject MainMenu;
 	public GameObject PauseMenu;
+	public GameObject WinMenu;
+	public GameObject LoseMenu;
+
+	string currentLoadedScene;
 
 	public bool IsPaused
 	{
@@ -42,12 +47,12 @@ public class GameManager : MonoBehaviour
 		actionInputManager = GetComponent<ActionInputManager>();
 
 		IsPaused = false;
-		PauseMenu.SetActive(false);
+		//PauseMenu.SetActive(false);
 	}
 
 	private void Start()
 	{
-		//LoadGame();
+		gameObject.SetActive(true);
 	}
 
 	private void Update()
@@ -60,13 +65,6 @@ public class GameManager : MonoBehaviour
 
 		if (Instance == null)
 			Instance = this;
-
-		if (EventSystem.current != eventSystem)
-		{
-			Destroy(EventSystem.current.gameObject);
-
-			EventSystem.current = eventSystem;
-		}
 
 		if (ActionInputManager.GetInputDown("Pause"))
 		{
@@ -82,16 +80,17 @@ public class GameManager : MonoBehaviour
 
 	public void LoadGame()
 	{
+		MainMenu.SetActive(false);
 		LoadingScreen.gameObject.SetActive(true);
 
-		scenesLoading.Add(SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive));
-
-		StartCoroutine(GetSceneLoadProgress());
+		scenesLoading.Add(SceneManager.LoadSceneAsync("Ice Cave", LoadSceneMode.Additive));
+		
+		StartCoroutine(GetSceneLoadProgress("Ice Cave"));
 	}
 
 
 	float totalSceneProgress;
-	public IEnumerator GetSceneLoadProgress()
+	public IEnumerator GetSceneLoadProgress(string sceneName)
 	{
 		for (int i = 0; i < scenesLoading.Count; i++)
 		{
@@ -111,8 +110,28 @@ public class GameManager : MonoBehaviour
 				yield return null;
 			}
 		}
+		scenesLoading.Clear();
+
+		currentLoadedScene = sceneName;
+
+		ProgressBar.fillAmount = 1f;
+
+		UnPauseGame();
+
+		yield return new WaitForSeconds(1f);
 
 		LoadingScreen.gameObject.SetActive(false);
+	}
+
+	public void ReturnToMainMenu()
+	{
+		if (currentLoadedScene != null)
+			SceneManager.UnloadSceneAsync(currentLoadedScene);
+
+		MainMenu.SetActive(true);
+		PauseMenu.SetActive(false);
+		WinMenu.SetActive(false);
+		LoseMenu.SetActive(false);
 	}
 
 	public void PauseGame()
@@ -127,5 +146,22 @@ public class GameManager : MonoBehaviour
 		Time.timeScale = 1.0f;
 		IsPaused = false;
 		PauseMenu.SetActive(false);
+	}
+
+	public void Win()
+	{
+		PauseGame();
+		WinMenu.SetActive(true);
+	}
+
+	public void Lose()
+	{
+		PauseGame();
+		LoseMenu.SetActive(true);
+	}
+
+	public void Quit()
+	{
+		Application.Quit();
 	}
 }

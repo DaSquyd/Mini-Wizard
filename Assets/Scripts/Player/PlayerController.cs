@@ -17,6 +17,7 @@ public class PlayerController : Entity
 	public GameObject MeshContainer;
 	public ProjectileController FireballPrefab;
 	public ProjectileController IceballPrefab;
+	public AudioSource JumpAudio;
 
 	public enum MeleeState
 	{
@@ -49,7 +50,6 @@ public class PlayerController : Entity
 	[DebugDisplay]
 	Vector3 move;
 	Vector3 _targetMove;
-	[DebugDisplay]
 	public Vector3 TargetMove
 	{
 		get
@@ -110,6 +110,13 @@ public class PlayerController : Entity
 		private set;
 	}
 
+	public Animation FireSwordAnimation;
+	public Animation IceSwordAnimation;
+	public GameObject FireballGroup;
+	public GameObject IceballGroup;
+	public GameObject[] Fireballs;
+	public GameObject[] Iceballs;
+
 	// Attack
 	[DebugDisplay] WeaponState weaponState;
 
@@ -124,7 +131,8 @@ public class PlayerController : Entity
 
 	bool airMelee;
 
-	float shootCooldown;
+	[DebugDisplay] float shootCooldown = 1f;
+	[DebugDisplay]
 	public byte Ammo
 	{
 		get;
@@ -218,11 +226,16 @@ public class PlayerController : Entity
 		TurnMesh(false);
 
 		CanAttack = true;
+
+		Ammo = 3;
 	}
 
 
 	protected sealed override void Update()
 	{
+		if (GameManager.Instance.IsPaused)
+			return;
+
 		base.Update();
 
 		vcam.m_Lens.FieldOfView = meleeEffectAmount.x;
@@ -242,12 +255,31 @@ public class PlayerController : Entity
 #endif
 		_cameraYaw = transform.eulerAngles.y;
 
-		if (ActionInputManager.GetInputDown("Swap") && CanAttack)
+		if (ActionInputManager.GetInputDown("Swap") && CanAttack && meleeAttackTime == 0f)
 		{
 			if (weaponState.Equals(WeaponState.Fireballs))
+			{
 				weaponState = WeaponState.Iceballs;
+
+				FireSwordAnimation.gameObject.SetActive(true);
+				IceSwordAnimation.gameObject.SetActive(false);
+				FireballGroup.SetActive(false);
+				IceballGroup.SetActive(true);
+			}
 			else
+			{
 				weaponState = WeaponState.Fireballs;
+
+				FireSwordAnimation.gameObject.SetActive(false);
+				IceSwordAnimation.gameObject.SetActive(true);
+				FireballGroup.SetActive(true);
+				IceballGroup.SetActive(false);
+			}
+
+			meleeAttackTime = 0.25f;
+
+			meleeState = MeleeState.Idle;
+			currentMeleeAttack = 0;
 		}
 
 		MeleeUpdate();
@@ -257,6 +289,52 @@ public class PlayerController : Entity
 		UpdateCamera();
 
 		velocityDisplay = rb.velocity;
+
+		if (Ammo < 3)
+		{
+			if (shootCooldown > 0f)
+			{
+				shootCooldown = Mathf.MoveTowards(shootCooldown, 0f, Time.deltaTime);
+			}
+			else
+			{
+				Ammo++;
+				shootCooldown = 1f;
+			}
+		}
+
+		if (Ammo < 3)
+		{
+			Fireballs[2].SetActive(false);
+			Iceballs[2].SetActive(false);
+		}
+		else
+		{
+			Fireballs[2].SetActive(true);
+			Iceballs[2].SetActive(true);
+		}
+
+		if (Ammo < 2)
+		{
+			Fireballs[1].SetActive(false);
+			Iceballs[1].SetActive(false);
+		}
+		else
+		{
+			Fireballs[1].SetActive(true);
+			Iceballs[1].SetActive(true);
+		}
+
+		if (Ammo < 1)
+		{
+			Fireballs[0].SetActive(false);
+			Iceballs[0].SetActive(false);
+		}
+		else
+		{
+			Fireballs[0].SetActive(true);
+			Iceballs[0].SetActive(true);
+		}
 	}
 
 	private void MeleeUpdate()
@@ -339,6 +417,29 @@ public class PlayerController : Entity
 
 		currentMeleeAttack++;
 
+		if (weaponState == WeaponState.FireSword)
+		{
+			FireSwordAnimation.Stop();
+
+			if (currentMeleeAttack == 1)
+				FireSwordAnimation.Play("FireSwordSwing");
+			else if (currentMeleeAttack == 2)
+				FireSwordAnimation.Play("FireSwordSwing2");
+			else if (currentMeleeAttack == 3)
+				FireSwordAnimation.Play("FireSwordStab");
+		}
+		else if (weaponState == WeaponState.IceSword)
+		{
+			IceSwordAnimation.Stop();
+
+			if (currentMeleeAttack == 1)
+				IceSwordAnimation.Play("IceSwordSwing");
+			else if (currentMeleeAttack == 2)
+				IceSwordAnimation.Play("IceSwordSwing2");
+			else if (currentMeleeAttack == 3)
+				IceSwordAnimation.Play("IceSwordStab");
+		}
+
 		meleeAttackTime = Settings.AttackCooldowns[currentMeleeAttack - 1].Time;
 		meleeState = MeleeState.Attack;
 
@@ -351,13 +452,48 @@ public class PlayerController : Entity
 		if (Ammo == 0)
 			return;
 
-		if (shootCooldown > 0f)
-			return;
+		if (ActionInputManager.GetInputDown("Shoot"))
+			Shoot();
 	}
 
 	private void Shoot()
 	{
+		// If enemy exists...
+		if (enemies.Count > targetEnemyIndex)
+		{
+#if UNITY_EDITOR
+			Debug.DrawLine(transform.position, enemies[targetEnemyIndex].point, Color.yellow);
+#endif
+			if (weaponState == WeaponState.Fireballs)
+			{
+				ProjectileController fireball = Instantiate(FireballPrefab, transform.position, targetLookRotation);
+				fireball.Target = enemies[targetEnemyIndex].transform;
+				fireball.Owner = this;
+			}
+			else
+			{
+				ProjectileController iceball = Instantiate(IceballPrefab, transform.position, targetLookRotation);
+				iceball.Target = enemies[targetEnemyIndex].transform;
+				iceball.Owner = this;
+			}
+		}
+		else
+		{
+			// If there was no enemy to target, send the fireball forward
+			if (weaponState == WeaponState.Fireballs)
+			{
+				ProjectileController fireball = Instantiate(FireballPrefab, transform.position, MeshContainer.transform.rotation);
+				fireball.Owner = this;
+			}
+			else
+			{
+				ProjectileController iceball = Instantiate(IceballPrefab, transform.position, MeshContainer.transform.rotation);
+				iceball.Owner = this;
+			}
+		}
 
+		Ammo--;
+		shootCooldown = 1f;
 	}
 
 
@@ -441,7 +577,7 @@ public class PlayerController : Entity
 
 			float minDist = 4f;
 			float maxDist = 8f;
-			
+
 			autoYaw = Mathf.LerpAngle(autoTangentYaw, autoTowardsYaw, activationPercent);
 			autoPitch = Mathf.LerpAngle(path.pitch[Mathf.FloorToInt(posAlongPath)], path.pitch[Mathf.CeilToInt(posAlongPath)], positionAmount);
 #if UNITY_EDITOR
@@ -583,6 +719,9 @@ public class PlayerController : Entity
 
 	private void FixedUpdate()
 	{
+		if (GameManager.Instance.IsPaused)
+			return;
+
 		if (!IsGrounded)
 		{
 			jumpForgivenessTime -= Time.fixedDeltaTime;
@@ -608,13 +747,17 @@ public class PlayerController : Entity
 		velocityDisplay = rb.velocity;
 	}
 
+	List<RaycastHit> enemies;
+	int targetEnemyIndex;
+	float targetEnemyPriority;
+	Quaternion targetLookRotation;
 	private void TargetUpdate()
 	{
 		// Custom "conecast" to find all objects in range
 		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, MeshContainer.transform.forward, Settings.TargetingMaxDistance, Settings.TargetingMaxAngle, LayerMask.GetMask("Default"));
 
 		// Create a new list and only add enemies from coneHit
-		List<RaycastHit> enemies = new List<RaycastHit>();
+		enemies = new List<RaycastHit>();
 		for (int i = 0; i < coneHit.Length; i++)
 		{
 			if (coneHit[i].transform.tag == "Enemy")
@@ -626,10 +769,9 @@ public class PlayerController : Entity
 		}
 
 
-		// Sets up default target
-		int targetEnemyIndex = 0;
-		float targetEnemyPriority = 360f;
-		Quaternion targetLookRotation = new Quaternion();
+		targetEnemyIndex = 0;
+		targetEnemyPriority = 360f;
+		targetLookRotation = new Quaternion();
 
 		// Loop through all enemies
 		for (int i = 0; i < enemies.Count; i++)
@@ -655,27 +797,6 @@ public class PlayerController : Entity
 		if (enemies.Count > targetEnemyIndex)
 			Debug.DrawLine(transform.position, enemies[targetEnemyIndex].point, Color.yellow);
 #endif
-
-		// Player has clicked the shoot button
-		if (ActionInputManager.GetFixedInputDown("Shoot"))
-		{
-			// If enemy exists...
-			if (enemies.Count > targetEnemyIndex)
-			{
-#if UNITY_EDITOR
-				Debug.DrawLine(transform.position, enemies[targetEnemyIndex].point, Color.yellow);
-#endif
-				ProjectileController fireball = Instantiate(FireballPrefab, transform.position, targetLookRotation);
-				fireball.Target = enemies[targetEnemyIndex].transform;
-				fireball.Owner = this;
-			}
-			else
-			{
-				// If there was no enemy to target, send the fireball forward
-				ProjectileController fireball = Instantiate(FireballPrefab, transform.position, MeshContainer.transform.rotation);
-				fireball.Owner = this;
-			}
-		}
 	}
 
 	private void Movement()
@@ -742,14 +863,14 @@ public class PlayerController : Entity
 		}
 	}
 
-    //Whenever the player gets destroyer it enables the lose screen
-    private void OnDestroy()
-    {
-        Time.timeScale = 0;
-        //FindObjectOfType<GameManager>().enabled = false;
-        //FindObjectOfType<GameManager>().gameObject.GetComponent<EventSystem>().enabled = false;
-        //FindObjectOfType<GameManager>().transform.GetChild(0).gameObject.SetActive(false);
-        //GameObject.Find("Lose").transform.GetChild(0).gameObject.SetActive(true);
-    }
+	//Whenever the player gets destroyer it enables the lose screen
+	private void OnDestroy()
+	{
+		Time.timeScale = 0;
+		//FindObjectOfType<GameManager>().enabled = false;
+		//FindObjectOfType<GameManager>().gameObject.GetComponent<EventSystem>().enabled = false;
+		//FindObjectOfType<GameManager>().transform.GetChild(0).gameObject.SetActive(false);
+		//GameObject.Find("Lose").transform.GetChild(0).gameObject.SetActive(true);
+	}
 
 }

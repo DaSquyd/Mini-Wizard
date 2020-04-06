@@ -29,7 +29,7 @@ public abstract class Entity : MonoBehaviour
 		protected set;
 	}
 
-	protected new Renderer renderer;
+	protected new Renderer[] renderers;
 	protected virtual void Start()
 	{
 		if (Debug.isDebugBuild)
@@ -37,7 +37,7 @@ public abstract class Entity : MonoBehaviour
 			DebugCanvas.Instance.Reload();
 		}
 
-		renderer = GetComponentInChildren<Renderer>();
+		renderers = GetComponentsInChildren<Renderer>();
 	}
 
 
@@ -122,16 +122,17 @@ public abstract class Entity : MonoBehaviour
 
 		Color newLightColor = new Color(lightColorVector.x, lightColorVector.y, lightColorVector.z);
 
-		foreach (Material mat in renderer.materials)
+		for (int i = 0; i < renderers.Length; i++)
 		{
-			mat.SetVector("_ToonLightDirection", lightDirection);
-			mat.SetFloat("_ToonLightIntensity", lightIntensity);
-			mat.SetFloat("_ToonShadowIntensity", lightIntensity);
-			mat.SetColor("_ToonLightColor", newLightColor);
-			mat.SetFloat("_ToonShadowStrength", shadowStrength);
+			foreach (Material mat in renderers[i].materials)
+			{
+				mat.SetVector("_ToonLightDirection", lightDirection);
+				mat.SetFloat("_ToonLightIntensity", lightIntensity);
+				mat.SetFloat("_ToonShadowIntensity", lightIntensity);
+				mat.SetColor("_ToonLightColor", newLightColor);
+				mat.SetFloat("_ToonShadowStrength", shadowStrength);
+			}
 		}
-
-		
 	}
 
 	private Entity lastAttacker;
