@@ -12,7 +12,7 @@ using Cinemachine;
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
-	
+
 	public GameObject LoadingScreen;
 	public Image ProgressBar;
 
@@ -20,19 +20,29 @@ public class GameManager : MonoBehaviour
 
 	public CinemachineVirtualCamera PlayerVcam;
 
+	public GameObject PauseMenu;
+
+	public bool IsPaused
+	{
+		get; private set;
+	}
+
 	private ActionInputManager actionInputManager;
 	private EventSystem eventSystem;
 
 	private void Awake()
 	{
 		Instance = this;
-		DontDestroyOnLoad(gameObject);
-		DontDestroyOnLoad(LoadingScreen.gameObject);
+		//DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(LoadingScreen.gameObject);
 
 		eventSystem = GetComponent<EventSystem>();
 		EventSystem.current = eventSystem;
 
 		actionInputManager = GetComponent<ActionInputManager>();
+
+		IsPaused = false;
+		PauseMenu.SetActive(false);
 	}
 
 	private void Start()
@@ -58,9 +68,12 @@ public class GameManager : MonoBehaviour
 			EventSystem.current = eventSystem;
 		}
 
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (ActionInputManager.GetInputDown("Pause"))
 		{
-			Application.Quit();
+			if (IsPaused)
+				UnPauseGame();
+			else
+				PauseGame();
 		}
 	}
 
@@ -100,5 +113,19 @@ public class GameManager : MonoBehaviour
 		}
 
 		LoadingScreen.gameObject.SetActive(false);
+	}
+
+	public void PauseGame()
+	{
+		Time.timeScale = 0.0f;
+		IsPaused = true;
+		PauseMenu.SetActive(true);
+	}
+
+	public void UnPauseGame()
+	{
+		Time.timeScale = 1.0f;
+		IsPaused = false;
+		PauseMenu.SetActive(false);
 	}
 }

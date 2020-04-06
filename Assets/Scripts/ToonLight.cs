@@ -48,6 +48,14 @@ public class ToonLight : MonoBehaviour
 	{
 		type = light.type;
 
+#if UNITY_EDITOR
+		if (transform.localScale != Vector3.one)
+			transform.localScale = Vector3.one;
+
+		if (type == LightType.Point && transform.rotation != new Quaternion())
+			transform.rotation = new Quaternion();
+#endif
+
 		if (collider == null)
 			collider = GetComponent<Collider>();
 

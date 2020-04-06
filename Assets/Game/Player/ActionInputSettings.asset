@@ -78,3 +78,8 @@ MonoBehaviour:
     GamepadInverse: 0
     Key1: 325
     Key2: 0
+  - Name: Pause
+    Gamepad: 20
+    GamepadInverse: 0
+    Key1: 27
+    Key2: 0
