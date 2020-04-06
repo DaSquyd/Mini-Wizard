@@ -22,5 +22,5 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors:
-    - Color_27123CAD: {r: 0.75, g: 0.9977477, b: 1, a: 0}
-    - Color_C262B23A: {r: 0, g: 1, b: 0.96163267, a: 0}
+    - Color_27123CAD: {r: 0, g: 1, b: 0.972059, a: 0}
+    - Color_C262B23A: {r: 0, g: 0.58133274, b: 0.7372549, a: 0}
