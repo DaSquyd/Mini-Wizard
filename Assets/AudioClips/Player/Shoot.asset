@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a9f940313d06d4caed9863bf024ebf, type: 3}
+  m_Name: Shoot
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 97f1576a14236c540929d9645df4be57, type: 3}
+  volume:
+    MinValue: 0.15221708
+    MaxValue: 0.20516193
+  pitch:
+    MinValue: 1.8014561
+    MaxValue: 2

@@ -7,6 +7,7 @@ using Cinemachine;
 using DG.Tweening;
 using UnityEngine.EventSystems;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : Entity
 {
 	public static PlayerController Instance;
@@ -17,7 +18,6 @@ public class PlayerController : Entity
 	public GameObject MeshContainer;
 	public ProjectileController FireballPrefab;
 	public ProjectileController IceballPrefab;
-	public AudioSource JumpAudio;
 
 	public enum MeleeState
 	{
@@ -116,6 +116,20 @@ public class PlayerController : Entity
 	public GameObject IceballGroup;
 	public GameObject[] Fireballs;
 	public GameObject[] Iceballs;
+
+	[Header("Audio")]
+	public AudioSource JumpAudioSource;
+	public AudioEvent JumpSFX;
+	public AudioEvent AirJump1SFX;
+	public AudioEvent AirJump2SFX;
+
+	public AudioSource SwordAudioSource;
+	public AudioEvent SwordSwing1SFX;
+	public AudioEvent SwordSwing2SFX;
+	public AudioEvent SwordStabSFX;
+
+	public AudioSource ShootAudioSource;
+	public AudioEvent ShootSFX;
 
 	// Attack
 	[DebugDisplay] WeaponState weaponState;
@@ -417,6 +431,19 @@ public class PlayerController : Entity
 
 		currentMeleeAttack++;
 
+		if (currentMeleeAttack == 1)
+		{
+			SwordSwing1SFX.Play(SwordAudioSource);
+		}
+		else if (currentMeleeAttack == 2)
+		{
+			SwordSwing2SFX.Play(SwordAudioSource);
+		}
+		else if (currentMeleeAttack == 3)
+		{
+			SwordStabSFX.Play(SwordAudioSource);
+		}
+
 		if (weaponState == WeaponState.FireSword)
 		{
 			FireSwordAnimation.Stop();
@@ -458,6 +485,8 @@ public class PlayerController : Entity
 
 	private void Shoot()
 	{
+		ShootSFX.Play(ShootAudioSource);
+
 		// If enemy exists...
 		if (enemies.Count > targetEnemyIndex)
 		{
@@ -517,7 +546,7 @@ public class PlayerController : Entity
 #if DEBUG
 			else if (airJumps < Settings.MaxAirJumps || InputManager.ActiveDevice.LeftBumper)
 #else
-			else if (_airJumps < settings.maxAirJumps)
+			else if (airJumps < Settings.MaxAirJumps)
 #endif
 			{
 				Jump(true);
@@ -532,6 +561,22 @@ public class PlayerController : Entity
 		jumpCooldown = Settings.JumpCooldown;
 		IsGrounded = false;
 		hasJumped = true;
+
+		if (!inAir)
+		{
+			JumpSFX.Play(JumpAudioSource);
+		}
+		else
+		{
+			if (airJumps == 0)
+			{
+				AirJump1SFX.Play(JumpAudioSource);
+			}
+			else
+			{
+				AirJump2SFX.Play(JumpAudioSource);
+			}
+		}
 	}
 
 	private void TurnMesh(bool smoothed)
@@ -599,8 +644,8 @@ public class PlayerController : Entity
 		float yaw = ((ActionInputManager.GetInput("Look Right") - ActionInputManager.GetInput("Look Left")) * Settings.CameraJoystickSpeed) + (debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse x") * Settings.CameraMouseSpeed));
 		float pitch = ((ActionInputManager.GetInput("Look Up") - ActionInputManager.GetInput("Look Down")) * Settings.CameraJoystickSpeed) + (debugMouseDisabled ? 0f : (Input.GetAxisRaw("mouse y") * Settings.CameraMouseSpeed));
 #else
-		float yaw = ((ActionInputManager.GetInput("Look Right") - ActionInputManager.GetInput("Look Left")) * settings.cameraJoystickSpeed) + (Input.GetAxisRaw("mouse x") * settings.cameraMouseSpeed);
-		float pitch = ((ActionInputManager.GetInput("Look Up") - ActionInputManager.GetInput("Look Down")) * settings.cameraJoystickSpeed) + (Input.GetAxisRaw("mouse y") * settings.cameraMouseSpeed);
+		float yaw = ((ActionInputManager.GetInput("Look Right") - ActionInputManager.GetInput("Look Left")) * Settings.CameraJoystickSpeed) + (Input.GetAxisRaw("mouse x") * Settings.CameraMouseSpeed);
+		float pitch = ((ActionInputManager.GetInput("Look Up") - ActionInputManager.GetInput("Look Down")) * Settings.CameraJoystickSpeed) + (Input.GetAxisRaw("mouse y") * Settings.CameraMouseSpeed);
 #endif
 
 		if (path == null)
@@ -862,15 +907,9 @@ public class PlayerController : Entity
 			Destroy(gameObject);
 		}
 	}
-
-	//Whenever the player gets destroyer it enables the lose screen
-	private void OnDestroy()
+	protected override void OnDeath()
 	{
-		Time.timeScale = 0;
-		//FindObjectOfType<GameManager>().enabled = false;
-		//FindObjectOfType<GameManager>().gameObject.GetComponent<EventSystem>().enabled = false;
-		//FindObjectOfType<GameManager>().transform.GetChild(0).gameObject.SetActive(false);
-		//GameObject.Find("Lose").transform.GetChild(0).gameObject.SetActive(true);
+		base.OnDeath();
+		GameManager.Instance.Lose();
 	}
-
 }

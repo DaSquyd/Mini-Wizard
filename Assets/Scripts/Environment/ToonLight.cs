@@ -123,6 +123,7 @@ public class ToonLight : MonoBehaviour
 		{
 			Shader.SetGlobalVector("_ToonLightDirection", -transform.forward);
 			Shader.SetGlobalColor("_ToonLightColor", light.color);
+			RenderSettings.sun = light;
 		}
 	}
 

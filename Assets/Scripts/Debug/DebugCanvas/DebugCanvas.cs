@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System;
@@ -275,3 +276,4 @@ public class DebugCanvas : MonoBehaviour
 		typeData.Color.a = 1f;
 	}
 }
+#endif

@@ -13,6 +13,26 @@ public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
 
+	[System.Serializable]
+	public struct Level
+	{
+		public string Name;
+		public AudioClip Music;
+		public Material Skybox;
+
+		[Header("Ambient Light")]
+		public Color AmbientSkyColor;
+		public Color AmbientEquatorColor;
+		public Color AmbientGroundColor;
+
+		[Header("Fog")]
+		public bool FogEnabled;
+		public Color FogColor;
+		public float FogStartDistance;
+		public float FogEndDistance;
+	}
+	public Level[] levels;
+
 	public GameObject LoadingScreen;
 	public Image ProgressBar;
 
@@ -21,11 +41,17 @@ public class GameManager : MonoBehaviour
 	public CinemachineVirtualCamera PlayerVcam;
 
 	public GameObject MainMenu;
+	public GameObject HelpMenu;
 	public GameObject PauseMenu;
 	public GameObject WinMenu;
 	public GameObject LoseMenu;
 
+	public AudioSource MusicAudioSource;
+	public AudioClip MenuMusic;
+
 	string currentLoadedScene;
+
+	bool isPlaying = false;
 
 	public bool IsPaused
 	{
@@ -66,37 +92,50 @@ public class GameManager : MonoBehaviour
 		if (Instance == null)
 			Instance = this;
 
-		if (ActionInputManager.GetInputDown("Pause"))
+		if (ActionInputManager.GetInputDown("Pause") && isPlaying)
 		{
 			if (IsPaused)
 				UnPauseGame();
 			else
 				PauseGame();
 		}
+		
+		ProgressBar.fillAmount = Mathf.MoveTowards(ProgressBar.fillAmount, totalSceneProgress, Time.deltaTime * 5f);
 	}
 
 
 	List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
 
-	public void LoadGame()
+	public void LoadGame(int id)
 	{
+		if (id >= levels.Length || id < 0)
+		{
+			Debug.LogWarning($"Requested level {id} does not exist!");
+			return;
+		}
+
 		MainMenu.SetActive(false);
 		LoadingScreen.gameObject.SetActive(true);
 
-		scenesLoading.Add(SceneManager.LoadSceneAsync("Ice Cave", LoadSceneMode.Additive));
-		
-		StartCoroutine(GetSceneLoadProgress("Ice Cave"));
+		scenesLoading.Add(SceneManager.LoadSceneAsync(levels[id].Name, LoadSceneMode.Additive));
+
+		StartCoroutine(GetSceneLoadProgress(id));
 	}
 
-
-	float totalSceneProgress;
-	public IEnumerator GetSceneLoadProgress(string sceneName)
+	float fill = 0f;
+	float totalSceneProgress = 0f;
+	float barVelocity = 0f;
+	public IEnumerator GetSceneLoadProgress(int id)
 	{
+		Level level = levels[id];
+
 		for (int i = 0; i < scenesLoading.Count; i++)
 		{
 			while (!scenesLoading[i].isDone)
 			{
+				fill = 0f;
 				totalSceneProgress = 0f;
+				barVelocity = 0f;
 
 				foreach (AsyncOperation operation in scenesLoading)
 				{
@@ -105,40 +144,69 @@ public class GameManager : MonoBehaviour
 
 				totalSceneProgress = (totalSceneProgress / scenesLoading.Count);
 
-				ProgressBar.fillAmount = totalSceneProgress;
-
 				yield return null;
 			}
+
+			totalSceneProgress = 1f;
 		}
+
+		RenderSettings.skybox = level.Skybox;
+		RenderSettings.ambientSkyColor = level.AmbientSkyColor;
+		RenderSettings.ambientEquatorColor = level.AmbientEquatorColor;
+		RenderSettings.ambientGroundColor = level.AmbientGroundColor;
+		RenderSettings.fog = level.FogEnabled;
+		RenderSettings.fogColor = level.FogColor;
+		RenderSettings.fogMode = FogMode.Linear;
+		RenderSettings.fogStartDistance = level.FogStartDistance;
+		RenderSettings.fogEndDistance = level.FogEndDistance;
 		scenesLoading.Clear();
+		currentLoadedScene = level.Name;
 
-		currentLoadedScene = sceneName;
-
-		ProgressBar.fillAmount = 1f;
+		MusicAudioSource.clip = level.Music;
+		MusicAudioSource.loop = true;
+		MusicAudioSource.Play();
 
 		UnPauseGame();
 
 		yield return new WaitForSeconds(1f);
 
+		isPlaying = true;
+
 		LoadingScreen.gameObject.SetActive(false);
 	}
 
-	public void ReturnToMainMenu()
+	public void ReturnToMainMenu(bool restartMusic = false)
 	{
 		if (currentLoadedScene != null)
 			SceneManager.UnloadSceneAsync(currentLoadedScene);
 
+		currentLoadedScene = null;
+
 		MainMenu.SetActive(true);
+		HelpMenu.SetActive(false);
 		PauseMenu.SetActive(false);
 		WinMenu.SetActive(false);
 		LoseMenu.SetActive(false);
+
+		MusicAudioSource.clip = MenuMusic;
+		MusicAudioSource.loop = false;
+		if (restartMusic)
+			MusicAudioSource.Play();
+
+		isPlaying = false;
 	}
 
-	public void PauseGame()
+	public void Help()
+	{
+		HelpMenu.SetActive(true);
+	}
+
+	public void PauseGame(bool loadMenu = true)
 	{
 		Time.timeScale = 0.0f;
 		IsPaused = true;
-		PauseMenu.SetActive(true);
+		PauseMenu.SetActive(loadMenu);
+		MusicAudioSource.Pause();
 	}
 
 	public void UnPauseGame()
@@ -146,17 +214,18 @@ public class GameManager : MonoBehaviour
 		Time.timeScale = 1.0f;
 		IsPaused = false;
 		PauseMenu.SetActive(false);
+		MusicAudioSource.UnPause();
 	}
 
 	public void Win()
 	{
-		PauseGame();
+		PauseGame(false);
 		WinMenu.SetActive(true);
 	}
 
 	public void Lose()
 	{
-		PauseGame();
+		PauseGame(false);
 		LoseMenu.SetActive(true);
 	}
 

@@ -11,15 +11,14 @@ public class ScenePostProcess
 	{
 		if (DebugCanvas.Instance == null && Debug.isDebugBuild)
 		{
-			var debugCanvasPrefab = Resources.Load("Prefabs/Debug/DebugCanvas", typeof(GameObject));
-			Object.Instantiate(debugCanvasPrefab);
-			Application.Quit();
+			//var debugCanvasPrefab = Resources.Load("Prefabs/Debug/DebugCanvas", typeof(GameObject));
+			//Object.Instantiate(debugCanvasPrefab);
 		}
 
 		if (GameManager.Instance == null)
 		{
 			if (SceneManager.GetActiveScene().name != "Persistent")
-				SceneManager.LoadScene("Persistent", LoadSceneMode.Additive);
+				SceneManager.LoadScene("Persistent", LoadSceneMode.Single);
 		}
 	}
 }

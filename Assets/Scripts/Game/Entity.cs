@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public abstract class Entity : MonoBehaviour
 {
 	public int MaxHealth
@@ -32,10 +36,12 @@ public abstract class Entity : MonoBehaviour
 	protected new Renderer[] renderers;
 	protected virtual void Start()
 	{
-		if (Debug.isDebugBuild)
+#if UNITY_EDITOR
+		if (DebugCanvas.Instance != null)
 		{
 			DebugCanvas.Instance.Reload();
 		}
+#endif
 
 		renderers = GetComponentsInChildren<Renderer>();
 	}
@@ -54,7 +60,7 @@ public abstract class Entity : MonoBehaviour
 	protected virtual void Update()
 	{
 		if (transform.position.y <= -15)
-			Destroy(gameObject);
+			ApplyDamage(null, 1000);
 
 		Vector3 entityPosition = transform.position;
 
@@ -152,10 +158,15 @@ public abstract class Entity : MonoBehaviour
 
 		if (Health == 0f)
 		{
-			Destroy(gameObject);
+			OnDeath();
 		}
 
 		return Health;
+	}
+
+	protected virtual void OnDeath()
+	{
+		Destroy(gameObject);
 	}
 
 	protected virtual void OnReceiveDamage()

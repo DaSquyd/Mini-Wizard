@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using UnityEngine;
 
 public class EnumFlagAttribute : PropertyAttribute
@@ -12,3 +13,4 @@ public class EnumFlagAttribute : PropertyAttribute
 		EnumName = name;
 	}
 }
+#endif

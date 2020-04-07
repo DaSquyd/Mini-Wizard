@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,3 +10,4 @@ public class DebugCanvasVariable : MonoBehaviour
 	public TMP_Text NameText;
 	public TMP_Text ValueText;
 }
+#endif
