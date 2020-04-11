@@ -79,6 +79,14 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		gameObject.SetActive(true);
+
+#if UNITY_EDITOR
+		if (SceneManager.GetActiveScene().name != "Persistent")
+		{
+			MainMenu.SetActive(false);
+			MusicAudioSource.Stop();
+		}
+#endif
 	}
 
 	private void Update()
