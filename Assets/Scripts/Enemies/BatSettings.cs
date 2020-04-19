@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Fire and Ice/Enemy/Enemy Settings")]
-public class EnemySettings : ScriptableObject
+[CreateAssetMenu(menuName = "Fire and Ice/Enemy/Bat Settings")]
+public class BatSettings : ScriptableObject
 {
 	public int MaxHealth;
 

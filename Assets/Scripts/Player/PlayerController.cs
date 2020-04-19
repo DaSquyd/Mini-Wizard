@@ -12,7 +12,7 @@ public class PlayerController : Entity
 {
 	public static PlayerController Instance;
 
-
+	[Header("Settings")]
 	public PlayerSettings Settings;
 	public CameraSettings CameraSettings;
 	public GameObject MeshContainer;
@@ -47,6 +47,7 @@ public class PlayerController : Entity
 	public CinemachineVirtualCamera vcam;
 	Rigidbody rb;
 
+	[Header("Movement")]
 	[DebugDisplay]
 	Vector3 move;
 	Vector3 _targetMove;
@@ -112,6 +113,7 @@ public class PlayerController : Entity
 		private set;
 	}
 
+	[Header("Attacks")]
 	public Animation FireSwordAnimation;
 	public Animation IceSwordAnimation;
 	public GameObject FireballGroup;

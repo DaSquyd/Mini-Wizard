@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BatEnemy : Entity
 {
-	public EnemySettings Settings;
+	public BatSettings Settings;
 
 	public bool IsTargeting
 	{

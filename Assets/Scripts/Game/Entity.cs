@@ -33,7 +33,7 @@ public abstract class Entity : MonoBehaviour
 		protected set;
 	}
 
-	protected new Renderer[] renderers;
+	protected Renderer[] renderers;
 	protected virtual void Start()
 	{
 #if UNITY_EDITOR
@@ -56,6 +56,7 @@ public abstract class Entity : MonoBehaviour
 	float shadowStrength;
 	float shadowStrengthVelocity;
 
+	[HideInInspector]
 	public List<Light> Lights = new List<Light>();
 	protected virtual void Update()
 	{
