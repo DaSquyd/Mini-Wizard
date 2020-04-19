@@ -66,12 +66,6 @@ public class BatEnemy : Entity
 
 		switch (attackState)
 		{
-			case State.Idle:
-				if (IsTargeting)
-					attackState = State.Aggressive;
-				else
-					IdleUpdate();
-				break;
 			case State.Aggressive:
 				if (IsTargeting)
 					AggressiveUpdate();
@@ -96,6 +90,19 @@ public class BatEnemy : Entity
 		}
 	}
 
+	private void FixedUpdate()
+	{
+		switch (attackState)
+		{
+			case State.Idle:
+				if (IsTargeting)
+					attackState = State.Aggressive;
+				else
+					IdleFixedUpdate();
+				break;
+		}
+	}
+
 	[DebugDisplay]
 	Vector3 destination;
 	[DebugDisplay]
@@ -107,7 +114,7 @@ public class BatEnemy : Entity
 
 	[DebugDisplay]
 	Vector3 hitLoc;
-	void IdleUpdate()
+	void IdleFixedUpdate()
 	{
 		Vector3 position = transform.position;
 		if (destination == new Vector3() || hasReachedDestination)
@@ -142,7 +149,7 @@ public class BatEnemy : Entity
 
 		if (waiting)
 		{
-			waitTime = Mathf.MoveTowards(waitTime, 0f, Time.deltaTime);
+			waitTime = Mathf.MoveTowards(waitTime, 0f, Time.fixedDeltaTime);
 
 			if (waitTime == 0f)
 				waiting = false;
@@ -151,14 +158,55 @@ public class BatEnemy : Entity
 		{
 			move = destination - position;
 
-			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(destination - position), Settings.turnSpeed * Time.deltaTime);
-			transform.position = Vector3.MoveTowards(position, destination, Settings.idleMoveSpeed * Time.deltaTime);
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(destination - position), Settings.turnSpeed * Time.fixedDeltaTime);
+			transform.position = Vector3.MoveTowards(position, destination, Settings.idleMoveSpeed * Time.fixedDeltaTime);
 		}
 	}
 
+	int moveDirection = 0;
+
+
 	void AggressiveUpdate()
 	{
+		Transform playerTransform = PlayerController.Instance.transform;
+
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(PlayerController.Instance.transform.position - transform.position), Settings.turnSpeed * Time.deltaTime);
+
+		if (Vector3.Distance(PlayerController.Instance.transform.position, transform.position) < Settings.aggressiveMinDistance)
+		{
+			transform.position = Vector3.MoveTowards(transform.position, playerTransform.position - transform.position, Settings.aggressiveMoveSpeed * Time.deltaTime);
+		}
+
+		if (transform.position.y - playerTransform.position.y < Settings.aggressiveMinVerticalOffset)
+		{
+			transform.position = transform.position + Vector3.up * Settings.aggressiveMoveSpeed * Time.deltaTime;
+		}
+		else if (transform.position.y - playerTransform.position.y > Settings.aggressiveMaxVerticalOffset)
+		{
+			transform.position = transform.position + Vector3.down * Settings.aggressiveMoveSpeed * Time.deltaTime;
+		}
+
+		if (waiting)
+		{
+			if (moveDirection != 0)
+			{
+				transform.position = transform.position + transform.right * Settings.aggressiveMoveSpeed * moveDirection * Time.deltaTime;
+			}
+
+			waitTime = Mathf.MoveTowards(waitTime, 0f, Time.deltaTime);
+
+			if (waitTime == 0f)
+				waiting = false;
+		}
+		else
+		{
+			waitTime = Random.Range(Settings.aggressiveWaitMin, Settings.aggressiveWaitMax);
+			waiting = true;
+			if (moveDirection == 0)
+				moveDirection = Random.value < 0.5f ? -1 : 1;
+			else
+				moveDirection = 0;
+		}
 	}
 
 	void ChargineProjectileUpdate()

@@ -15,12 +15,17 @@ MonoBehaviour:
   MaxHealth: 30
   ProjectileDamage: 0
   MeleeDamage: 0
+  turnSpeed: 180
   idleMoveSpeed: 1
   maxVerticalOffset: 1.2
   maxDistance: 5
   idleWaitMin: 1
   idleWaitMax: 4
-  turnSpeed: 180
-  sightMaxDistance: 20
-  sightAngle: 90
+  aggressiveMoveSpeed: 2
+  aggressiveMaxDistance: 8
+  aggressiveMinDistance: 4
+  aggressiveWaitMin: 0.75
+  aggressiveWaitMax: 2.5
+  sightMaxDistance: 16
+  sightAngle: 170
   sensingRadius: 5

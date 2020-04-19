@@ -90,7 +90,9 @@ public class PlayerController : Entity
 
 	Vector3 meshTargetMove = Vector3.forward;
 
+#if UNITY_EDITOR
 	[DebugDisplay("Velocity")] Vector3 velocityDisplay;
+#endif
 
 	public bool IsGrounded
 	{
@@ -132,7 +134,7 @@ public class PlayerController : Entity
 	public AudioEvent ShootSFX;
 
 	// Attack
-	[DebugDisplay] WeaponState weaponState;
+	WeaponState weaponState;
 
 
 	[DebugDisplay("Melee State")] MeleeState meleeState;
@@ -145,8 +147,7 @@ public class PlayerController : Entity
 
 	bool airMelee;
 
-	[DebugDisplay] float shootCooldown = 1f;
-	[DebugDisplay]
+	float shootCooldown = 1f;
 	public byte Ammo
 	{
 		get;
@@ -157,11 +158,11 @@ public class PlayerController : Entity
 	// Jump
 	bool jumpInput;
 	bool jumpInputChange;
-	[DebugDisplay("Air Jumps")] byte airJumps;
+	byte airJumps;
 	float jumpForgivenessTime;
 	float jumpCooldown;
 	float airTime;
-	[DebugDisplay] bool hasJumped;
+	bool hasJumped;
 
 	// Rotation
 	float _cameraPitch;
@@ -180,17 +181,15 @@ public class PlayerController : Entity
 			_cameraYaw = value.y;
 		}
 	}
-
-
+	
 	Vector3 cameraCurrentVelocity;
 	Vector3 cameraBasePosition;
 
-	[DebugDisplay("Camera")] CameraMode cameraMode = CameraMode.Auto;
-	[DebugDisplay("Cam CD")] float cameraCooldownTime;
+	CameraMode cameraMode = CameraMode.Auto;
+	float cameraCooldownTime;
 
 	CameraPath path;
-
-	[DebugDisplay]
+	
 	Vector3 contactVelocity = new Vector3();
 
 #if DEBUG
