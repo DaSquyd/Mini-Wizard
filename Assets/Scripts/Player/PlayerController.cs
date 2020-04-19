@@ -44,7 +44,7 @@ public class PlayerController : Entity
 		Auto
 	}
 
-	CinemachineVirtualCamera vcam;
+	public CinemachineVirtualCamera vcam;
 	Rigidbody rb;
 
 	[DebugDisplay]
@@ -619,9 +619,6 @@ public class PlayerController : Entity
 			float minActivation = Mathf.Lerp(path.min[Mathf.FloorToInt(posAlongPath)], path.min[Mathf.CeilToInt(posAlongPath)], positionAmount);
 			float maxActivation = Mathf.Lerp(path.max[Mathf.FloorToInt(posAlongPath)], path.max[Mathf.CeilToInt(posAlongPath)], positionAmount);
 			float activationPercent = Mathf.InverseLerp(minActivation, maxActivation, distanceFromPath);
-
-			float minDist = 4f;
-			float maxDist = 8f;
 
 			autoYaw = Mathf.LerpAngle(autoTangentYaw, autoTowardsYaw, activationPercent);
 			autoPitch = Mathf.LerpAngle(path.pitch[Mathf.FloorToInt(posAlongPath)], path.pitch[Mathf.CeilToInt(posAlongPath)], positionAmount);

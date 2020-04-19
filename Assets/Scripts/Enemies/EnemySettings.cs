@@ -10,6 +10,13 @@ public class EnemySettings : ScriptableObject
 	public int ProjectileDamage;
 	public int MeleeDamage;
 
+	[Header("Movement")]
+	public float idleMoveSpeed = 1f;
+	public float maxVerticalOffset = 3f;
+	public float maxDistance = 8f;
+	public float idleWaitMin = 1f;
+	public float idleWaitMax = 4f;
+	public float turnSpeed = 180f;
 
 	[Header("Sensing")]
 	public float sightMaxDistance;
