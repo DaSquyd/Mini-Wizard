@@ -142,7 +142,7 @@ public abstract class Entity : MonoBehaviour
 	}
 
 	private Entity lastAttacker;
-	private float lastDamage = 0f;
+	protected float lastDamage = 0f;
 	public float ApplyDamage(Entity attacker, int amount)
 	{
 		if (Invincible)
