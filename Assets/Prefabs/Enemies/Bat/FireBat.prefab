@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5368998856760628586}
   - component: {fileID: 5368998856760628630}
   m_Layer: 0
-  m_Name: Bat
+  m_Name: FireBat
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8010643e083405499c36126750de3c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Element: 1
   Lights: []
   Settings: {fileID: 11400000, guid: 75309a012aaae1842bd4fa7182c41b49, type: 2}
   ProjectileOrigin: {fileID: 1737030845948904195}

@@ -162,7 +162,7 @@ public abstract class Entity : MonoBehaviour
 		Health = (int) Mathf.MoveTowards(Health, 0f, amount * mult);
 		lastDamage = oldHealth - Health;
 
-		OnReceiveDamage();
+		OnReceiveDamage(attacker, amount * mult, sourceElement);
 
 		if (Health == 0f)
 		{
@@ -177,7 +177,7 @@ public abstract class Entity : MonoBehaviour
 		Destroy(gameObject);
 	}
 
-	protected virtual void OnReceiveDamage()
+	protected virtual void OnReceiveDamage(Entity attacker, int amount, Element sourceElement)
 	{
 	}
 }
