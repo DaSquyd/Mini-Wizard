@@ -203,13 +203,28 @@ public class BatEnemy : Entity
 
 			if (moveDirectionV != 0 && dist > Settings.aggressiveMinDistance)
 			{
-				transform.position = position + transform.up * Settings.aggressiveSideSpeed * moveDirectionV * Time.fixedDeltaTime;
+				transform.position = position + transform.up * Settings.idleMoveSpeed * moveDirectionV * Time.fixedDeltaTime;
 			}
 
 			waitTime = Mathf.MoveTowards(waitTime, 0f, Time.fixedDeltaTime);
 
 			if (waitTime == 0f)
+			{
+				float rand = Random.value;
+
+				if (rand <= 0.2f)
+				{
+					attackState = State.ChargingProjectile;
+					waitTime = Settings.projectileChargeTime;
+				}
+				else if (rand <= 0.4f)
+				{
+					attackState = State.ChargingSwoop;
+					waitTime = Settings.swoopChargeTime;
+				}
+
 				waiting = false;
+			}
 		}
 		else
 		{
@@ -224,26 +239,64 @@ public class BatEnemy : Entity
 
 	void ChargineProjectileUpdate()
 	{
+		if (waiting)
+		{
+			waitTime = Mathf.MoveTowards(waitTime, 0f, Time.fixedDeltaTime);
 
+			if (waitTime == 0f)
+			{
+				waiting = false;
+			}
+		}
+		else
+		{
+			waitTime = Random.Range(Settings.aggressiveWaitMin, Settings.aggressiveWaitMax);
+			attackState = State.ShootingProjectile;
+			waiting = true;
+		}
 	}
 
 	void ShootingProjectileUpdate()
 	{
-
+		Debug.Log("Shoot!");
+		attackState = State.Aggressive;
 	}
 
 	void ChargingSwoopUpdate()
 	{
+		if (waiting)
+		{
+			waitTime = Mathf.MoveTowards(waitTime, 0f, Time.fixedDeltaTime);
 
+			if (waitTime == 0f)
+			{
+				waiting = false;
+			}
+		}
+		else
+		{
+			waitTime = Random.Range(Settings.aggressiveWaitMin, Settings.aggressiveWaitMax);
+			attackState = State.Swooping;
+			waiting = true;
+		}
 	}
 
 	void SwoopingUpdate()
 	{
-
+		Debug.Log("Swoop");
+		attackState = State.Aggressive;
 	}
 
 	void DyingUpdate()
 	{
 
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.tag == "Player")
+		{
+			PlayerController.Instance.ApplyDamage(this, 1);
+		}
 	}
 }

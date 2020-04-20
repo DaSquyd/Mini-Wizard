@@ -28,6 +28,12 @@ public class BatSettings : ScriptableObject
 	public float aggressiveWaitMin = 0.75f;
 	public float aggressiveWaitMax = 2.5f;
 
+	[Header("Projectile")]
+	public float projectileChargeTime = 0.9f;
+
+	[Header("Swoop")]
+	public float swoopChargeTime = 0.9f;
+
 	[Header("Sensing")]
 	public float sightMaxDistance;
 	public float sightAngle;
