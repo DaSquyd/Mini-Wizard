@@ -66,12 +66,6 @@ public class BatEnemy : Entity
 
 		switch (attackState)
 		{
-			case State.Aggressive:
-				if (IsTargeting)
-					AggressiveUpdate();
-				else
-					attackState = State.Idle;
-				break;
 			case State.ChargingProjectile:
 				ChargineProjectileUpdate();
 				break;
@@ -99,6 +93,12 @@ public class BatEnemy : Entity
 					attackState = State.Aggressive;
 				else
 					IdleFixedUpdate();
+				break;
+			case State.Aggressive:
+				if (IsTargeting)
+					AggressiveFixedUpdate();
+				else
+					attackState = State.Idle;
 				break;
 		}
 	}
@@ -163,37 +163,50 @@ public class BatEnemy : Entity
 		}
 	}
 
-	int moveDirection = 0;
+	int moveDirectionH = 0;
+	int moveDirectionV = 0;
 
 
-	void AggressiveUpdate()
+	void AggressiveFixedUpdate()
 	{
-		Transform playerTransform = PlayerController.Instance.transform;
+		Vector3 position = transform.position;
+		Quaternion rotation = transform.rotation;
+		Vector3 playerPosition = PlayerController.Instance.transform.position;
 
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(PlayerController.Instance.transform.position - transform.position), Settings.turnSpeed * Time.deltaTime);
+		transform.rotation = Quaternion.RotateTowards(rotation, Quaternion.LookRotation(playerPosition - position), Settings.turnSpeed * Time.fixedDeltaTime);
 
-		if (Vector3.Distance(PlayerController.Instance.transform.position, transform.position) < Settings.aggressiveMinDistance)
+		float dist = Vector3.Distance(playerPosition, position);
+		if (dist < Settings.aggressiveMinDistance)
 		{
-			transform.position = Vector3.MoveTowards(transform.position, playerTransform.position - transform.position, Settings.aggressiveMoveSpeed * Time.deltaTime);
+			transform.position = Vector3.MoveTowards(position, playerPosition - position, Settings.aggressiveMoveSpeed * Time.fixedDeltaTime);
+		}
+		else if (dist > Settings.aggressiveMaxDistance)
+		{
+			transform.position = Vector3.MoveTowards(position, playerPosition - position, Settings.aggressiveMoveSpeed * Time.fixedDeltaTime);
 		}
 
-		if (transform.position.y - playerTransform.position.y < Settings.aggressiveMinVerticalOffset)
+		if (position.y - playerPosition.y < Settings.aggressiveMinVerticalOffset)
 		{
-			transform.position = transform.position + Vector3.up * Settings.aggressiveMoveSpeed * Time.deltaTime;
+			transform.position = position + Vector3.up * Settings.aggressiveMoveSpeed * Time.fixedDeltaTime;
 		}
-		else if (transform.position.y - playerTransform.position.y > Settings.aggressiveMaxVerticalOffset)
+		else if (position.y - playerPosition.y > Settings.aggressiveMaxVerticalOffset)
 		{
-			transform.position = transform.position + Vector3.down * Settings.aggressiveMoveSpeed * Time.deltaTime;
+			transform.position = transform.position + Vector3.down * Settings.aggressiveMoveSpeed * Time.fixedDeltaTime;
 		}
 
 		if (waiting)
 		{
-			if (moveDirection != 0)
+			if (moveDirectionH != 0 && dist > Settings.aggressiveMinDistance)
 			{
-				transform.position = transform.position + transform.right * Settings.aggressiveMoveSpeed * moveDirection * Time.deltaTime;
+				transform.position = position + transform.right * Settings.aggressiveSideSpeed * moveDirectionH * Time.fixedDeltaTime;
 			}
 
-			waitTime = Mathf.MoveTowards(waitTime, 0f, Time.deltaTime);
+			if (moveDirectionV != 0 && dist > Settings.aggressiveMinDistance)
+			{
+				transform.position = position + transform.up * Settings.aggressiveSideSpeed * moveDirectionV * Time.fixedDeltaTime;
+			}
+
+			waitTime = Mathf.MoveTowards(waitTime, 0f, Time.fixedDeltaTime);
 
 			if (waitTime == 0f)
 				waiting = false;
@@ -202,10 +215,10 @@ public class BatEnemy : Entity
 		{
 			waitTime = Random.Range(Settings.aggressiveWaitMin, Settings.aggressiveWaitMax);
 			waiting = true;
-			if (moveDirection == 0)
-				moveDirection = Random.value < 0.5f ? -1 : 1;
+			if (moveDirectionH == 0)
+				moveDirectionH = Random.value < 0.5f ? -1 : 1;
 			else
-				moveDirection = 0;
+				moveDirectionH = 0;
 		}
 	}
 

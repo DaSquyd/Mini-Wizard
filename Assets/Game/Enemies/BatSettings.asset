@@ -22,10 +22,13 @@ MonoBehaviour:
   idleWaitMin: 1
   idleWaitMax: 4
   aggressiveMoveSpeed: 2
+  aggressiveSideSpeed: 5
   aggressiveMaxDistance: 8
   aggressiveMinDistance: 4
+  aggressiveMaxVerticalOffset: 2
+  aggressiveMinVerticalOffset: 0
   aggressiveWaitMin: 0.75
-  aggressiveWaitMax: 2.5
+  aggressiveWaitMax: 1.5
   sightMaxDistance: 16
   sightAngle: 170
   sensingRadius: 5

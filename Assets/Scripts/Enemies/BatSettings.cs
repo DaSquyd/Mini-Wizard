@@ -20,6 +20,7 @@ public class BatSettings : ScriptableObject
 
 	[Header("Aggressive")]
 	public float aggressiveMoveSpeed = 2f;
+	public float aggressiveSideSpeed = 2f;
 	public float aggressiveMaxDistance = 8f;
 	public float aggressiveMinDistance = 4f;
 	public float aggressiveMaxVerticalOffset = 3f;
