@@ -5,37 +5,36 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Fire and Ice/Enemy/Bat Settings")]
 public class BatSettings : ScriptableObject
 {
-	public int MaxHealth;
-
-	public int ProjectileDamage;
-	public int MeleeDamage;
-	public float turnSpeed = 180f;
+	public int MaxHealth = 30;
+	public float TurnSpeed = 180f;
 
 	[Header("Idle")]
-	public float idleMoveSpeed = 1f;
-	public float maxVerticalOffset = 3f;
-	public float maxDistance = 8f;
-	public float idleWaitMin = 1f;
-	public float idleWaitMax = 4f;
+	public float IdleMoveSpeed = 1f;
+	public float MaxVerticalOffset = 1.2f;
+	public float MaxDistance = 5f;
+	public float IdleWaitMin = 1f;
+	public float IdleWaitMax = 4f;
 
 	[Header("Aggressive")]
-	public float aggressiveMoveSpeed = 2f;
-	public float aggressiveSideSpeed = 2f;
-	public float aggressiveMaxDistance = 8f;
-	public float aggressiveMinDistance = 4f;
-	public float aggressiveMaxVerticalOffset = 3f;
-	public float aggressiveMinVerticalOffset = 0.5f;
-	public float aggressiveWaitMin = 0.75f;
-	public float aggressiveWaitMax = 2.5f;
+	public float AggressiveMoveSpeed = 2f;
+	public float AggressiveSideSpeed = 5f;
+	public float AggressiveMaxDistance = 8f;
+	public float AggressiveMinDistance = 4f;
+	public float AggressiveMaxVerticalOffset = 2f;
+	public float AggressiveMinVerticalOffset = 0f;
+	public float AggressiveWaitMin = 0.75f;
+	public float AggressiveWaitMax = 1.5f;
 
 	[Header("Projectile")]
-	public float projectileChargeTime = 0.9f;
+	public ProjectileController FireProjectile;
+	public ProjectileController IceProjectile;
+	public float ProjectileChargeTime = 0.9f;
 
 	[Header("Swoop")]
-	public float swoopChargeTime = 0.9f;
+	public float SwoopChargeTime = 0.9f;
 
 	[Header("Sensing")]
-	public float sightMaxDistance;
-	public float sightAngle;
-	public float sensingRadius;
+	public float SightMaxDistance = 16f;
+	public float SightAngle = 170f;
+	public float SensingRadius = 5f;
 }

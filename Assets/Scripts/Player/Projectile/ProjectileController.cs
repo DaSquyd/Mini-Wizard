@@ -9,6 +9,8 @@ public class ProjectileController : MonoBehaviour
 	public Transform Target;
 	public Entity Owner;
 
+	public Element Element;
+
 	float speed;
 	float rotationSpeed;
 	float maxRotationAngle;
@@ -62,7 +64,7 @@ public class ProjectileController : MonoBehaviour
 		Entity entity = other.GetComponentInParent<Entity>();
 		if (entity != null && !entity.Equals(Owner) && entity.tag != "Projectile")
 		{
-			entity.ApplyDamage(Owner, damage);
+			entity.ApplyDamage(Owner, damage, Element);
 
 			Destroy(gameObject);
 			return;

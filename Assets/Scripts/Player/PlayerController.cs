@@ -260,7 +260,7 @@ public class PlayerController : Entity
 #if DEBUG
 		if (Input.GetKeyDown(KeyCode.T))
 		{
-			ApplyDamage(this, 1);
+			ApplyDamage(this, 1, Element.None);
 		}
 
 		if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
