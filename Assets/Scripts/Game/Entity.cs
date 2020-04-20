@@ -33,10 +33,7 @@ public abstract class Entity : MonoBehaviour
 		protected set;
 	}
 
-	public Element Element
-	{
-		get; protected set;
-	}
+	public Element Element;
 	protected Renderer[] renderers;
 	protected virtual void Start()
 	{
