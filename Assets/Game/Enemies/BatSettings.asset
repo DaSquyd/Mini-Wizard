@@ -13,22 +13,26 @@ MonoBehaviour:
   m_Name: BatSettings
   m_EditorClassIdentifier: 
   MaxHealth: 30
-  ProjectileDamage: 0
-  MeleeDamage: 0
-  turnSpeed: 180
-  idleMoveSpeed: 1
-  maxVerticalOffset: 1.2
-  maxDistance: 5
-  idleWaitMin: 1
-  idleWaitMax: 4
-  aggressiveMoveSpeed: 2
-  aggressiveSideSpeed: 5
-  aggressiveMaxDistance: 8
-  aggressiveMinDistance: 4
-  aggressiveMaxVerticalOffset: 2
-  aggressiveMinVerticalOffset: 0
-  aggressiveWaitMin: 0.75
-  aggressiveWaitMax: 1.5
-  sightMaxDistance: 16
-  sightAngle: 170
-  sensingRadius: 5
+  TurnSpeed: 180
+  IdleMoveSpeed: 1
+  MaxVerticalOffset: 1.2
+  MaxDistance: 5
+  IdleWaitMin: 1
+  IdleWaitMax: 4
+  AggressiveMoveSpeed: 2
+  AggressiveSideSpeed: 5
+  AggressiveMaxDistance: 8
+  AggressiveMinDistance: 4
+  AggressiveMaxVerticalOffset: 2
+  AggressiveMinVerticalOffset: 0
+  AggressiveWaitMin: 0.75
+  AggressiveWaitMax: 1.5
+  FireProjectile: {fileID: 1256310286501623793, guid: 5642a13cda94d234bb807861b7ad2962,
+    type: 3}
+  IceProjectile: {fileID: 7029267029088976239, guid: d33cad70fa31b8f438b681e09859c271,
+    type: 3}
+  ProjectileChargeTime: 0.9
+  SwoopChargeTime: 0.9
+  SightMaxDistance: 16
+  SightAngle: 170
+  SensingRadius: 5

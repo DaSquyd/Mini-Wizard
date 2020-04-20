@@ -49,7 +49,7 @@ public class BatEnemy : Entity
 	{
 		base.Update();
 
-		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, transform.forward, Settings.sightMaxDistance, Settings.sightAngle, LayerMask.GetMask("Default"));
+		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, transform.forward, Settings.SightMaxDistance, Settings.SightAngle, LayerMask.GetMask("Default"));
 
 		IsTargeting = false;
 		for (int i = 0; i < coneHit.Length; i++)
@@ -61,7 +61,7 @@ public class BatEnemy : Entity
 			}
 		}
 
-		if (PlayerController.Instance != null && Vector3.Distance(transform.position, PlayerController.Instance.transform.position) <= Settings.sensingRadius)
+		if (PlayerController.Instance != null && Vector3.Distance(transform.position, PlayerController.Instance.transform.position) <= Settings.SensingRadius)
 			IsTargeting = true;
 
 		switch (attackState)
@@ -119,9 +119,9 @@ public class BatEnemy : Entity
 		Vector3 position = transform.position;
 		if (destination == new Vector3() || hasReachedDestination)
 		{
-			destination = Random.insideUnitCircle * Settings.maxDistance;
+			destination = Random.insideUnitCircle * Settings.MaxDistance;
 			destination.z = destination.y;
-			destination.y = Random.Range(-Settings.maxVerticalOffset, Settings.maxVerticalOffset);
+			destination.y = Random.Range(-Settings.MaxVerticalOffset, Settings.MaxVerticalOffset);
 			destination = destination + origin;
 
 			bool hit = Physics.SphereCast(position, collider.radius, destination - position, out RaycastHit hitInfo, Vector3.Distance(destination, position) * 2f);
@@ -143,7 +143,7 @@ public class BatEnemy : Entity
 		if (Vector3.Distance(destination, position) <= collider.radius * 2f)
 		{
 			hasReachedDestination = true;
-			waitTime = Random.Range(Settings.idleWaitMin, Settings.idleWaitMax);
+			waitTime = Random.Range(Settings.IdleWaitMin, Settings.IdleWaitMax);
 			waiting = true;
 		}
 
@@ -158,8 +158,8 @@ public class BatEnemy : Entity
 		{
 			move = destination - position;
 
-			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(destination - position), Settings.turnSpeed * Time.fixedDeltaTime);
-			transform.position = Vector3.MoveTowards(position, destination, Settings.idleMoveSpeed * Time.fixedDeltaTime);
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(destination - position), Settings.TurnSpeed * Time.fixedDeltaTime);
+			transform.position = Vector3.MoveTowards(position, destination, Settings.IdleMoveSpeed * Time.fixedDeltaTime);
 		}
 	}
 
@@ -173,37 +173,37 @@ public class BatEnemy : Entity
 		Quaternion rotation = transform.rotation;
 		Vector3 playerPosition = PlayerController.Instance.transform.position;
 
-		transform.rotation = Quaternion.RotateTowards(rotation, Quaternion.LookRotation(playerPosition - position), Settings.turnSpeed * Time.fixedDeltaTime);
+		transform.rotation = Quaternion.RotateTowards(rotation, Quaternion.LookRotation(playerPosition - position), Settings.TurnSpeed * Time.fixedDeltaTime);
 
 		float dist = Vector3.Distance(playerPosition, position);
-		if (dist < Settings.aggressiveMinDistance)
+		if (dist < Settings.AggressiveMinDistance)
 		{
-			transform.position = Vector3.MoveTowards(position, playerPosition - position, Settings.aggressiveMoveSpeed * Time.fixedDeltaTime);
+			transform.position = Vector3.MoveTowards(position, playerPosition - position, Settings.AggressiveMoveSpeed * Time.fixedDeltaTime);
 		}
-		else if (dist > Settings.aggressiveMaxDistance)
+		else if (dist > Settings.AggressiveMaxDistance)
 		{
-			transform.position = Vector3.MoveTowards(position, playerPosition - position, Settings.aggressiveMoveSpeed * Time.fixedDeltaTime);
+			transform.position = Vector3.MoveTowards(position, playerPosition - position, Settings.AggressiveMoveSpeed * Time.fixedDeltaTime);
 		}
 
-		if (position.y - playerPosition.y < Settings.aggressiveMinVerticalOffset)
+		if (position.y - playerPosition.y < Settings.AggressiveMinVerticalOffset)
 		{
-			transform.position = position + Vector3.up * Settings.aggressiveMoveSpeed * Time.fixedDeltaTime;
+			transform.position = position + Vector3.up * Settings.AggressiveMoveSpeed * Time.fixedDeltaTime;
 		}
-		else if (position.y - playerPosition.y > Settings.aggressiveMaxVerticalOffset)
+		else if (position.y - playerPosition.y > Settings.AggressiveMaxVerticalOffset)
 		{
-			transform.position = transform.position + Vector3.down * Settings.aggressiveMoveSpeed * Time.fixedDeltaTime;
+			transform.position = transform.position + Vector3.down * Settings.AggressiveMoveSpeed * Time.fixedDeltaTime;
 		}
 
 		if (waiting)
 		{
-			if (moveDirectionH != 0 && dist > Settings.aggressiveMinDistance)
+			if (moveDirectionH != 0 && dist > Settings.AggressiveMinDistance)
 			{
-				transform.position = position + transform.right * Settings.aggressiveSideSpeed * moveDirectionH * Time.fixedDeltaTime;
+				transform.position = position + transform.right * Settings.AggressiveSideSpeed * moveDirectionH * Time.fixedDeltaTime;
 			}
 
-			if (moveDirectionV != 0 && dist > Settings.aggressiveMinDistance)
+			if (moveDirectionV != 0 && dist > Settings.AggressiveMinDistance)
 			{
-				transform.position = position + transform.up * Settings.idleMoveSpeed * moveDirectionV * Time.fixedDeltaTime;
+				transform.position = position + transform.up * Settings.IdleMoveSpeed * moveDirectionV * Time.fixedDeltaTime;
 			}
 
 			waitTime = Mathf.MoveTowards(waitTime, 0f, Time.fixedDeltaTime);
@@ -215,12 +215,12 @@ public class BatEnemy : Entity
 				if (rand <= 0.2f)
 				{
 					attackState = State.ChargingProjectile;
-					waitTime = Settings.projectileChargeTime;
+					waitTime = Settings.ProjectileChargeTime;
 				}
 				else if (rand <= 0.4f)
 				{
 					attackState = State.ChargingSwoop;
-					waitTime = Settings.swoopChargeTime;
+					waitTime = Settings.SwoopChargeTime;
 				}
 
 				waiting = false;
@@ -228,7 +228,7 @@ public class BatEnemy : Entity
 		}
 		else
 		{
-			waitTime = Random.Range(Settings.aggressiveWaitMin, Settings.aggressiveWaitMax);
+			waitTime = Random.Range(Settings.AggressiveWaitMin, Settings.AggressiveWaitMax);
 			waiting = true;
 			if (moveDirectionH == 0)
 				moveDirectionH = Random.value < 0.5f ? -1 : 1;
@@ -250,16 +250,19 @@ public class BatEnemy : Entity
 		}
 		else
 		{
-			waitTime = Random.Range(Settings.aggressiveWaitMin, Settings.aggressiveWaitMax);
+			waitTime = Random.Range(Settings.AggressiveWaitMin, Settings.AggressiveWaitMax);
 			attackState = State.ShootingProjectile;
 			waiting = true;
 		}
 	}
 
+	public Transform ProjectileOrigin;
 	void ShootingProjectileUpdate()
 	{
 		Debug.Log("Shoot!");
 		attackState = State.Aggressive;
+		ProjectileController projectile = Instantiate(Settings.FireProjectile, ProjectileOrigin.position, transform.rotation);
+		projectile.Owner = this;
 	}
 
 	void ChargingSwoopUpdate()
@@ -275,7 +278,7 @@ public class BatEnemy : Entity
 		}
 		else
 		{
-			waitTime = Random.Range(Settings.aggressiveWaitMin, Settings.aggressiveWaitMax);
+			waitTime = Random.Range(Settings.AggressiveWaitMin, Settings.AggressiveWaitMax);
 			attackState = State.Swooping;
 			waiting = true;
 		}
@@ -296,7 +299,7 @@ public class BatEnemy : Entity
 	{
 		if (collision.gameObject.tag == "Player")
 		{
-			PlayerController.Instance.ApplyDamage(this, 1);
+			PlayerController.Instance.ApplyDamage(this, 1, Element.None);
 		}
 	}
 }

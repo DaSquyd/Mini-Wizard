@@ -33,6 +33,7 @@ public abstract class Entity : MonoBehaviour
 		protected set;
 	}
 
+	public Element Element;
 	protected Renderer[] renderers;
 	protected virtual void Start()
 	{
@@ -61,7 +62,7 @@ public abstract class Entity : MonoBehaviour
 	protected virtual void Update()
 	{
 		if (transform.position.y <= -15)
-			ApplyDamage(null, 1000);
+			ApplyDamage(null, 1000, Element.None);
 
 		Vector3 entityPosition = transform.position;
 
@@ -144,18 +145,24 @@ public abstract class Entity : MonoBehaviour
 
 	private Entity lastAttacker;
 	protected float lastDamage = 0f;
-	public float ApplyDamage(Entity attacker, int amount)
+	public float ApplyDamage(Entity attacker, int amount, Element sourceElement)
 	{
 		if (Invincible)
 			return Health;
 
 		lastAttacker = attacker;
 
+		int mult = 1;
+
+		if ((sourceElement == Element.Fire && Element == Element.Ice)
+			|| (sourceElement == Element.Ice && Element == Element.Fire))
+			mult = 5;
+
 		int oldHealth = Health;
-		Health = (int) Mathf.MoveTowards(Health, 0f, amount);
+		Health = (int) Mathf.MoveTowards(Health, 0f, amount * mult);
 		lastDamage = oldHealth - Health;
 
-		OnReceiveDamage();
+		OnReceiveDamage(attacker, amount * mult, sourceElement);
 
 		if (Health == 0f)
 		{
@@ -170,7 +177,7 @@ public abstract class Entity : MonoBehaviour
 		Destroy(gameObject);
 	}
 
-	protected virtual void OnReceiveDamage()
+	protected virtual void OnReceiveDamage(Entity attacker, int amount, Element sourceElement)
 	{
 	}
 }
