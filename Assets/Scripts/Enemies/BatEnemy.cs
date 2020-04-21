@@ -22,12 +22,10 @@ public class BatEnemy : Entity
 		Stunned,
 		Dying
 	}
-	[DebugDisplay]
 	State state = State.Idle;
 
 	Vector3 origin;
-
-	[DebugDisplay]
+	
 	Vector3 move;
 	new SphereCollider collider;
 
@@ -37,8 +35,7 @@ public class BatEnemy : Entity
 	protected override void Start()
 	{
 		base.Start();
-
-
+		
 		MaxHealth = Settings.MaxHealth;
 		Health = MaxHealth;
 

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Fire and Ice/Enemy/Bat Settings")]
 public class BatSettings : ScriptableObject
 {
-	public int MaxHealth = 30;
+	public int MaxHealth = 24;
 	public float TurnSpeed = 180f;
 
 	[Header("Idle")]
