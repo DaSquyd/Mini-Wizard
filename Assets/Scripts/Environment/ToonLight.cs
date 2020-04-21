@@ -131,7 +131,6 @@ public class ToonLight : MonoBehaviour
 	{
 		if (other.TryGetComponent(out Entity entity))
 		{
-			Debug.Log("Light Added");
 			entity.Lights.Add(light);
 		}
 	}
@@ -141,7 +140,6 @@ public class ToonLight : MonoBehaviour
 		{
 			if (entity.Lights.Contains(light))
 			{
-				Debug.Log("Light Removed");
 				entity.Lights.Remove(light);
 			}
 		}

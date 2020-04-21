@@ -2945,7 +2945,7 @@ PrefabInstance:
     - target: {fileID: 5368998856760628585, guid: e2bdfffefcc1df949b951479ddd28592,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -24.12
+      value: -2.17
       objectReference: {fileID: 0}
     - target: {fileID: 5368998856760628585, guid: e2bdfffefcc1df949b951479ddd28592,
         type: 3}
@@ -2955,7 +2955,7 @@ PrefabInstance:
     - target: {fileID: 5368998856760628585, guid: e2bdfffefcc1df949b951479ddd28592,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -17.83
+      value: -14.64
       objectReference: {fileID: 0}
     - target: {fileID: 5368998856760628585, guid: e2bdfffefcc1df949b951479ddd28592,
         type: 3}
@@ -3001,6 +3001,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FireBat
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814476845844014894, guid: e2bdfffefcc1df949b951479ddd28592,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2bdfffefcc1df949b951479ddd28592, type: 3}
