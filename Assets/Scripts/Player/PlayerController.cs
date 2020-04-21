@@ -107,6 +107,8 @@ public class PlayerController : Entity
 		private set;
 	}
 
+	bool damaged = false;
+
 	public bool CanAttack
 	{
 		get;
@@ -183,7 +185,7 @@ public class PlayerController : Entity
 			_cameraYaw = value.y;
 		}
 	}
-	
+
 	Vector3 cameraCurrentVelocity;
 	Vector3 cameraBasePosition;
 
@@ -191,7 +193,7 @@ public class PlayerController : Entity
 	float cameraCooldownTime;
 
 	CameraPath path;
-	
+
 	Vector3 contactVelocity = new Vector3();
 
 #if DEBUG
@@ -260,7 +262,7 @@ public class PlayerController : Entity
 #if DEBUG
 		if (Input.GetKeyDown(KeyCode.T))
 		{
-			ApplyDamage(this, 1, Element.None);
+			ApplyDamage(this, 1, Vector3.zero, Element.None);
 		}
 
 		if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
@@ -302,8 +304,6 @@ public class PlayerController : Entity
 		JumpUpdate();
 		TurnMesh(true);
 		UpdateCamera();
-
-		velocityDisplay = rb.velocity;
 
 		if (Ammo < 3)
 		{
@@ -359,6 +359,10 @@ public class PlayerController : Entity
 			rb.velocity = Vector3.Lerp(LastTargetMove * Settings.AttackCooldowns[currentMeleeAttack - 1].Force + (IsGrounded ? Vector3.zero : Vector3.down * Settings.AttackDownForce),
 				IsGrounded ? Vector3.zero : Vector3.down * Settings.AttackDownForce,
 				(Settings.AttackCooldowns[currentMeleeAttack - 1].Time - meleeAttackTime) / Settings.AttackCooldowns[currentMeleeAttack - 1].Time);
+
+			Debug.Log(Vector3.Lerp(LastTargetMove * Settings.AttackCooldowns[currentMeleeAttack - 1].Force + (IsGrounded ? Vector3.zero : Vector3.down * Settings.AttackDownForce),
+				IsGrounded ? Vector3.zero : Vector3.down * Settings.AttackDownForce,
+				(Settings.AttackCooldowns[currentMeleeAttack - 1].Time - meleeAttackTime) / Settings.AttackCooldowns[currentMeleeAttack - 1].Time));
 		}
 
 		if (meleeAttackTime == 0)
@@ -400,7 +404,7 @@ public class PlayerController : Entity
 		}
 
 		// Stops if lock state or can't attack
-		if (IsLocked || !CanAttack)
+		if (IsLocked || !CanAttack || damaged)
 			return;
 
 		if (ActionInputManager.GetInputDown("Melee"))
@@ -488,38 +492,25 @@ public class PlayerController : Entity
 	{
 		ShootSFX.Play(ShootAudioSource);
 
+		ProjectileController projectile;
+
+		if (weaponState == WeaponState.Fireballs)
+		{
+			projectile = Instantiate(FireballPrefab, Fireballs[Ammo - 1].transform.position, MeshContainer.transform.rotation);
+		}
+		else
+		{
+			projectile = Instantiate(IceballPrefab, Iceballs[Ammo - 1].transform.position, MeshContainer.transform.rotation);
+		}
+		projectile.Owner = this;
+
 		// If enemy exists...
 		if (enemies.Count > targetEnemyIndex)
 		{
 #if UNITY_EDITOR
 			Debug.DrawLine(transform.position, enemies[targetEnemyIndex].point, Color.yellow);
 #endif
-			if (weaponState == WeaponState.Fireballs)
-			{
-				ProjectileController fireball = Instantiate(FireballPrefab, transform.position, targetLookRotation);
-				fireball.Target = enemies[targetEnemyIndex].transform;
-				fireball.Owner = this;
-			}
-			else
-			{
-				ProjectileController iceball = Instantiate(IceballPrefab, transform.position, targetLookRotation);
-				iceball.Target = enemies[targetEnemyIndex].transform;
-				iceball.Owner = this;
-			}
-		}
-		else
-		{
-			// If there was no enemy to target, send the fireball forward
-			if (weaponState == WeaponState.Fireballs)
-			{
-				ProjectileController fireball = Instantiate(FireballPrefab, transform.position, MeshContainer.transform.rotation);
-				fireball.Owner = this;
-			}
-			else
-			{
-				ProjectileController iceball = Instantiate(IceballPrefab, transform.position, MeshContainer.transform.rotation);
-				iceball.Owner = this;
-			}
+			projectile.Target = enemies[targetEnemyIndex].transform;
 		}
 
 		Ammo--;
@@ -529,7 +520,7 @@ public class PlayerController : Entity
 
 	private void JumpUpdate()
 	{
-		if (IsLocked)
+		if (damaged || IsLocked)
 			return;
 
 		if (jumpCooldown > 0f)
@@ -844,8 +835,11 @@ public class PlayerController : Entity
 
 	private void Movement()
 	{
-		if (IsLocked)
+		if (damaged || IsLocked)
+		{
+			rb.velocity = new Vector3(rb.velocity.x, Mathf.Min(rb.velocity.y + Settings.Gravity * Time.fixedDeltaTime), rb.velocity.z);
 			return;
+		}
 
 		// Gets player input
 		float x = ActionInputManager.GetInput("Right") - ActionInputManager.GetInput("Left");
@@ -909,5 +903,24 @@ public class PlayerController : Entity
 	{
 		base.OnDeath();
 		GameManager.Instance.Lose();
+	}
+
+	protected override void OnReceiveDamage(Entity attacker, int amount, Vector3 direction, Element sourceElement)
+	{
+		rb.velocity = new Vector3(direction.x * 5f, 1f, direction.z * 5f);
+		currentMeleeAttack = 0;
+		meleeState = MeleeState.Idle;
+		StartCoroutine(Invuln());
+	}
+
+	IEnumerator Invuln()
+	{
+		Invincible = true;
+		damaged = true;
+		yield return new WaitForSeconds(Settings.StunTime);
+		damaged = false;
+
+		yield return new WaitForSeconds(Settings.InvulnerabilityTime - Settings.StunTime);
+		Invincible = false;
 	}
 }

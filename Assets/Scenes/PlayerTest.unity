@@ -3000,7 +3000,7 @@ PrefabInstance:
     - target: {fileID: 5368998856760628629, guid: e2bdfffefcc1df949b951479ddd28592,
         type: 3}
       propertyPath: m_Name
-      value: Bat
+      value: FireBat
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2bdfffefcc1df949b951479ddd28592, type: 3}

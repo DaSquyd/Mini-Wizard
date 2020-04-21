@@ -299,7 +299,7 @@ public class BatEnemy : Entity
 	{
 		if (collision.gameObject.tag == "Player")
 		{
-			PlayerController.Instance.ApplyDamage(this, 1, Element.None);
+			PlayerController.Instance.ApplyDamage(this, 1, collision.impulse.normalized * -1f, Element.None);
 		}
 	}
 }

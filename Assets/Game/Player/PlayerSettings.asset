@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
   MaxHealth: 3
+  InvulnerabilityFrames: 2
   Speed: 6
   GroundAcceleration: 5
   AirAcceleration: 2.5

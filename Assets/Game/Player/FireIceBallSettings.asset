@@ -15,5 +15,5 @@ MonoBehaviour:
   Speed: 20
   RotationSpeed: 360
   MaxRotationAngle: 90
-  Damage: 10
+  Damage: 3
   Lifetime: 4
