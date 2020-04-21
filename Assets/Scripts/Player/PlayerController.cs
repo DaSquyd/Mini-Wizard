@@ -44,8 +44,14 @@ public class PlayerController : Entity
 		Auto
 	}
 
-	public CinemachineVirtualCamera vcam;
-	Rigidbody rb;
+	public CinemachineVirtualCamera Vcam
+	{
+		get; set;
+	}
+	public Rigidbody Rigidbody
+	{
+		get; private set;
+	}
 
 	[Header("Movement")]
 	[DebugDisplay]
@@ -116,6 +122,8 @@ public class PlayerController : Entity
 	}
 
 	[Header("Attacks")]
+	public BoxCollider FireSwordBoxCollider;
+	public BoxCollider IceSwordBoxCollider;
 	public Animation FireSwordAnimation;
 	public Animation IceSwordAnimation;
 	public GameObject FireballGroup;
@@ -138,11 +146,16 @@ public class PlayerController : Entity
 	public AudioEvent ShootSFX;
 
 	// Attack
-	WeaponState weaponState;
+	public WeaponState CurrentWeaponState {
+		get; private set;
+	}
 
 
 	[DebugDisplay("Melee State")] MeleeState meleeState;
-	byte currentMeleeAttack;
+	public byte CurrentMeleeAttack
+	{
+		get; private set;
+	}
 	bool meleeAttackBuffer;
 	float meleeAttackTime;
 
@@ -221,11 +234,11 @@ public class PlayerController : Entity
 		base.Start();
 		Instance = this;
 
-		vcam = GameManager.Instance.PlayerVcam;
+		Vcam = GameManager.Instance.PlayerVcam;
 
-		meleeEffectAmount = Vector3.right * vcam.m_Lens.FieldOfView;
+		meleeEffectAmount = Vector3.right * Vcam.m_Lens.FieldOfView;
 
-		rb = GetComponent<Rigidbody>();
+		Rigidbody = GetComponent<Rigidbody>();
 
 		_cameraYaw = transform.eulerAngles.y;
 		MeshContainer.transform.rotation = Quaternion.Euler(CameraRotation);
@@ -255,7 +268,7 @@ public class PlayerController : Entity
 
 		base.Update();
 
-		vcam.m_Lens.FieldOfView = meleeEffectAmount.x;
+		Vcam.m_Lens.FieldOfView = meleeEffectAmount.x;
 
 		MaxHealth = Settings.MaxHealth;
 
@@ -274,9 +287,9 @@ public class PlayerController : Entity
 
 		if (ActionInputManager.GetInputDown("Swap") && CanAttack && meleeAttackTime == 0f)
 		{
-			if (weaponState.Equals(WeaponState.Fireballs))
+			if (CurrentWeaponState.Equals(WeaponState.Fireballs))
 			{
-				weaponState = WeaponState.Iceballs;
+				CurrentWeaponState = WeaponState.Iceballs;
 
 				FireSwordAnimation.gameObject.SetActive(true);
 				IceSwordAnimation.gameObject.SetActive(false);
@@ -285,7 +298,7 @@ public class PlayerController : Entity
 			}
 			else
 			{
-				weaponState = WeaponState.Fireballs;
+				CurrentWeaponState = WeaponState.Fireballs;
 
 				FireSwordAnimation.gameObject.SetActive(false);
 				IceSwordAnimation.gameObject.SetActive(true);
@@ -296,7 +309,7 @@ public class PlayerController : Entity
 			meleeAttackTime = 0.25f;
 
 			meleeState = MeleeState.Idle;
-			currentMeleeAttack = 0;
+			CurrentMeleeAttack = 0;
 		}
 
 		MeleeUpdate();
@@ -352,17 +365,26 @@ public class PlayerController : Entity
 		}
 	}
 
+	public void EnableSwordHit()
+	{
+		if (CurrentWeaponState == WeaponState.FireSword)
+			FireSwordBoxCollider.enabled = true;
+		if (CurrentWeaponState == WeaponState.IceSword)
+			IceSwordBoxCollider.enabled = true;
+	}
+	public void DisableSwordHit()
+	{
+		FireSwordBoxCollider.enabled = false;
+		IceSwordBoxCollider.enabled = false;
+	}
+
 	private void MeleeUpdate()
 	{
 		if (meleeState == MeleeState.Attack)
 		{
-			rb.velocity = Vector3.Lerp(LastTargetMove * Settings.AttackCooldowns[currentMeleeAttack - 1].Force + (IsGrounded ? Vector3.zero : Vector3.down * Settings.AttackDownForce),
+			Rigidbody.velocity = Vector3.Lerp(LastTargetMove * Settings.AttackData[CurrentMeleeAttack - 1].Force + (IsGrounded ? Vector3.zero : Vector3.down * Settings.AttackDownForce),
 				IsGrounded ? Vector3.zero : Vector3.down * Settings.AttackDownForce,
-				(Settings.AttackCooldowns[currentMeleeAttack - 1].Time - meleeAttackTime) / Settings.AttackCooldowns[currentMeleeAttack - 1].Time);
-
-			Debug.Log(Vector3.Lerp(LastTargetMove * Settings.AttackCooldowns[currentMeleeAttack - 1].Force + (IsGrounded ? Vector3.zero : Vector3.down * Settings.AttackDownForce),
-				IsGrounded ? Vector3.zero : Vector3.down * Settings.AttackDownForce,
-				(Settings.AttackCooldowns[currentMeleeAttack - 1].Time - meleeAttackTime) / Settings.AttackCooldowns[currentMeleeAttack - 1].Time));
+				(Settings.AttackData[CurrentMeleeAttack - 1].Time - meleeAttackTime) / Settings.AttackData[CurrentMeleeAttack - 1].Time);
 		}
 
 		if (meleeAttackTime == 0)
@@ -373,25 +395,25 @@ public class PlayerController : Entity
 				case MeleeState.Attack:
 					IsLocked = false;
 					meleeAttackBuffer = false;
-					if (Settings.AttackCooldowns.Length > currentMeleeAttack)
+					if (Settings.AttackData.Length > CurrentMeleeAttack)
 					{
 						meleeState = MeleeState.Wait;
-						meleeAttackTime = Settings.AttackCooldowns[currentMeleeAttack].Wait;
+						meleeAttackTime = Settings.AttackData[CurrentMeleeAttack].Wait;
 					}
 					else
 					{
 						meleeState = MeleeState.Idle;
-						meleeAttackTime = Settings.AttackCooldowns[0].Wait;
-						currentMeleeAttack = 0;
+						meleeAttackTime = Settings.AttackData[0].Wait;
+						CurrentMeleeAttack = 0;
 					}
 					break;
 				case MeleeState.Wait:
 					meleeState = MeleeState.PostAttack;
-					meleeAttackTime = Settings.AttackCooldowns[currentMeleeAttack].ComboForgiveness;
+					meleeAttackTime = Settings.AttackData[CurrentMeleeAttack].ComboForgiveness;
 					break;
 				case MeleeState.PostAttack:
 					meleeState = MeleeState.Idle;
-					currentMeleeAttack = 0;
+					CurrentMeleeAttack = 0;
 					meleeAttackBuffer = false;
 					break;
 			}
@@ -423,7 +445,7 @@ public class PlayerController : Entity
 
 	private void MeleeAttack()
 	{
-		if (airMelee && currentMeleeAttack == 0)
+		if (airMelee && CurrentMeleeAttack == 0)
 			return;
 
 		meleeEffectAmount = new Vector3(CameraSettings.Fov, 0f, 0f);
@@ -434,45 +456,45 @@ public class PlayerController : Entity
 		if (!IsGrounded)
 			airMelee = true;
 
-		currentMeleeAttack++;
+		CurrentMeleeAttack++;
 
-		if (currentMeleeAttack == 1)
+		if (CurrentMeleeAttack == 1)
 		{
 			SwordSwing1SFX.Play(SwordAudioSource);
 		}
-		else if (currentMeleeAttack == 2)
+		else if (CurrentMeleeAttack == 2)
 		{
 			SwordSwing2SFX.Play(SwordAudioSource);
 		}
-		else if (currentMeleeAttack == 3)
+		else if (CurrentMeleeAttack == 3)
 		{
 			SwordStabSFX.Play(SwordAudioSource);
 		}
 
-		if (weaponState == WeaponState.FireSword)
+		if (CurrentWeaponState == WeaponState.FireSword)
 		{
 			FireSwordAnimation.Stop();
 
-			if (currentMeleeAttack == 1)
+			if (CurrentMeleeAttack == 1)
 				FireSwordAnimation.Play("FireSwordSwing");
-			else if (currentMeleeAttack == 2)
+			else if (CurrentMeleeAttack == 2)
 				FireSwordAnimation.Play("FireSwordSwing2");
-			else if (currentMeleeAttack == 3)
+			else if (CurrentMeleeAttack == 3)
 				FireSwordAnimation.Play("FireSwordStab");
 		}
-		else if (weaponState == WeaponState.IceSword)
+		else if (CurrentWeaponState == WeaponState.IceSword)
 		{
 			IceSwordAnimation.Stop();
 
-			if (currentMeleeAttack == 1)
+			if (CurrentMeleeAttack == 1)
 				IceSwordAnimation.Play("IceSwordSwing");
-			else if (currentMeleeAttack == 2)
+			else if (CurrentMeleeAttack == 2)
 				IceSwordAnimation.Play("IceSwordSwing2");
-			else if (currentMeleeAttack == 3)
+			else if (CurrentMeleeAttack == 3)
 				IceSwordAnimation.Play("IceSwordStab");
 		}
 
-		meleeAttackTime = Settings.AttackCooldowns[currentMeleeAttack - 1].Time;
+		meleeAttackTime = Settings.AttackData[CurrentMeleeAttack - 1].Time;
 		meleeState = MeleeState.Attack;
 
 		IsLocked = true;
@@ -494,7 +516,7 @@ public class PlayerController : Entity
 
 		ProjectileController projectile;
 
-		if (weaponState == WeaponState.Fireballs)
+		if (CurrentWeaponState == WeaponState.Fireballs)
 		{
 			projectile = Instantiate(FireballPrefab, Fireballs[Ammo - 1].transform.position, MeshContainer.transform.rotation);
 		}
@@ -549,7 +571,7 @@ public class PlayerController : Entity
 
 	private void Jump(bool inAir)
 	{
-		rb.velocity = new Vector3(rb.velocity.x, inAir ? Settings.AirJumpStrength : Settings.GroundJumpStrength, rb.velocity.z);
+		Rigidbody.velocity = new Vector3(Rigidbody.velocity.x, inAir ? Settings.AirJumpStrength : Settings.GroundJumpStrength, Rigidbody.velocity.z);
 		jumpCooldown = Settings.JumpCooldown;
 		IsGrounded = false;
 		hasJumped = true;
@@ -661,7 +683,7 @@ public class PlayerController : Entity
 				{
 					cameraCooldownTime = Mathf.MoveTowards(cameraCooldownTime, Settings.Camera.AutoCooldown, (Settings.Camera.AutoCooldownResetAir + 1) * Time.deltaTime);
 				}
-				else if (rb.velocity.magnitude > 0.1f)
+				else if (Rigidbody.velocity.magnitude > 0.1f)
 				{
 					cameraCooldownTime = Mathf.MoveTowards(cameraCooldownTime, Settings.Camera.AutoCooldown, (Settings.Camera.AutoCooldownResetMove + 1) * Time.deltaTime);
 				}
@@ -745,8 +767,8 @@ public class PlayerController : Entity
 
 		_cameraPitch = Mathf.Clamp(_cameraPitch, CameraSettings.MinAngle, CameraSettings.MaxAngle);
 
-		vcam.transform.rotation = Quaternion.Euler(CameraRotation);
-		vcam.transform.position = start + (direction * (distance - CameraSettings.Buffer));
+		Vcam.transform.rotation = Quaternion.Euler(CameraRotation);
+		Vcam.transform.position = start + (direction * (distance - CameraSettings.Buffer));
 
 		transform.Rotate(new Vector3(0f, yaw, 0f));
 	}
@@ -778,7 +800,7 @@ public class PlayerController : Entity
 
 		IsGrounded = false;
 
-		velocityDisplay = rb.velocity;
+		velocityDisplay = Rigidbody.velocity;
 	}
 
 	List<RaycastHit> enemies;
@@ -837,7 +859,7 @@ public class PlayerController : Entity
 	{
 		if (damaged || IsLocked)
 		{
-			rb.velocity = new Vector3(rb.velocity.x, Mathf.Min(rb.velocity.y + Settings.Gravity * Time.fixedDeltaTime), rb.velocity.z);
+			Rigidbody.velocity = new Vector3(Rigidbody.velocity.x, Mathf.Min(Rigidbody.velocity.y + Settings.Gravity * Time.fixedDeltaTime), Rigidbody.velocity.z);
 			return;
 		}
 
@@ -861,7 +883,7 @@ public class PlayerController : Entity
 		move = Vector3.Lerp(move, TargetMove, Time.fixedDeltaTime * (IsGrounded ? Settings.GroundAcceleration : Settings.AirAcceleration));
 		move = new Vector3(move.x * 1 - contactVelocity.x, 0f, move.z * 1 - contactVelocity.z);
 
-		rb.velocity = (move * Settings.Speed) + (Vector3.up * Mathf.Min(rb.velocity.y + Settings.Gravity * Time.fixedDeltaTime, (!IsGrounded && !hasJumped) ? 0.1f : 100f));
+		Rigidbody.velocity = (move * Settings.Speed) + (Vector3.up * Mathf.Min(Rigidbody.velocity.y + Settings.Gravity * Time.fixedDeltaTime, (!IsGrounded && !hasJumped) ? 0.1f : 100f));
 		//Debug.Log($"{move * Settings.Speed} + {Vector3.up * rb.velocity.y} + {contactVelocity}");
 
 		contactVelocity = new Vector3();
@@ -907,8 +929,8 @@ public class PlayerController : Entity
 
 	protected override void OnReceiveDamage(Entity attacker, int amount, Vector3 direction, Element sourceElement)
 	{
-		rb.velocity = new Vector3(direction.x * 5f, 1f, direction.z * 5f);
-		currentMeleeAttack = 0;
+		Rigidbody.velocity = new Vector3(direction.x * 5f, 1f, direction.z * 5f);
+		CurrentMeleeAttack = 0;
 		meleeState = MeleeState.Idle;
 		StartCoroutine(Invuln());
 	}
