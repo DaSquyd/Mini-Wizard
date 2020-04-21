@@ -48,6 +48,12 @@ public class GameManager : MonoBehaviour
 	public GameObject WinMenu;
 	public GameObject LoseMenu;
 
+	public Image HealthImage;
+	public Sprite HealthFull;
+	public Sprite Health2;
+	public Sprite Health1;
+	public Sprite Health0;
+
 	public AudioSource MusicAudioSource;
 	public AudioClip MenuMusic;
 
@@ -109,8 +115,35 @@ public class GameManager : MonoBehaviour
 			else
 				PauseGame();
 		}
-		
+
 		ProgressBar.fillAmount = Mathf.MoveTowards(ProgressBar.fillAmount, totalSceneProgress, Time.deltaTime * 5f);
+
+		if (PlayerController.Instance == null)
+		{
+			HealthImage.gameObject.SetActive(false);
+		}
+		else
+		{
+			HealthImage.gameObject.SetActive(true);
+
+			if (PlayerController.Instance.Health == 3)
+			{
+				HealthImage.sprite = HealthFull;
+			}
+			else if (PlayerController.Instance.Health == 2)
+			{
+				HealthImage.sprite = Health2;
+			}
+			else if (PlayerController.Instance.Health == 1)
+			{
+				HealthImage.sprite = Health1;
+			}
+			else
+			{
+				HealthImage.sprite = Health0;
+			}
+		}
+
 	}
 
 
