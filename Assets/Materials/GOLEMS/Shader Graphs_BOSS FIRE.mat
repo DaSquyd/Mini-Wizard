@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ice_Blade 1
-  m_Shader: {fileID: -6465566751694194690, guid: 3709f9433eea98345ba159c698456e38,
+  m_Name: Shader Graphs_BOSS FIRE
+  m_Shader: {fileID: -6465566751694194690, guid: 76828a6c24560a74fb2a4c5e83f2285d,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -20,9 +20,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _SampleTexture2D_E749CA49_Texture_1:
-        m_Texture: {fileID: 0}
+    - _SampleTexture2D_7F006236_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 19e77c70b7a47544986a5a06a6b7003a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors: []
+    m_Floats:
+    - Vector1_102275C6: 0.1
+    - Vector1_56397A71: 0.95
+    m_Colors:
+    - Color_27123CAD: {r: 1, g: 0.07440745, b: 0, a: 0}
+    - Color_B8B909CB: {r: 1, g: 0.39020196, b: 0, a: 0}
+    - Color_C262B23A: {r: 0, g: 0, b: 0, a: 0}

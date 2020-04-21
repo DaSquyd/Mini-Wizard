@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
 	public CinemachineVirtualCamera PlayerVcam;
 
 	public GameObject MainMenu;
+	public GameObject MainUI;
+	public GameObject LevelSelectMenu;
 	public GameObject HelpMenu;
 	public GameObject PauseMenu;
 	public GameObject WinMenu;
@@ -191,6 +193,8 @@ public class GameManager : MonoBehaviour
 		currentLoadedScene = null;
 
 		MainMenu.SetActive(true);
+		MainUI.SetActive(true);
+		LevelSelectMenu.SetActive(false);
 		HelpMenu.SetActive(false);
 		PauseMenu.SetActive(false);
 		WinMenu.SetActive(false);
@@ -204,8 +208,15 @@ public class GameManager : MonoBehaviour
 		isPlaying = false;
 	}
 
+	public void Play()
+	{
+		MainUI.SetActive(false);
+		LevelSelectMenu.SetActive(true);
+	}
+
 	public void Help()
 	{
+		MainUI.SetActive(false);
 		HelpMenu.SetActive(true);
 	}
 

@@ -30,14 +30,15 @@ public class PlayerSettings : ScriptableObject
 	public float AttackDownForce;
 	public float AttackTurnSpeed;
 	[System.Serializable]
-	public struct AttackCooldown
+	public struct Attack
 	{
 		public float Wait;
 		public float ComboForgiveness;
 		public float Force;
 		public float Time;
+		public int Damage;
 	}
-	public AttackCooldown[] AttackCooldowns;
+	public Attack[] AttackData;
 
 
 	[Header("Projectile Attack")]
