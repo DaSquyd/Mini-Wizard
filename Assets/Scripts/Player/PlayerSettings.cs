@@ -7,7 +7,8 @@ public class PlayerSettings : ScriptableObject
 {
 	[Header("Health")]
 	public int MaxHealth;
-	public float InvulnerabilityFrames;
+	public float InvulnerabilityTime = 2f;
+	public float StunTime = 1f;
 
 	[Header("Movement")]
 	public float Speed;

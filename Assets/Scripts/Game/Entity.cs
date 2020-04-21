@@ -62,7 +62,7 @@ public abstract class Entity : MonoBehaviour
 	protected virtual void Update()
 	{
 		if (transform.position.y <= -15)
-			ApplyDamage(null, 1000, Element.None);
+			ApplyDamage(null, 1000, Vector3.up, Element.None);
 
 		Vector3 entityPosition = transform.position;
 
@@ -145,7 +145,7 @@ public abstract class Entity : MonoBehaviour
 
 	private Entity lastAttacker;
 	protected float lastDamage = 0f;
-	public float ApplyDamage(Entity attacker, int amount, Element sourceElement)
+	public float ApplyDamage(Entity attacker, int amount, Vector3 direction, Element sourceElement)
 	{
 		if (Invincible)
 			return Health;
@@ -156,13 +156,13 @@ public abstract class Entity : MonoBehaviour
 
 		if ((sourceElement == Element.Fire && Element == Element.Ice)
 			|| (sourceElement == Element.Ice && Element == Element.Fire))
-			mult = 5;
+			mult = 3;
 
 		int oldHealth = Health;
 		Health = (int) Mathf.MoveTowards(Health, 0f, amount * mult);
 		lastDamage = oldHealth - Health;
 
-		OnReceiveDamage(attacker, amount * mult, sourceElement);
+		OnReceiveDamage(attacker, amount * mult, direction, sourceElement);
 
 		if (Health == 0f)
 		{
@@ -175,9 +175,25 @@ public abstract class Entity : MonoBehaviour
 	protected virtual void OnDeath()
 	{
 		Destroy(gameObject);
+#if UNITY_EDITOR
+		StartCoroutine(DebugDisplayRemove());
+#endif
 	}
 
-	protected virtual void OnReceiveDamage(Entity attacker, int amount, Element sourceElement)
+
+#if UNITY_EDITOR
+	IEnumerator DebugDisplayRemove()
+	{
+		yield return new WaitForSeconds(2f);
+
+		if (DebugCanvas.Instance != null)
+		{
+			DebugCanvas.Instance.Reload();
+		}
+	}
+#endif
+
+	protected virtual void OnReceiveDamage(Entity attacker, int amount, Vector3 direction, Element sourceElement)
 	{
 	}
 }

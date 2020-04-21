@@ -110,6 +110,7 @@ MonoBehaviour:
   Settings: {fileID: 11400000, guid: c2c47829a826e074aa36de834c9fec68, type: 2}
   Target: {fileID: 0}
   Owner: {fileID: 0}
+  Element: 1
 --- !u!54 &1801030034929764718
 Rigidbody:
   m_ObjectHideFlags: 0
