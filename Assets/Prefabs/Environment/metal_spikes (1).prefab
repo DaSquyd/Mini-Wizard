@@ -402,6 +402,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8995079025951844183}
+  - component: {fileID: 8775131884651761719}
   m_Layer: 0
   m_Name: metal_spikes (1)
   m_TagString: Untagged
@@ -436,6 +437,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.035, y: 13.758, z: -0.711}
+--- !u!65 &8775131884651761719
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372699177836598596}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10.798042, y: 4.993458, z: 1}
+  m_Center: {x: 0.030241013, y: 1.8460903, z: 0.0000017283643}
 --- !u!1 &5542072029449038036
 GameObject:
   m_ObjectHideFlags: 0
