@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Ice Cave.unity
     guid: af6bde2f27607cb409841ea5cc5c68a1
+  - enabled: 1
+    path: Assets/Scenes/Volcano.unity
+    guid: 8d62243657d3e2344af7d0007445a2af
+  - enabled: 1
+    path: Assets/Scenes/Final Temple.unity
+    guid: 33f61a207b5d64144967ea309905b04b
   - enabled: 0
     path: Assets/Scenes/PlayerTest.unity
     guid: 4b2c1cdce3f564a49b150d7d1c368b48

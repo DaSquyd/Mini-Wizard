@@ -19,16 +19,19 @@ public class BatEnemy : Entity
 		ShootingProjectile,
 		ChargingSwoop,
 		Swooping,
+		Stunned,
 		Dying
 	}
 	[DebugDisplay]
-	State attackState = State.Idle;
+	State state = State.Idle;
 
 	Vector3 origin;
 
 	[DebugDisplay]
 	Vector3 move;
 	new SphereCollider collider;
+
+	Rigidbody rb;
 
 	// Start is called before the first frame update
 	protected override void Start()
@@ -42,6 +45,8 @@ public class BatEnemy : Entity
 		origin = transform.position;
 
 		collider = GetComponent<SphereCollider>();
+
+		rb = GetComponent<Rigidbody>();
 	}
 
 	// Update is called once per frame
@@ -64,7 +69,7 @@ public class BatEnemy : Entity
 		if (PlayerController.Instance != null && Vector3.Distance(transform.position, PlayerController.Instance.transform.position) <= Settings.SensingRadius)
 			IsTargeting = true;
 
-		switch (attackState)
+		switch (state)
 		{
 			case State.ChargingProjectile:
 				ChargineProjectileUpdate();
@@ -82,15 +87,21 @@ public class BatEnemy : Entity
 				DyingUpdate();
 				break;
 		}
+
+		if (state != State.Stunned)
+		{
+			rb.velocity = Vector3.zero;
+			rb.angularVelocity = Vector3.zero;
+		}
 	}
 
 	private void FixedUpdate()
 	{
-		switch (attackState)
+		switch (state)
 		{
 			case State.Idle:
 				if (IsTargeting)
-					attackState = State.Aggressive;
+					state = State.Aggressive;
 				else
 					IdleFixedUpdate();
 				break;
@@ -98,7 +109,10 @@ public class BatEnemy : Entity
 				if (IsTargeting)
 					AggressiveFixedUpdate();
 				else
-					attackState = State.Idle;
+					state = State.Idle;
+				break;
+			case State.Stunned:
+				StunnedFixedUpdate();
 				break;
 		}
 	}
@@ -214,12 +228,12 @@ public class BatEnemy : Entity
 
 				if (rand <= 0.2f)
 				{
-					attackState = State.ChargingProjectile;
+					state = State.ChargingProjectile;
 					waitTime = Settings.ProjectileChargeTime;
 				}
 				else if (rand <= 0.4f)
 				{
-					attackState = State.ChargingSwoop;
+					state = State.ChargingSwoop;
 					waitTime = Settings.SwoopChargeTime;
 				}
 
@@ -251,7 +265,7 @@ public class BatEnemy : Entity
 		else
 		{
 			waitTime = Random.Range(Settings.AggressiveWaitMin, Settings.AggressiveWaitMax);
-			attackState = State.ShootingProjectile;
+			state = State.ShootingProjectile;
 			waiting = true;
 		}
 	}
@@ -260,7 +274,7 @@ public class BatEnemy : Entity
 	void ShootingProjectileUpdate()
 	{
 		Debug.Log("Shoot!");
-		attackState = State.Aggressive;
+		state = State.Aggressive;
 		ProjectileController projectile = Instantiate(Settings.FireProjectile, ProjectileOrigin.position, transform.rotation);
 		projectile.Owner = this;
 	}
@@ -279,7 +293,7 @@ public class BatEnemy : Entity
 		else
 		{
 			waitTime = Random.Range(Settings.AggressiveWaitMin, Settings.AggressiveWaitMax);
-			attackState = State.Swooping;
+			state = State.Swooping;
 			waiting = true;
 		}
 	}
@@ -287,7 +301,17 @@ public class BatEnemy : Entity
 	void SwoopingUpdate()
 	{
 		Debug.Log("Swoop");
-		attackState = State.Aggressive;
+		state = State.Aggressive;
+	}
+
+	public int stunAttack;
+	void StunnedFixedUpdate()
+	{
+		if (stunAttack == PlayerController.Instance.CurrentMeleeAttack)
+		{
+			Vector3 velocity = PlayerController.Instance.Rigidbody.velocity;
+			rb.velocity = velocity + velocity.normalized;
+		}
 	}
 
 	void DyingUpdate()
@@ -295,9 +319,28 @@ public class BatEnemy : Entity
 
 	}
 
+	protected override void OnReceiveDamage(Entity attacker, int amount, Vector3 direction, Element sourceElement)
+	{
+		Debug.Log("Damage Taken!");
+
+		rb.AddForce(direction * 5f);
+
+		state = State.Stunned;
+		StopAllCoroutines();
+		StartCoroutine(Stun());
+	}
+
+	IEnumerator Stun()
+	{
+		yield return new WaitForSeconds(1f);
+
+		state = State.Aggressive;
+		Debug.Log("Return to State");
+	}
+
 	private void OnCollisionEnter(Collision collision)
 	{
-		if (collision.gameObject.tag == "Player")
+		if (collision.gameObject.tag == "Player" && state != State.Stunned)
 		{
 			PlayerController.Instance.ApplyDamage(this, 1, collision.impulse.normalized * -1f, Element.None);
 		}
