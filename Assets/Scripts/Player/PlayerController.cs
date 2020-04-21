@@ -800,7 +800,9 @@ public class PlayerController : Entity
 
 		IsGrounded = false;
 
+#if UNITY_EDITOR
 		velocityDisplay = Rigidbody.velocity;
+#endif
 	}
 
 	List<RaycastHit> enemies;
