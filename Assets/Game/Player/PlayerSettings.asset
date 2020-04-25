@@ -47,7 +47,7 @@ MonoBehaviour:
     Time: 0.65
     Damage: 1
   TargetingMaxDistance: 20
-  TargetingMaxAngle: 45
+  TargetingMaxAngle: 70
   TargetingDistanceWeight: 2.5
   CameraJoystickSpeed: 1
   CameraMouseSpeed: 0.2

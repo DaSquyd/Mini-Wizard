@@ -29,6 +29,8 @@ public class ToonLight : MonoBehaviour
 
 	void OnEnable()
 	{
+		collider = GetComponent<Collider>();
+
 		if (collider == null)
 			switch (type)
 			{
@@ -42,6 +44,8 @@ public class ToonLight : MonoBehaviour
 					collider = gameObject.AddComponent<SphereCollider>();
 					break;
 			}
+
+		gameObject.layer = 13;
 	}
 
 	void Update()

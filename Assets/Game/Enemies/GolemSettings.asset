@@ -13,6 +13,15 @@ MonoBehaviour:
   m_Name: GolemSettings
   m_EditorClassIdentifier: 
   MaxHealth: 24
+  IdleRadiusMin: 3
+  IdleRadiusMax: 7
+  IdleWaitMin: 2
+  IdleWaitMax: 4
+  WalkSpeed: 0.2
+  RunMultiplier: 5
+  Acceleration: 20
   SightMaxDistance: 16
   SightAngle: 170
-  SensingRadius: 5
+  SensingRadius: 3
+  NoticeTimeMin: 0.9
+  NoticeTimeMax: 1.1

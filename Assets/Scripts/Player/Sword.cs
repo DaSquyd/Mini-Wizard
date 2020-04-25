@@ -24,7 +24,6 @@ public class Sword : MonoBehaviour
 
 		if (isEntity)
 		{
-			Debug.Log($"Hit: {player.CurrentMeleeAttack}");
 			Vector3 direction = (player.MeshContainer.transform.forward * 5f + player.transform.position) - other.transform.position;
 
 			if (player.CurrentMeleeAttack - 1 < 0)
@@ -39,11 +38,11 @@ public class Sword : MonoBehaviour
 
 			if (weaponState == PlayerController.WeaponState.FireSword)
 			{
-				entity.ApplyDamage(player, attack.Damage, direction, Element.Fire);
+				entity.ApplyDamage(player, attack.Damage, direction, Entity.DamageType.Melee, Element.Fire);
 			}
 			else
 			{
-				entity.ApplyDamage(player, attack.Damage, direction, Element.Ice);
+				entity.ApplyDamage(player, attack.Damage, direction, Entity.DamageType.Melee, Element.Ice);
 			}
 		}
 	}

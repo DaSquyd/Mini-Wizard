@@ -57,12 +57,11 @@ public abstract class Entity : MonoBehaviour
 	float shadowStrength;
 	float shadowStrengthVelocity;
 
-	[HideInInspector]
 	public List<Light> Lights = new List<Light>();
 	protected virtual void Update()
 	{
 		if (transform.position.y <= -15)
-			ApplyDamage(null, 1000, Vector3.up, Element.None);
+			ApplyDamage(null, 1000, Vector3.up, DamageType.Other, Element.None);
 
 		Vector3 entityPosition = transform.position;
 
@@ -145,7 +144,7 @@ public abstract class Entity : MonoBehaviour
 
 	private Entity lastAttacker;
 	protected float lastDamage = 0f;
-	public float ApplyDamage(Entity attacker, int amount, Vector3 direction, Element sourceElement)
+	public float ApplyDamage(Entity attacker, int amount, Vector3 direction, DamageType type, Element sourceElement)
 	{
 		if (Invincible)
 			return Health;
@@ -162,7 +161,7 @@ public abstract class Entity : MonoBehaviour
 		Health = (int) Mathf.MoveTowards(Health, 0f, amount * mult);
 		lastDamage = oldHealth - Health;
 
-		OnReceiveDamage(attacker, amount * mult, direction, sourceElement);
+		OnReceiveDamage(attacker, amount * mult, direction, type, sourceElement);
 
 		if (Health == 0f)
 		{
@@ -174,26 +173,20 @@ public abstract class Entity : MonoBehaviour
 
 	protected virtual void OnDeath()
 	{
+#if UNITY_EDITOR
+		DebugCanvas.Instance.Reload();
+#endif
 		Destroy(gameObject);
-#if UNITY_EDITOR
-		StartCoroutine(DebugDisplayRemove());
-#endif
 	}
 
-
-#if UNITY_EDITOR
-	IEnumerator DebugDisplayRemove()
+	public enum DamageType
 	{
-		yield return new WaitForSeconds(2f);
-
-		if (DebugCanvas.Instance != null)
-		{
-			DebugCanvas.Instance.Reload();
-		}
+		Melee,
+		Projectile,
+		Other
 	}
-#endif
 
-	protected virtual void OnReceiveDamage(Entity attacker, int amount, Vector3 direction, Element sourceElement)
+	protected virtual void OnReceiveDamage(Entity attacker, int amount, Vector3 direction, DamageType type, Element sourceElement)
 	{
 	}
 }

@@ -152,6 +152,7 @@ public class PlayerController : Entity
 
 
 	[DebugDisplay("Melee State")] MeleeState meleeState;
+	[DebugDisplay]
 	public byte CurrentMeleeAttack
 	{
 		get; private set;
@@ -170,7 +171,6 @@ public class PlayerController : Entity
 		get;
 		private set;
 	}
-
 
 	// Jump
 	bool jumpInput;
@@ -275,7 +275,7 @@ public class PlayerController : Entity
 #if DEBUG
 		if (Input.GetKeyDown(KeyCode.T))
 		{
-			ApplyDamage(this, 1, Vector3.zero, Element.None);
+			ApplyDamage(this, 1, Vector3.zero, DamageType.Other, Element.None);
 		}
 
 		if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
@@ -812,7 +812,7 @@ public class PlayerController : Entity
 	private void TargetUpdate()
 	{
 		// Custom "conecast" to find all objects in range
-		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, MeshContainer.transform.forward, Settings.TargetingMaxDistance, Settings.TargetingMaxAngle, LayerMask.GetMask("Default"));
+		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, MeshContainer.transform.forward, Settings.TargetingMaxDistance, Settings.TargetingMaxAngle, LayerMask.GetMask("Default", "Terrain", "Enemy"));
 
 		// Create a new list and only add enemies from coneHit
 		enemies = new List<RaycastHit>();
@@ -929,7 +929,7 @@ public class PlayerController : Entity
 		GameManager.Instance.Lose();
 	}
 
-	protected override void OnReceiveDamage(Entity attacker, int amount, Vector3 direction, Element sourceElement)
+	protected override void OnReceiveDamage(Entity attacker, int amount, Vector3 direction, DamageType type, Element sourceElement)
 	{
 		Rigidbody.velocity = new Vector3(direction.x * 5f, 1f, direction.z * 5f);
 		CurrentMeleeAttack = 0;

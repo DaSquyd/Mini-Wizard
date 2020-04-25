@@ -316,17 +316,24 @@ public class BatEnemy : Entity
 
 	}
 
-	protected override void OnReceiveDamage(Entity attacker, int amount, Vector3 direction, Element sourceElement)
+	protected override void OnReceiveDamage(Entity attacker, int amount, Vector3 direction, DamageType type, Element sourceElement)
 	{
 		Debug.Log("Damage Taken!");
 
-		rb.AddForce(direction * 5f);
+		if (type == DamageType.Melee)
+		{
+			rb.AddForce(direction * 5f);
 
-		state = State.Stunned;
-		StopAllCoroutines();
-		StartCoroutine(Stun());
+			state = State.Stunned;
+
+			if (stunCoroutine != null)
+				StopCoroutine(stunCoroutine);
+
+			stunCoroutine = StartCoroutine(Stun());
+		}
 	}
 
+	Coroutine stunCoroutine;
 	IEnumerator Stun()
 	{
 		yield return new WaitForSeconds(1f);
@@ -339,7 +346,7 @@ public class BatEnemy : Entity
 	{
 		if (collision.gameObject.tag == "Player" && state != State.Stunned)
 		{
-			PlayerController.Instance.ApplyDamage(this, 1, collision.impulse.normalized * -1f, Element.None);
+			PlayerController.Instance.ApplyDamage(this, 1, collision.impulse.normalized * -1f, DamageType.Melee, Element.None);
 		}
 	}
 }

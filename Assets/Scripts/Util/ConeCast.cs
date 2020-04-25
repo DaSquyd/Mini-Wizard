@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class ConeCast
 {
-	public static RaycastHit[] ConeCastAll(Vector3 origin, Vector3 direction, float maxDistance, float coneAngle, LayerMask layerMask)
+	public static RaycastHit[] ConeCastAll(Vector3 origin, Vector3 direction, float maxDistance, float coneAngle, LayerMask layerMask, bool debug = false)
 	{
 		float maxRadius = maxDistance * Mathf.Sin(coneAngle / 2 * Mathf.Deg2Rad) / Mathf.Sin((90f - coneAngle / 2) * Mathf.Deg2Rad);
 
@@ -30,9 +30,18 @@ public static class ConeCast
 				Quaternion towardsTargetDirection = Quaternion.LookRotation(directionToHit);
 
 				float angleToHit = Quaternion.Angle(originDirection, towardsTargetDirection);
-				bool secondRaycastHit = Physics.Raycast(origin, sphereCastHits[i].transform.position - origin, out RaycastHit info, maxDistance);
 
-				if (angleToHit < coneAngle && secondRaycastHit && info.collider == sphereCastHits[i].collider)
+
+
+				bool secondRaycastHit = Physics.Raycast(origin, sphereCastHits[i].transform.position - origin, out RaycastHit info, maxDistance, layerMask);
+
+				if (debug)
+				{
+					Debug.Log($"{angleToHit} < {coneAngle / 2f}\t\t {secondRaycastHit}\t\t {info.collider}");
+					Debug.DrawLine(origin, (sphereCastHits[i].transform.position - origin).normalized * info.distance + origin, Color.cyan);
+				}
+
+				if (angleToHit <= coneAngle / 2f && secondRaycastHit && info.collider == sphereCastHits[i].collider)
 				{
 					coneCastHitList.Add(sphereCastHits[i]);
 				}

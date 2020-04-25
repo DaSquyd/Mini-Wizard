@@ -64,7 +64,7 @@ public class ProjectileController : MonoBehaviour
 		Entity entity = other.GetComponentInParent<Entity>();
 		if (entity != null && !entity.Equals(Owner) && entity.tag != "Projectile")
 		{
-			entity.ApplyDamage(Owner, damage, Vector3.Normalize(other.transform.position - transform.position), Element);
+			entity.ApplyDamage(Owner, damage, Vector3.Normalize(other.transform.position - transform.position), Entity.DamageType.Projectile, Element);
 
 			Destroy(gameObject);
 			return;
