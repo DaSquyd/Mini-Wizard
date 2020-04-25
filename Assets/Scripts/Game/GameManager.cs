@@ -259,6 +259,8 @@ public class GameManager : MonoBehaviour
 		IsPaused = true;
 		PauseMenu.SetActive(loadMenu);
 		MusicAudioSource.Pause();
+		Cursor.lockState = CursorLockMode.None;
+		Cursor.visible = true;
 	}
 
 	public void UnPauseGame()
@@ -267,6 +269,8 @@ public class GameManager : MonoBehaviour
 		IsPaused = false;
 		PauseMenu.SetActive(false);
 		MusicAudioSource.UnPause();
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
 	}
 
 	public void Win()

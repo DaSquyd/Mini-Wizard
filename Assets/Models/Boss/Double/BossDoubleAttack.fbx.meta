@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 45863869e47c9fa49b3bd3ce52b60b2d
+guid: dc1798f1db328cb4d86c3b99eb84a14c
 ModelImporter:
   serializedVersion: 26
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: Stuck
+    second: DoubleAttack
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -35,18 +35,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Stuck
+      name: DoubleAttack
       takeName: Take 001
       internalID: 0
-      firstFrame: 0
-      lastFrame: 1
+      firstFrame: 1
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0

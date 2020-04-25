@@ -31,6 +31,10 @@ public class BatEnemy : Entity
 
 	Rigidbody rb;
 
+	Vector3 targetPosition;
+
+	Vector3 velocity;
+
 	// Start is called before the first frame update
 	protected override void Start()
 	{

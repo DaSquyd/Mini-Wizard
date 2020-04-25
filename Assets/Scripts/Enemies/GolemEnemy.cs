@@ -332,4 +332,16 @@ public class GolemEnemy : Entity
 			PlayerController.Instance.ApplyDamage(this, 1, (transform.position - PlayerController.Instance.transform.position).normalized * -1.5f, DamageType.Melee, Element.None);
 		}
 	}
+
+	protected override void OnDeath()
+	{
+		base.OnDeath();
+
+		//if (Random.value <= PlayerController.Instance.Health / 10f)
+		if (true)
+		{
+			Object lifeCrystal = Resources.Load("Prefabs/Game/LifeCrystal");
+			Instantiate(lifeCrystal, transform.position, new Quaternion());
+		}
+	}
 }
