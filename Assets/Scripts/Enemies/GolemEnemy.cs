@@ -31,6 +31,8 @@ public class GolemEnemy : Entity
 
 	Animator animator;
 
+	float targetMemory;
+
 	protected override void Start()
 	{
 		base.Start();
@@ -72,6 +74,9 @@ public class GolemEnemy : Entity
 		{
 			IsTargeting = true;
 		}
+
+		if (IsTargeting)
+			targetMemory = Settings.TargetMemory;
 
 		switch (state)
 		{
@@ -124,28 +129,32 @@ public class GolemEnemy : Entity
 				animator.SetFloat("Speed", Settings.RunMultiplier);
 				animator.SetInteger("State", 1);
 
-				if (!IsTargeting)
+				if (targetMemory <= 0f)
 				{
 					state = State.Idle;
 					findingNewLocation = false;
 				}
 				Vector3 playerPosition = PlayerController.Instance.transform.position;
-				if (Vector3.Distance(transform.position, playerPosition) <= 2f && Quaternion.Angle(transform.rotation, Quaternion.LookRotation(playerPosition - transform.position)) < 25f)
+				if (Vector3.Distance(transform.position, playerPosition) <= Settings.AttackRange && Quaternion.Angle(transform.rotation, Quaternion.LookRotation(playerPosition - transform.position)) < Settings.AttackAngle)
 				{
 					state = State.Attack;
 				}
 				break;
 			case State.Attack:
 				agent.speed = 0f;
+				agent.SetDestination(PlayerController.Instance.transform.position);
 				animator.SetInteger("State", 2);
 
 				if (!attackWaiting)
 				{
-					attackWaiting = false;
-					attackVelocity = 0f;
 					attackWaitCoroutine = StartCoroutine(AttackWait());
 				}
 				break;
+		}
+
+		if (targetMemory > 0f)
+		{
+			targetMemory = Mathf.MoveTowards(targetMemory, 0f, Time.deltaTime);
 		}
 	}
 
@@ -155,7 +164,7 @@ public class GolemEnemy : Entity
 		if (state == State.Attack && attackVelocity > 0f)
 		{
 			transform.position = transform.position + transform.forward * attackVelocity * Time.fixedDeltaTime;
-			attackVelocity = Mathf.MoveTowards(attackVelocity, 0f, Time.fixedDeltaTime);
+			attackVelocity = Mathf.MoveTowards(attackVelocity, 0f, Settings.AttackVelocityDecay * Time.fixedDeltaTime);
 		}
 
 		if (state == State.Stunned)
@@ -224,16 +233,22 @@ public class GolemEnemy : Entity
 	Coroutine attackWaitCoroutine;
 	bool attackWaiting;
 	float attackVelocity;
+	bool canHit;
 	IEnumerator AttackWait()
 	{
 		attackWaiting = true;
 		attackVelocity = 0f;
+		canHit = false;
 
-		yield return new WaitForSeconds(1.4f);
+		yield return new WaitForSeconds(Settings.AttackVelocityStart);
 
-		attackVelocity = 3f;
+		attackVelocity = Settings.AttackVelocity;
 
-		yield return new WaitForSeconds(0.6f);
+		yield return new WaitForSeconds(Settings.AttackCanHitStart - Settings.AttackVelocityStart);
+
+		canHit = true;
+
+		yield return new WaitForSeconds(Settings.AttackTotalTime - Settings.AttackCanHitStart);
 
 		state = State.Run;
 		attackWaiting = false;
@@ -244,6 +259,8 @@ public class GolemEnemy : Entity
 		yield return new WaitForSeconds(1f);
 
 		state = State.Run;
+		IsTargeting = true;
+		targetMemory = Settings.TargetMemory;
 	}
 
 	public Vector3 RandomNavmeshLocation(float radius)
@@ -295,6 +312,12 @@ public class GolemEnemy : Entity
 			state = State.Stunned;
 			hitRelative = transform.position - PlayerController.Instance.transform.position;
 		}
+		else
+		{
+			state = State.Run;
+			IsTargeting = true;
+			targetMemory = Settings.TargetMemory;
+		}
 	}
 
 	private void OnCollisionStay(Collision collision)
@@ -304,9 +327,9 @@ public class GolemEnemy : Entity
 
 	public void OnHit(Collision collision)
 	{
-		if (collision.gameObject.tag == "Player" && attackVelocity > 0f && state == State.Attack)
+		if (collision.gameObject.tag == "Player" && canHit && state == State.Attack)
 		{
-			PlayerController.Instance.ApplyDamage(this, 1, collision.impulse.normalized * -5f, DamageType.Melee, Element.None);
+			PlayerController.Instance.ApplyDamage(this, 1, (transform.position - PlayerController.Instance.transform.position).normalized * -1.5f, DamageType.Melee, Element.None);
 		}
 	}
 }

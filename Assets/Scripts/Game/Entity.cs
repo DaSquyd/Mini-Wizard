@@ -67,8 +67,15 @@ public abstract class Entity : MonoBehaviour
 
 		Light closestLight = null;
 		float closestLightDistance = 0f;
+		List<Light> remove = new List<Light>();
 		foreach (Light light in Lights)
 		{
+			if (light == null)
+			{
+				remove.Add(light);
+				return;
+			}
+
 			float distance = Vector3.Distance(entityPosition, light.transform.position);
 
 			if (closestLight == null)
@@ -83,6 +90,11 @@ public abstract class Entity : MonoBehaviour
 				closestLight = light;
 				closestLightDistance = distance;
 			}
+		}
+
+		foreach (Light light in remove)
+		{
+			Lights.Remove(light);
 		}
 
 		Vector3 newDirection = Vector3.zero;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 837ee88eb9fd6394d923350d1e6e39b0, type: 3}
   m_Name: GolemSettings
   m_EditorClassIdentifier: 
-  MaxHealth: 24
+  MaxHealth: 48
   IdleRadiusMin: 3
   IdleRadiusMax: 7
   IdleWaitMin: 2
@@ -20,8 +20,16 @@ MonoBehaviour:
   WalkSpeed: 0.2
   RunMultiplier: 5
   Acceleration: 20
+  AttackVelocity: 6
+  AttackVelocityDecay: 2
+  AttackRange: 4
+  AttackAngle: 10
+  AttackVelocityStart: 1.2
+  AttackCanHitStart: 1.5
+  AttackTotalTime: 2
   SightMaxDistance: 16
   SightAngle: 170
   SensingRadius: 3
   NoticeTimeMin: 0.9
   NoticeTimeMax: 1.1
+  TargetMemory: 5
