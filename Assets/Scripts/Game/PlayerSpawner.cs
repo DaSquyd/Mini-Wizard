@@ -41,7 +41,7 @@ public class PlayerSpawner : MonoBehaviour
 
         if (PlayerController.Instance == null && !spawning)
 		{
-            StartCoroutine(SpawnPlayer(0.5f));
+            StartCoroutine(SpawnPlayer(0f));
 		}
 	}
 

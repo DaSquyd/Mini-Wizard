@@ -23,9 +23,6 @@ public class GolemSettings : ScriptableObject
 	public float AttackVelocityDecay = 2f;
 	public float AttackRange = 3.5f;
 	public float AttackAngle = 25f;
-	public float AttackVelocityStart = 1.2f;
-	public float AttackCanHitStart = 1.5f;
-	public float AttackTotalTime = 2f;
 
 	[Header("Sensing")]
 	public float SightMaxDistance = 16f;

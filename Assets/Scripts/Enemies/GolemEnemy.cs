@@ -12,7 +12,7 @@ public class GolemEnemy : Entity
 		get; private set;
 	}
 
-	enum State
+	public enum State
 	{
 		Idle,
 		Walk,
@@ -23,6 +23,19 @@ public class GolemEnemy : Entity
 	}
 	[DebugDisplay]
 	State state = State.Idle;
+	public void SetState(State newState)
+	{
+		state = newState;
+	}
+
+	public float AttackVelocity
+	{
+		get; set;
+	}
+	public bool CanHit
+	{
+		get; set;
+	}
 
 	Vector3 origin;
 
@@ -32,6 +45,8 @@ public class GolemEnemy : Entity
 	Animator animator;
 
 	float targetMemory;
+
+	bool isDead;
 
 	protected override void Start()
 	{
@@ -54,6 +69,9 @@ public class GolemEnemy : Entity
 	protected override void Update()
 	{
 		base.Update();
+
+		if (isDead)
+			return;
 
 		if (PlayerController.Instance == null)
 			return;
@@ -144,11 +162,6 @@ public class GolemEnemy : Entity
 				agent.speed = 0f;
 				agent.SetDestination(PlayerController.Instance.transform.position);
 				animator.SetInteger("State", 2);
-
-				if (!attackWaiting)
-				{
-					attackWaitCoroutine = StartCoroutine(AttackWait());
-				}
 				break;
 		}
 
@@ -161,10 +174,13 @@ public class GolemEnemy : Entity
 	bool overCliff = false;
 	void FixedUpdate()
 	{
-		if (state == State.Attack && attackVelocity > 0f)
+		if (isDead)
+			return;
+
+		if (state == State.Attack && AttackVelocity > 0f)
 		{
-			transform.position = transform.position + transform.forward * attackVelocity * Time.fixedDeltaTime;
-			attackVelocity = Mathf.MoveTowards(attackVelocity, 0f, Settings.AttackVelocityDecay * Time.fixedDeltaTime);
+			transform.position = transform.position + transform.forward * AttackVelocity * Time.fixedDeltaTime;
+			AttackVelocity = Mathf.MoveTowards(AttackVelocity, 0f, Settings.AttackVelocityDecay * Time.fixedDeltaTime);
 		}
 
 		if (state == State.Stunned)
@@ -230,30 +246,6 @@ public class GolemEnemy : Entity
 		}
 	}
 
-	Coroutine attackWaitCoroutine;
-	bool attackWaiting;
-	float attackVelocity;
-	bool canHit;
-	IEnumerator AttackWait()
-	{
-		attackWaiting = true;
-		attackVelocity = 0f;
-		canHit = false;
-
-		yield return new WaitForSeconds(Settings.AttackVelocityStart);
-
-		attackVelocity = Settings.AttackVelocity;
-
-		yield return new WaitForSeconds(Settings.AttackCanHitStart - Settings.AttackVelocityStart);
-
-		canHit = true;
-
-		yield return new WaitForSeconds(Settings.AttackTotalTime - Settings.AttackCanHitStart);
-
-		state = State.Run;
-		attackWaiting = false;
-	}
-
 	IEnumerator Stunned()
 	{
 		yield return new WaitForSeconds(1f);
@@ -306,7 +298,6 @@ public class GolemEnemy : Entity
 
 			findingNewLocation = false;
 			noticing = false;
-			attackWaiting = false;
 
 			StartCoroutine(Stunned());
 			state = State.Stunned;
@@ -327,7 +318,7 @@ public class GolemEnemy : Entity
 
 	public void OnHit(Collision collision)
 	{
-		if (collision.gameObject.tag == "Player" && canHit && state == State.Attack)
+		if (collision.gameObject.tag == "Player" && CanHit && state == State.Attack)
 		{
 			PlayerController.Instance.ApplyDamage(this, 1, (transform.position - PlayerController.Instance.transform.position).normalized * -1.5f, DamageType.Melee, Element.None);
 		}
@@ -335,13 +326,30 @@ public class GolemEnemy : Entity
 
 	protected override void OnDeath()
 	{
-		base.OnDeath();
+		isDead = true;
 
-		//if (Random.value <= PlayerController.Instance.Health / 10f)
-		if (true)
+		if (Random.value <= PlayerController.Instance.Health / 10f)
 		{
 			Object lifeCrystal = Resources.Load("Prefabs/Game/LifeCrystal");
 			Instantiate(lifeCrystal, transform.position, new Quaternion());
 		}
+
+		animator.SetInteger("State", 3);
+
+		Collider[] colliders = GetComponentsInChildren<Collider>();
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			colliders[i].enabled = false;
+		}
+
+		agent.enabled = false;
+
+		rb.useGravity = false;
+		rb.velocity = new Vector3();
+		rb.angularVelocity = new Vector3();
+
+		StopAllCoroutines();
+
+		//Destroy(gameObject, 3f);
 	}
 }

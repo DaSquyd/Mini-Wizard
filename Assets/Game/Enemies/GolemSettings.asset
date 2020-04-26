@@ -20,13 +20,10 @@ MonoBehaviour:
   WalkSpeed: 0.2
   RunMultiplier: 5
   Acceleration: 20
-  AttackVelocity: 6
-  AttackVelocityDecay: 2
-  AttackRange: 4
-  AttackAngle: 10
-  AttackVelocityStart: 1.2
-  AttackCanHitStart: 1.5
-  AttackTotalTime: 2
+  AttackVelocity: 13
+  AttackVelocityDecay: 12
+  AttackRange: 5
+  AttackAngle: 7
   SightMaxDistance: 16
   SightAngle: 170
   SensingRadius: 3
