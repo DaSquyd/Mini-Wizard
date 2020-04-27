@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DebugIgnore]
 public class BatEnemy : Entity
 {
 	public BatSettings Settings;
