@@ -8530,6 +8530,7 @@ MonoBehaviour:
   LoadingScreen: {fileID: 346480547}
   LoadingTextObject: {fileID: 1145700906}
   ProgressBar: {fileID: 137477629}
+  ProgressBarBack: {fileID: 1307857053}
   LoadingBackground: {fileID: 812830664}
   PlayerPrefab: {fileID: 1758857846000171217, guid: 4b2e43f607ea3874d887fdbd75a007be,
     type: 3}

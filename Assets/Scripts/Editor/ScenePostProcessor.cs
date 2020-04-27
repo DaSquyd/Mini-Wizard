@@ -17,8 +17,11 @@ public class ScenePostProcess
 
 		if (GameManager.Instance == null)
 		{
-			if (SceneManager.GetActiveScene().name != "Persistent")
-				SceneManager.LoadScene("Persistent", LoadSceneMode.Additive);
+			return;
+			if (SceneManager.GetActiveScene().name == "Hub")
+				SceneManager.LoadScene("Persistent", LoadSceneMode.Single);
+			else if (SceneManager.GetActiveScene().name != "Persistent")
+				SceneManager.LoadScene("Persistent", LoadSceneMode.Single);
 		}
 	}
 }

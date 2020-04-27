@@ -79,9 +79,6 @@ public class FlickeringLight : MonoBehaviour
 
 		light.intensity = Mathf.MoveTowards(light.intensity, intensityTarget, Mathf.Abs(intensityDelta));
 
-
-		Debug.Log($"{light.intensity} - {intensityTarget} = {Mathf.Abs(light.intensity - intensityTarget)}; scale: {scale * 5}");
-
 		if (Mathf.Abs(light.intensity - intensityTarget) < 5f * scale) //////// CHECK IF TARGET IS NEAR ENOUGH. /////////
 			setNewTargets = true;
 	}

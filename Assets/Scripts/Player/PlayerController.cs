@@ -209,6 +209,8 @@ public class PlayerController : Entity
 
 	Vector3 contactVelocity = new Vector3();
 
+	Animator animator;
+
 #if DEBUG
 	float DebugCurrentPath
 	{
@@ -238,6 +240,8 @@ public class PlayerController : Entity
 		meleeEffectAmount = Vector3.right * Vcam.m_Lens.FieldOfView;
 
 		Rigidbody = GetComponent<Rigidbody>();
+
+		animator = GetComponent<Animator>();
 
 		_cameraYaw = transform.eulerAngles.y;
 		MeshContainer.transform.rotation = Quaternion.Euler(CameraRotation);
