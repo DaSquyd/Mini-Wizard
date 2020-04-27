@@ -548,6 +548,7 @@ public class PlayerController : Entity
 
 		if (jumpCooldown > 0f)
 		{
+			animator.ResetTrigger("Jump");
 			jumpCooldown = Mathf.Max(0f, jumpCooldown - Time.deltaTime);
 			return;
 		}
@@ -579,6 +580,7 @@ public class PlayerController : Entity
 
 		if (!inAir)
 		{
+			animator.SetTrigger("Jump");
 			JumpSFX.Play(JumpAudioSource);
 		}
 		else
@@ -779,6 +781,8 @@ public class PlayerController : Entity
 		if (GameManager.Instance.IsPaused)
 			return;
 
+		animator.SetBool("OnGround", IsGrounded);
+
 		if (!IsGrounded)
 		{
 			jumpForgivenessTime -= deltaTime;
@@ -910,7 +914,13 @@ public class PlayerController : Entity
 
 		if (collisionIsGround)
 		{
-			IsGrounded = true;
+			if (!IsGrounded)
+			{
+				IsGrounded = true;
+				animator.SetTrigger("Land");
+			}
+			else
+				animator.ResetTrigger("Land");
 			airJumps = 0;
 			airMelee = false;
 			jumpForgivenessTime = Settings.JumpForgiveness;
@@ -940,12 +950,19 @@ public class PlayerController : Entity
 
 	IEnumerator Invuln()
 	{
+		animator.SetBool("Stunned", true);
 		Invincible = true;
 		damaged = true;
 		yield return new WaitForSeconds(Settings.StunTime);
+		animator.SetBool("Stunned", false);
 		damaged = false;
 
 		yield return new WaitForSeconds(Settings.InvulnerabilityTime - Settings.StunTime);
 		Invincible = false;
+	}
+
+	public IEnumerator Teleport()
+	{
+		yield return null;
 	}
 }

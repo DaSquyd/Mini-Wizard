@@ -13,6 +13,8 @@ public abstract class Entity : ToonLitObject
 		get; protected set;
 	}
 
+	public bool NoAI;
+
 	int _health;
 	[DebugDisplay]
 	public int Health
@@ -52,6 +54,9 @@ public abstract class Entity : ToonLitObject
 	
 	protected sealed override void Update()
 	{
+		if (NoAI)
+			return;
+
 		base.Update();
 
 		if (transform.position.y <= -15)
@@ -67,6 +72,11 @@ public abstract class Entity : ToonLitObject
 
 	protected sealed override void FixedUpdate()
 	{
+		if (NoAI)
+			return;
+
+		base.FixedUpdate();
+
 		OnFixedUpdate(Time.fixedDeltaTime);
 	}
 	protected virtual void OnFixedUpdate(float deltaTime)
