@@ -241,7 +241,7 @@ public class PlayerController : Entity
 
 		Rigidbody = GetComponent<Rigidbody>();
 
-		animator = GetComponent<Animator>();
+		animator = GetComponentInChildren<Animator>();
 
 		_cameraYaw = transform.eulerAngles.y;
 		MeshContainer.transform.rotation = Quaternion.Euler(CameraRotation);
@@ -963,6 +963,10 @@ public class PlayerController : Entity
 
 	public IEnumerator Teleport()
 	{
-		yield return null;
+		animator = GetComponentInChildren<Animator>();
+		animator.SetBool("Teleporting", true);
+		yield return new WaitForSeconds(3f);
+		Vcam.gameObject.SetActive(true);
+		animator.SetBool("Teleporting", false);
 	}
 }
