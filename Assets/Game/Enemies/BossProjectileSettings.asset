@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b25c792392d61643b54b40259d5d446, type: 3}
-  m_Name: BossSettings
+  m_Script: {fileID: 11500000, guid: eca6e907984fc4a4b9a0bd6aa6c3ce5f, type: 3}
+  m_Name: BossProjectileSettings
   m_EditorClassIdentifier: 
-  MaxHealth: 500
-  AssembleAcceleration: 0.3
-  AssembleMaxSpeed: 100
-  TurnSpeed: 180
-  TurnMultiplier: 1
-  TurnTime: 1
-  AttackMinWait: 4
-  AttackMaxWait: 8
+  Speed: 0
+  RotationSpeed: 0
+  MaxRotationAngle: 0
+  Damage: 1
+  Lifetime: 100

@@ -36,10 +36,8 @@ public class BatEnemy : Entity
 	Vector3 velocity;
 
 	// Start is called before the first frame update
-	protected override void Start()
+	protected override void OnStart()
 	{
-		base.Start();
-		
 		MaxHealth = Settings.MaxHealth;
 		Health = MaxHealth;
 
@@ -51,10 +49,8 @@ public class BatEnemy : Entity
 	}
 
 	// Update is called once per frame
-	protected override void Update()
+	protected override void OnUpdate(float deltaTime)
 	{
-		base.Update();
-
 		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, transform.forward, Settings.SightMaxDistance, Settings.SightAngle, LayerMask.GetMask("Default"));
 
 		IsTargeting = false;
@@ -96,7 +92,7 @@ public class BatEnemy : Entity
 		}
 	}
 
-	private void FixedUpdate()
+	protected override void OnFixedUpdate(float deltaTime)
 	{
 		switch (state)
 		{

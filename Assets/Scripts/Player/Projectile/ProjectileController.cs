@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileController : MonoBehaviour
+public class ProjectileController : ToonLitObject
 {
 	public ProjectileSettings Settings;
 
@@ -19,8 +19,10 @@ public class ProjectileController : MonoBehaviour
 	// Debug
 	Color color = Color.red;
 
-	private void Start()
+	protected override void Start()
 	{
+		base.Start();
+
 		speed = Settings.Speed;
 		rotationSpeed = Settings.RotationSpeed;
 		maxRotationAngle = Settings.MaxRotationAngle;
@@ -28,8 +30,10 @@ public class ProjectileController : MonoBehaviour
 		Destroy(gameObject, Settings.Lifetime);
 	}
 
-	private void Update()
+	protected override void Update()
 	{
+		base.Update();
+
 		Debug.DrawLine(transform.position, transform.position + transform.forward, color);
 
 		if (Target != null)

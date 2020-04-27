@@ -8,7 +8,7 @@ public class BossBody : Entity
 	Boss boss;
 
     // Start is called before the first frame update
-    protected override void Start()
+    protected override void OnStart()
     {
 		MaxHealth = 10000;
 		Health = 10000;

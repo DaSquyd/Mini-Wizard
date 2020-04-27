@@ -42,9 +42,8 @@ public class BossScript : Entity
     private bool once;
     private bool punched;
 
-    protected override void Start()
+    protected override void OnStart()
     {
-        base.Start();
         enemyState = EnemyState.Idle;
         animator = GetComponent<Animator>();
         nextSlam = Time.time + slamSeconds + 1.0f / slamRate;
@@ -54,10 +53,8 @@ public class BossScript : Entity
         healthBar.maxValue = MaxHealth;
     }
 
-    protected override void Update()
+    protected override void OnUpdate(float deltaTime)
     {
-        base.Update();
-
         if (player == null && FindObjectOfType<PlayerController>() != null)
             player = FindObjectOfType<PlayerController>().gameObject;
 
@@ -76,7 +73,7 @@ public class BossScript : Entity
                 case EnemyState.Idle:
                     //rotate towards 
                     if (Vector3.Distance(transform.position, player.transform.position) > 7.0f)
-                        transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), Time.deltaTime * movementSpeed);
+                        transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), deltaTime * movementSpeed);
                     if (Vector3.Distance(transform.position, player.transform.position) >= 15.0f && Time.time > nextThrow)
                         enemyState = EnemyState.Throw;
                     if (Vector3.Distance(transform.position, player.transform.position) < 10.0f && Time.time > nextSlam)

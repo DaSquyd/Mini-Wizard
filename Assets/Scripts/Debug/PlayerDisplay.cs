@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PlayerDisplay : Entity
 {
-	protected sealed override void Start()
+	protected sealed override void OnStart()
 	{
-		base.Start();
 		MaxHealth = 10;
 		Health = 10;
 		//Invincible = true;

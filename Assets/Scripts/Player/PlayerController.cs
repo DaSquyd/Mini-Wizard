@@ -229,9 +229,8 @@ public class PlayerController : Entity
 #endif
 #endif
 
-	protected sealed override void Start()
+	protected override void OnStart()
 	{
-		base.Start();
 		Instance = this;
 
 		Vcam = GameManager.Instance.PlayerVcam;
@@ -261,12 +260,10 @@ public class PlayerController : Entity
 	}
 
 
-	protected sealed override void Update()
+	protected override void OnUpdate(float deltaTime)
 	{
 		if (GameManager.Instance.IsPaused)
 			return;
-
-		base.Update();
 
 		Vcam.m_Lens.FieldOfView = meleeEffectAmount.x;
 
@@ -322,7 +319,7 @@ public class PlayerController : Entity
 		{
 			if (shootCooldown > 0f)
 			{
-				shootCooldown = Mathf.MoveTowards(shootCooldown, 0f, Time.deltaTime);
+				shootCooldown = Mathf.MoveTowards(shootCooldown, 0f, deltaTime);
 			}
 			else
 			{
@@ -773,15 +770,15 @@ public class PlayerController : Entity
 		transform.Rotate(new Vector3(0f, yaw, 0f));
 	}
 
-	private void FixedUpdate()
+	protected override void OnFixedUpdate(float deltaTime)
 	{
 		if (GameManager.Instance.IsPaused)
 			return;
 
 		if (!IsGrounded)
 		{
-			jumpForgivenessTime -= Time.fixedDeltaTime;
-			airTime += Time.fixedDeltaTime;
+			jumpForgivenessTime -= deltaTime;
+			airTime += deltaTime;
 		}
 		else
 		{

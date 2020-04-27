@@ -48,10 +48,8 @@ public class GolemEnemy : Entity
 
 	bool isDead;
 
-	protected override void Start()
+	protected override void OnStart()
 	{
-		base.Start();
-
 		MaxHealth = Settings.MaxHealth;
 		Health = MaxHealth;
 
@@ -66,10 +64,8 @@ public class GolemEnemy : Entity
 		animator = GetComponentInChildren<Animator>();
 	}
 
-	protected override void Update()
+	protected override void OnUpdate(float deltaTime)
 	{
-		base.Update();
-
 		if (isDead)
 			return;
 
@@ -167,20 +163,20 @@ public class GolemEnemy : Entity
 
 		if (targetMemory > 0f)
 		{
-			targetMemory = Mathf.MoveTowards(targetMemory, 0f, Time.deltaTime);
+			targetMemory = Mathf.MoveTowards(targetMemory, 0f, deltaTime);
 		}
 	}
 
 	bool overCliff = false;
-	void FixedUpdate()
+	protected override void OnFixedUpdate(float deltaTime)
 	{
 		if (isDead)
 			return;
 
 		if (state == State.Attack && AttackVelocity > 0f)
 		{
-			transform.position = transform.position + transform.forward * AttackVelocity * Time.fixedDeltaTime;
-			AttackVelocity = Mathf.MoveTowards(AttackVelocity, 0f, Settings.AttackVelocityDecay * Time.fixedDeltaTime);
+			transform.position = transform.position + transform.forward * AttackVelocity * deltaTime;
+			AttackVelocity = Mathf.MoveTowards(AttackVelocity, 0f, Settings.AttackVelocityDecay * deltaTime);
 		}
 
 		if (state == State.Stunned)

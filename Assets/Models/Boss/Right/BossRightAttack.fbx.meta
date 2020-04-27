@@ -60,14 +60,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0.7748092
-        functionName: RightStartEvent
+        functionName: AttackSwingEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.9713741
-        functionName: RightHitEvent
+        functionName: AttackHitEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

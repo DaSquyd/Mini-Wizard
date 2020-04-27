@@ -6,10 +6,15 @@ using UnityEngine;
 public class BossArm : Entity
 {
 	Boss boss;
+	public SphereCollider Collider
+	{
+		get; private set;
+	}
 
-	protected override void Start()
+	protected override void OnStart()
 	{
 		boss = GetComponentInParent<Boss>();
+		Collider = GetComponent<SphereCollider>();
 
 		MaxHealth = 10000;
 		Health = 10000;

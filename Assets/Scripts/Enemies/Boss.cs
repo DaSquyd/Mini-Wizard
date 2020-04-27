@@ -12,10 +12,7 @@ public class Boss : Entity
 		Assemble,
 		IdleTurn,
 		PrepareAttack,
-		Throw,
-		LeftAttack,
-		RightAttack,
-		DoubleAttack,
+		Attack,
 		Death
 	}
 	[DebugDisplay("State")] State _state;
@@ -37,27 +34,27 @@ public class Boss : Entity
 				break;
 			case State.IdleTurn:
 				animator.SetInteger("State", 1);
-				Debug.Log(animator.GetInteger("State"));
 				if (selectAttackCoroutine != null)
 					StopCoroutine(selectAttackCoroutine);
 				selectAttackCoroutine = StartCoroutine(SelectAttack());
+				animator.SetInteger("Attack", 0);
 				break;
-			case State.Throw:
-				animator.SetInteger("State", 0);
-				break;
-			case State.LeftAttack:
-				break;
-			case State.RightAttack:
-				break;
-			case State.DoubleAttack:
+			case State.Attack:
+				animator.SetInteger("State", 3);
 				break;
 			case State.Death:
+				isDead = true;
+				animator.SetBool("IsDead", true);
+				animator.SetInteger("Attack", 0);
 				break;
 		}
 
 		_state = newState;
 		return;
 	}
+
+	public BossArm LeftArm;
+	public BossArm RightArm;
 
 	Animator animator;
 
@@ -72,10 +69,8 @@ public class Boss : Entity
 
 	bool isDead;
 
-	protected override void Start()
+	protected override void OnStart()
 	{
-		base.Start();
-
 		MaxHealth = Settings.MaxHealth;
 		Health = MaxHealth;
 
@@ -84,7 +79,7 @@ public class Boss : Entity
 		Invincible = true;
 	}
 
-	protected override void Update()
+	protected override void OnUpdate(float deltaTime)
 	{
 #if UNITY_EDITOR
 		if (Input.anyKeyDown)
@@ -98,8 +93,6 @@ public class Boss : Entity
 			}
 		}
 #endif
-
-		base.Update();
 
 		if (isDead)
 			return;
@@ -124,14 +117,16 @@ public class Boss : Entity
 				break;
 
 			case State.Assemble:
-				assembleSpeed = Mathf.MoveTowards(assembleSpeed, Settings.AssembleMaxSpeed, Settings.AssembleAcceleration * Time.deltaTime);
+				assembleSpeed = Mathf.MoveTowards(assembleSpeed, Settings.AssembleMaxSpeed, Settings.AssembleAcceleration * deltaTime);
 				animator.SetFloat("AssembleSpeed", assembleSpeed);
 				break;
 
 			case State.IdleTurn:
-				UpdateYaw(1f);
+				if (selectedAttack == 0)
+					UpdateYaw(1f);
+				else
+					UpdateYaw(10f);
 				transform.rotation = Quaternion.Euler(0f, yawCurrent, 0f);
-				animator.SetFloat("WalkSpeed", Mathf.Min(Mathf.Abs(yawVelocity), 20f) * 0.1f);
 
 				if (Mathf.Abs(yawVelocity) < 5f)
 				{
@@ -144,17 +139,8 @@ public class Boss : Entity
 
 				break;
 
-			case State.Throw:
+			case State.Attack:
 
-				break;
-
-			case State.LeftAttack:
-				break;
-
-			case State.RightAttack:
-				break;
-
-			case State.DoubleAttack:
 				break;
 
 			case State.Death:
@@ -167,9 +153,9 @@ public class Boss : Entity
 		yawTarget = Quaternion.LookRotation(playerTransform.position - transform.position).eulerAngles.y;
 		yawCurrent = Mathf.SmoothDampAngle(transform.rotation.eulerAngles.y, yawTarget, ref yawVelocity, Settings.TurnTime / multiplier, Settings.TurnSpeed * multiplier);
 	}
-	
+
 	int[] lastAttacks = new int[2];
-# if UNITY_EDITOR
+#if UNITY_EDITOR
 	[DebugDisplay]
 	int Last1
 	{
@@ -187,47 +173,52 @@ public class Boss : Entity
 		}
 	}
 #endif
+	int selectedAttack = 0;
 	Coroutine selectAttackCoroutine;
 	IEnumerator SelectAttack()
 	{
+		selectedAttack = 0;
+
 		yield return new WaitForSeconds(Random.Range(Settings.AttackMinWait, Settings.AttackMaxWait));
-
-		int selection = 0;
-
+		
 		for (int i = 1; i <= 3; i++)
 		{
 			if (lastAttacks[0] == i && lastAttacks[1] == i)
 			{
-				selection = SelectRandom(i % 3 + 1, (i + 1) % 3 + 1);
+				selectedAttack = SelectRandom(i % 3 + 1, (i + 1) % 3 + 1);
 			}
 		}
 
-		if (selection == 0)
+		if (selectedAttack == 0)
 		{
-			selection = SelectRandom(1, 2, 3);
+			selectedAttack = SelectRandom(1, 2, 3);
 		}
 
 		lastAttacks[1] = lastAttacks[0];
-		lastAttacks[0] = selection;
+		lastAttacks[0] = selectedAttack;
 
-		animator.SetInteger("Attack", selection);
+		animator.SetInteger("Attack", selectedAttack);
 	}
 	int SelectRandom(params int[] ints)
 	{
+		if (ints.Length == 0)
+			return 0;
+
 		float rand = Random.value;
 		for (int i = 0; i < ints.Length; i++)
 		{
-			Debug.Log((float) i / ints.Length);
-			if (rand <= (float) i / ints.Length)
+			Debug.Log($"{i + 1}/{ints.Length} = {(i + 1f) / ints.Length}\t\t{rand}");
+			if (rand <= (i + 1f) / ints.Length)
 			{
-				return i;
+				return ints[i];
 			}
 		}
-		return ints.Length - 1;
+
+		return ints[ints.Length - 1];
 	}
 
-	public void EnterIdleState()
+	protected override void OnDeath()
 	{
-
+		SetState(State.Death);
 	}
 }

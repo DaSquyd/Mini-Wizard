@@ -60,14 +60,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0.7767176
-        functionName: LeftStartEvent
+        functionName: AttackSwingEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
-        intParameter: 0
+        intParameter: 2
         messageOptions: 0
       - time: 0.9751909
-        functionName: LeftHitEvent
+        functionName: AttackHitEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -76,7 +76,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 1
     isReadable: 0
   meshes:
     lODScreenPercentages: []
