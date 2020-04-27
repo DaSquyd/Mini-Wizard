@@ -38,6 +38,6 @@ public class GolemAnimationHandler : MonoBehaviour
 
 	public void DeathEndEvent()
 	{
-
+		Destroy(golem.gameObject);
 	}
 }

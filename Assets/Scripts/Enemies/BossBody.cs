@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DebugIgnore]
 public class BossBody : Entity
 {
 	Boss boss;
