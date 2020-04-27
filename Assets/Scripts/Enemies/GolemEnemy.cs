@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[DebugIgnore]
 public class GolemEnemy : Entity
 {
 	public GolemSettings Settings;
