@@ -328,7 +328,7 @@ public class GolemEnemy : Entity
 	{
 		isDead = true;
 
-		if (Random.value <= PlayerController.Instance.Health / 10f)
+		if ( true)//Random.value <= PlayerController.Instance.Health / 10f)
 		{
 			Object lifeCrystal = Resources.Load("Prefabs/Game/LifeCrystal");
 			Instantiate(lifeCrystal, transform.position, new Quaternion());

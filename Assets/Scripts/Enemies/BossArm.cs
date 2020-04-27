@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DebugIgnore]
 public class BossArm : Entity
 {
-	
-
 	Boss boss;
 
 	protected override void Start()

@@ -13,4 +13,10 @@ MonoBehaviour:
   m_Name: BossSettings
   m_EditorClassIdentifier: 
   MaxHealth: 500
+  AssembleAcceleration: 0.3
+  AssembleMaxSpeed: 100
   TurnSpeed: 180
+  TurnMultiplier: 2
+  TurnTime: 0.1
+  AttackMinWait: 4
+  AttackMaxWait: 8

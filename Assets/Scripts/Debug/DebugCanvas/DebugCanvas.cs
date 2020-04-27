@@ -54,6 +54,11 @@ public class DebugCanvas : MonoBehaviour
 			BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
 			Type type = mono.GetType();
 
+			if (Attribute.GetCustomAttribute(type, typeof(DebugIgnoreAttribute)) is DebugIgnoreAttribute classAttribute)
+			{
+				continue;
+			}
+
 			FieldInfo[] objectFields = type.GetFields(flags);
 			PropertyInfo[] objectProperties = type.GetProperties(flags);
 

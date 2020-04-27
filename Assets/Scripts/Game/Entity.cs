@@ -30,7 +30,7 @@ public abstract class Entity : MonoBehaviour
 	public bool Invincible
 	{
 		get;
-		protected set;
+		set;
 	}
 
 	public Element Element;
@@ -57,6 +57,7 @@ public abstract class Entity : MonoBehaviour
 	float shadowStrength;
 	float shadowStrengthVelocity;
 
+	[HideInInspector]
 	public List<Light> Lights = new List<Light>();
 	protected virtual void Update()
 	{
@@ -64,6 +65,9 @@ public abstract class Entity : MonoBehaviour
 			ApplyDamage(null, 1000, Vector3.up, DamageType.Other, Element.None);
 
 		Vector3 entityPosition = transform.position;
+
+		if (renderers == null)
+			return;
 
 		Light closestLight = null;
 		float closestLightDistance = 0f;
