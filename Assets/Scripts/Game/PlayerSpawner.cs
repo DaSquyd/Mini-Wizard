@@ -23,8 +23,6 @@ public class PlayerSpawner : MonoBehaviour
 {
 	public static PlayerSpawner Instance;
 
-	private bool spawning;
-
 	private void Start()
 	{
 		Instance = this;
@@ -32,34 +30,30 @@ public class PlayerSpawner : MonoBehaviour
 
 	private void Update()
 	{
-        if (Instance != null && Instance != this)
+		if (Instance != null && Instance != this)
 		{
 			Destroy(Instance.gameObject);
 			Instance = this;
 		}
-
-
-        if (PlayerController.Instance == null && !spawning)
-		{
-            StartCoroutine(SpawnPlayer(0f));
-		}
 	}
 
-	IEnumerator SpawnPlayer(float seconds)
+	public void Spawn(bool animate)
 	{
-		spawning = true;
+		StartCoroutine(SpawnPlayer(animate));
+	}
 
-		yield return new WaitForSeconds(seconds);
-
+	IEnumerator SpawnPlayer(bool animate)
+	{
 		Physics.Raycast(transform.position, Vector3.down, out RaycastHit info);
 
 		yield return new WaitUntil(() => GameManager.Instance != null);
 
 		PlayerController player = Instantiate(GameManager.Instance.PlayerPrefab, info.point + Vector3.up, Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f), transform);
 
+		if (animate)
+			player.StartCoroutine(player.Teleport());
+
 		player.transform.rotation = transform.rotation;
 		player.MeshContainer.transform.rotation = transform.rotation;
-
-		spawning = false;
 	}
 }

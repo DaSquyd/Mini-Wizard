@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
 	public GameObject LoadingScreen;
 	public GameObject LoadingTextObject;
 	public Image ProgressBar;
+	public GameObject ProgressBarBack;
 	public Image LoadingBackground;
 
 	[Header("Player")]
@@ -69,6 +70,10 @@ public class GameManager : MonoBehaviour
 	bool isPlaying = false;
 
 	public bool IsPaused
+	{
+		get; private set;
+	}
+	public bool Pausible
 	{
 		get; private set;
 	}
@@ -178,9 +183,15 @@ public class GameManager : MonoBehaviour
 		LoadingScreen.gameObject.SetActive(true);
 		LoadingTextObject.SetActive(true);
 		LoadingBackground.gameObject.SetActive(true);
+		ProgressBarBack.SetActive(true);
 		LoadingBackground.color = Color.black;
 
 		scenesLoading.Add(SceneManager.LoadSceneAsync(levels[id].Name, LoadSceneMode.Additive));
+
+		if (currentLoadedScene != null)
+		{
+			SceneManager.UnloadSceneAsync(currentLoadedScene);
+		}
 
 		StartCoroutine(GetSceneLoadProgress(id, false));
 	}
@@ -209,9 +220,10 @@ public class GameManager : MonoBehaviour
 
 				yield return null;
 			}
-
-			totalSceneProgress = 1f;
 		}
+
+		totalSceneProgress = 1f;
+		ProgressBar.gameObject.SetActive(true);
 
 		RenderSettings.skybox = level.Skybox;
 		RenderSettings.ambientSkyColor = level.AmbientSkyColor;
@@ -234,9 +246,9 @@ public class GameManager : MonoBehaviour
 
 			yield return new WaitForSeconds(1f);
 
-			isPlaying = true;
+			//isPlaying = true;
 
-			LoadingScreen.gameObject.SetActive(false);
+			StartCoroutine(FadeIn(4f));
 		}
 		else
 		{
@@ -246,24 +258,29 @@ public class GameManager : MonoBehaviour
 			MusicAudioSource.Play();
 			IsPaused = true;
 			LoadingBackground.color = Color.black;
-			StartCoroutine(FadeIn());
+			StartCoroutine(FadeIn(2f));
 		}
 	}
 
 	float fadeAlpha = 1f;
-	IEnumerator FadeIn()
+	IEnumerator FadeIn(float totalTime)
 	{
-		fadeAlpha = Mathf.MoveTowards(LoadingBackground.color.a, 0f, Time.deltaTime / 2f);
+		Debug.Log($"Fade: {fadeAlpha}");
+		ProgressBarBack.gameObject.SetActive(false);
+		fadeAlpha = Mathf.MoveTowards(LoadingBackground.color.a, 0f, Time.deltaTime / totalTime);
 
 		LoadingBackground.color = new Color(0f, 0f, 0f, fadeAlpha);
 
 		if (fadeAlpha == 0f)
 		{
 			LoadingScreen.gameObject.SetActive(false);
-			yield return null;
+			Debug.Log("Done!");
 		}
-		yield return new WaitForEndOfFrame();
-		StartCoroutine(FadeIn());
+		else
+		{
+			yield return new WaitForEndOfFrame();
+			StartCoroutine(FadeIn(totalTime));
+		}
 	}
 
 	public void ReturnToMainMenu(bool restartMusic = false)

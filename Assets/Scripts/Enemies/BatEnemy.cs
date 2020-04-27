@@ -145,7 +145,7 @@ public class BatEnemy : Entity
 				hitLoc = hitInfo.point;
 			}
 
-			Debug.Log($"Set new dest: {destination}");
+			//Debug.Log($"Set new dest: {destination}");
 
 			hasReachedDestination = false;
 		}
