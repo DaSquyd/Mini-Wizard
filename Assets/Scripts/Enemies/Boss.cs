@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Boss : Entity
 {
@@ -15,9 +16,10 @@ public class Boss : Entity
 		Attack,
 		Death
 	}
-	[DebugDisplay("State")] State _state;
+	[DebugDisplay("State")] State _state = State.Preassemble;
 	public void SetState(State newState)
 	{
+		Color c = HealthBack.color;
 		Debug.Log("State Change: " + newState);
 		switch (newState)
 		{
@@ -25,12 +27,20 @@ public class Boss : Entity
 				animator.SetFloat("AssembleSpeed", 0f);
 				animator.SetInteger("State", 0);
 				animator.SetTrigger("Reset");
+				HealthCanvas.enabled = false;
+				HealthBar.gameObject.SetActive(false);
+				HealthBar.fillAmount = 0f;
+				HealthBack.color = new Color(c.r, c.g, c.b, 1f);
 				break;
 			case State.Assemble:
 				animator.SetFloat("AssembleSpeed", 0f);
 				assembleSpeed = 0f;
 				animator.SetInteger("State", 0);
 				animator.SetTrigger("Assemble");
+				HealthCanvas.enabled = true;
+				HealthBar.gameObject.SetActive(false);
+				HealthBar.fillAmount = 0f;
+				HealthBack.color = new Color(c.r, c.g, c.b, 1f);
 				break;
 			case State.IdleTurn:
 				animator.SetInteger("State", 1);
@@ -56,6 +66,10 @@ public class Boss : Entity
 	public BossArm LeftArm;
 	public BossArm RightArm;
 
+	public Canvas HealthCanvas;
+	public Image HealthBar;
+	public Image HealthBack;
+
 	Animator animator;
 
 	float assembleSpeed = 0f;
@@ -68,6 +82,8 @@ public class Boss : Entity
 	Transform playerTransform;
 
 	bool isDead;
+
+	public bool DeathAnimEnd;
 
 	protected override void OnStart()
 	{
@@ -93,9 +109,20 @@ public class Boss : Entity
 			}
 		}
 #endif
+		if (_state != State.Preassemble && HealthBar.gameObject.activeSelf)
+		{
+			HealthBar.fillAmount = Mathf.MoveTowards(HealthBar.fillAmount, (float) Health / MaxHealth, deltaTime / 4f);
+		}
+
+		if (DeathAnimEnd)
+		{
+			Color c = HealthBack.color;
+			HealthBack.color = new Color(c.r, c.g, c.b, Mathf.MoveTowards(c.a, 0f, deltaTime / 4f));
+		}
 
 		if (isDead)
 			return;
+
 		if (player == null)
 		{
 			PlayerController player = PlayerController.Instance;
@@ -113,7 +140,6 @@ public class Boss : Entity
 		switch (_state)
 		{
 			case State.Preassemble:
-
 				break;
 
 			case State.Assemble:
@@ -180,7 +206,7 @@ public class Boss : Entity
 		selectedAttack = 0;
 
 		yield return new WaitForSeconds(Random.Range(Settings.AttackMinWait, Settings.AttackMaxWait));
-		
+
 		for (int i = 1; i <= 3; i++)
 		{
 			if (lastAttacks[0] == i && lastAttacks[1] == i)

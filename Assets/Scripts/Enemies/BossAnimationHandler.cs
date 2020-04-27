@@ -16,7 +16,11 @@ public class BossAnimationHandler : MonoBehaviour
 		boss.SetState(Boss.State.IdleTurn);
 		boss.Invincible = false;
 	}
-
+	public void StartHealthFillEvent()
+	{
+		boss.HealthBar.gameObject.SetActive(true);
+	}
+	
 	public void AttackSwingEvent(int selected)
 	{
 		boss.SetState(Boss.State.Attack);
@@ -49,6 +53,6 @@ public class BossAnimationHandler : MonoBehaviour
 
 	public void DeathEndEvent()
 	{
-
+		boss.DeathAnimEnd = true;
 	}
 }

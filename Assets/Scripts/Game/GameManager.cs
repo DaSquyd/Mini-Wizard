@@ -33,13 +33,18 @@ public class GameManager : MonoBehaviour
 	}
 	public Level[] levels;
 
+	[Header("Loading")]
 	public GameObject LoadingScreen;
+	public GameObject LoadingTextObject;
 	public Image ProgressBar;
+	public Image LoadingBackground;
 
+	[Header("Player")]
 	public PlayerController PlayerPrefab;
 
 	public CinemachineVirtualCamera PlayerVcam;
 
+	[Header("Menu")]
 	public GameObject MainMenu;
 	public GameObject MainUI;
 	public GameObject LevelSelectMenu;
@@ -48,12 +53,14 @@ public class GameManager : MonoBehaviour
 	public GameObject WinMenu;
 	public GameObject LoseMenu;
 
+	[Header("Health Icon")]
 	public Image HealthImage;
 	public Sprite HealthFull;
 	public Sprite Health2;
 	public Sprite Health1;
 	public Sprite Health0;
 
+	[Header("Audio")]
 	public AudioSource MusicAudioSource;
 	public AudioClip MenuMusic;
 
@@ -80,7 +87,7 @@ public class GameManager : MonoBehaviour
 
 		actionInputManager = GetComponent<ActionInputManager>();
 
-		IsPaused = false;
+		IsPaused = true;
 		//PauseMenu.SetActive(false);
 	}
 
@@ -89,11 +96,21 @@ public class GameManager : MonoBehaviour
 		gameObject.SetActive(true);
 
 #if UNITY_EDITOR
-		if (SceneManager.GetActiveScene().name != "Persistent")
+		if (SceneManager.GetActiveScene().name == "Persistent")
 		{
+			scenesLoading.Add(SceneManager.LoadSceneAsync("Hub", LoadSceneMode.Additive));
+			StartCoroutine(GetSceneLoadProgress(0, true));
+		}
+		else
+		{
+			IsPaused = false;
 			MainMenu.SetActive(false);
 			MusicAudioSource.Stop();
+			LoadingScreen.SetActive(false);
 		}
+#else
+			scenesLoading.Add(SceneManager.LoadSceneAsync("Hub", LoadSceneMode.Additive));
+			StartCoroutine(GetSceneLoadProgress(0, true));
 #endif
 	}
 
@@ -159,16 +176,19 @@ public class GameManager : MonoBehaviour
 
 		MainMenu.SetActive(false);
 		LoadingScreen.gameObject.SetActive(true);
+		LoadingTextObject.SetActive(true);
+		LoadingBackground.gameObject.SetActive(true);
+		LoadingBackground.color = Color.black;
 
 		scenesLoading.Add(SceneManager.LoadSceneAsync(levels[id].Name, LoadSceneMode.Additive));
 
-		StartCoroutine(GetSceneLoadProgress(id));
+		StartCoroutine(GetSceneLoadProgress(id, false));
 	}
 
 	float fill = 0f;
 	float totalSceneProgress = 0f;
 	float barVelocity = 0f;
-	public IEnumerator GetSceneLoadProgress(int id)
+	public IEnumerator GetSceneLoadProgress(int id, bool isHub)
 	{
 		Level level = levels[id];
 
@@ -205,22 +225,50 @@ public class GameManager : MonoBehaviour
 		scenesLoading.Clear();
 		currentLoadedScene = level.Name;
 
-		MusicAudioSource.clip = level.Music;
-		MusicAudioSource.loop = true;
-		MusicAudioSource.Play();
+		if (!isHub)
+		{
+			MusicAudioSource.clip = level.Music;
+			MusicAudioSource.loop = true;
+			MusicAudioSource.Play();
+			UnPauseGame();
 
-		UnPauseGame();
+			yield return new WaitForSeconds(1f);
 
-		yield return new WaitForSeconds(1f);
+			isPlaying = true;
 
-		isPlaying = true;
+			LoadingScreen.gameObject.SetActive(false);
+		}
+		else
+		{
+			yield return new WaitForSeconds(2f);
+			MusicAudioSource.clip = level.Music;
+			MusicAudioSource.loop = true;
+			MusicAudioSource.Play();
+			IsPaused = true;
+			LoadingBackground.color = Color.black;
+			StartCoroutine(FadeIn());
+		}
+	}
 
-		LoadingScreen.gameObject.SetActive(false);
+	float fadeAlpha = 1f;
+	IEnumerator FadeIn()
+	{
+		fadeAlpha = Mathf.MoveTowards(LoadingBackground.color.a, 0f, Time.deltaTime / 2f);
+
+		LoadingBackground.color = new Color(0f, 0f, 0f, fadeAlpha);
+
+		if (fadeAlpha == 0f)
+		{
+			LoadingScreen.gameObject.SetActive(false);
+			yield return null;
+		}
+		yield return new WaitForEndOfFrame();
+		StartCoroutine(FadeIn());
 	}
 
 	public void ReturnToMainMenu(bool restartMusic = false)
 	{
-		if (currentLoadedScene != null)
+		if (currentLoadedScene != null && currentLoadedScene != "Hub")
 			SceneManager.UnloadSceneAsync(currentLoadedScene);
 
 		currentLoadedScene = null;

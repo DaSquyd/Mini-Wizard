@@ -69,6 +69,9 @@ public class GolemEnemy : Entity
 		if (isDead)
 			return;
 
+		if (agent == null)
+			return;
+
 		if (PlayerController.Instance == null)
 			return;
 

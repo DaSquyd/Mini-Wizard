@@ -55,7 +55,9 @@ public abstract class Entity : ToonLitObject
 		base.Update();
 
 		if (transform.position.y <= -15)
-			ApplyDamage(null, 1000, Vector3.up, DamageType.Other, Element.None);
+		{
+			Destroy(gameObject);
+		}
 
 		OnUpdate(Time.deltaTime);
 	}
