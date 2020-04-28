@@ -180,6 +180,11 @@ public class Boss : Entity
 		yawCurrent = Mathf.SmoothDampAngle(transform.rotation.eulerAngles.y, yawTarget, ref yawVelocity, Settings.TurnTime / multiplier, Settings.TurnSpeed * multiplier);
 	}
 
+	public void StartFight()
+	{
+		SetState(State.Assemble);
+	}
+
 	int[] lastAttacks = new int[2];
 #if UNITY_EDITOR
 	[DebugDisplay]
