@@ -45,12 +45,15 @@ public class CutsceneHandler : MonoBehaviour
 	IEnumerator PlayRoutine()
 	{
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if (PlayerController.Instance != null)
 		{
 			PlayerController.Instance.Invincible = true;
 			PlayerController.Instance.MoveLock = true;
 		}
 
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 =======
 >>>>>>> parent of 9d7b92d... shtuff
 		for (int i = 0; i < Events.Length; i++)
@@ -64,6 +67,7 @@ public class CutsceneHandler : MonoBehaviour
 			}
 		}
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if (elapsed >= TotalTime && PlayerController.Instance != null)
 		{
 			PlayerController.Instance.Invincible = false;
@@ -75,6 +79,11 @@ public class CutsceneHandler : MonoBehaviour
 			elapsed += Time.deltaTime;
 			StartCoroutine(PlayRoutine());
 		}
+=======
+		yield return null;
+		elapsed += Time.deltaTime;
+		StartCoroutine(PlayRoutine());
+>>>>>>> parent of 9d7b92d... shtuff
 =======
 		yield return null;
 		elapsed += Time.deltaTime;

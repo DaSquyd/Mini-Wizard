@@ -519,7 +519,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 31
+=======
+      value: 47
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 47
 >>>>>>> parent of 9d7b92d... shtuff
@@ -820,7 +824,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 1
+=======
+      value: 6
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 6
 >>>>>>> parent of 9d7b92d... shtuff
@@ -888,7 +896,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 6
+=======
+      value: 22
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 22
 >>>>>>> parent of 9d7b92d... shtuff
@@ -1137,7 +1149,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 64
+=======
+      value: 5
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 5
 >>>>>>> parent of 9d7b92d... shtuff
@@ -1221,7 +1237,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 56
+=======
+      value: 72
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 72
 >>>>>>> parent of 9d7b92d... shtuff
@@ -1310,7 +1330,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 10
+=======
+      value: 26
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 26
 >>>>>>> parent of 9d7b92d... shtuff
@@ -1558,6 +1582,7 @@ PrefabInstance:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0189d05337036b54ca4614f8a6156cc7, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &111768008
 GameObject:
   m_ObjectHideFlags: 0
@@ -1625,6 +1650,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 33.51, y: 79.9, z: 0}
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 =======
 >>>>>>> parent of 9d7b92d... shtuff
 --- !u!1001 &118006155
@@ -1872,6 +1899,7 @@ PrefabInstance:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0189d05337036b54ca4614f8a6156cc7, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &120445354
 GameObject:
   m_ObjectHideFlags: 0
@@ -2101,6 +2129,8 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 =======
 >>>>>>> parent of 9d7b92d... shtuff
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 --- !u!1001 &125362677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2147,7 +2177,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 7
+=======
+      value: 23
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 23
 >>>>>>> parent of 9d7b92d... shtuff
@@ -2252,7 +2286,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 59
+=======
+      value: 75
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 75
 >>>>>>> parent of 9d7b92d... shtuff
@@ -2352,7 +2390,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 55
+=======
+      value: 71
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 71
 >>>>>>> parent of 9d7b92d... shtuff
@@ -2446,7 +2488,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 34
+=======
+      value: 50
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 50
 >>>>>>> parent of 9d7b92d... shtuff
@@ -2567,7 +2613,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 58
+=======
+      value: 74
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 74
 >>>>>>> parent of 9d7b92d... shtuff
@@ -2661,7 +2711,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 44
+=======
+      value: 60
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 60
 >>>>>>> parent of 9d7b92d... shtuff
@@ -2755,7 +2809,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 20
+=======
+      value: 36
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 36
 >>>>>>> parent of 9d7b92d... shtuff
@@ -2847,7 +2905,11 @@ Transform:
   - {fileID: 1235699819}
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 7
+=======
+  m_RootOrder: 11
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 11
 >>>>>>> parent of 9d7b92d... shtuff
@@ -3008,7 +3070,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 13
+=======
+      value: 29
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 29
 >>>>>>> parent of 9d7b92d... shtuff
@@ -3125,6 +3191,7 @@ CanvasRenderer:
   m_GameObject: {fileID: 307236767}
   m_CullTransparentMesh: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &310108222
 GameObject:
   m_ObjectHideFlags: 0
@@ -3183,6 +3250,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 =======
 >>>>>>> parent of 9d7b92d... shtuff
 --- !u!1001 &312601648
@@ -3410,7 +3479,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 0
+=======
+      value: 16
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 16
 >>>>>>> parent of 9d7b92d... shtuff
@@ -3437,6 +3510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 190b09cc3f2ebbf40977762747f2bd4b, type: 3}
+<<<<<<< HEAD
 <<<<<<< HEAD
 --- !u!4 &321103492 stripped
 Transform:
@@ -3761,6 +3835,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 =======
 >>>>>>> parent of 9d7b92d... shtuff
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 --- !u!1001 &328761059
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3891,7 +3967,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 3
+=======
+      value: 8
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 8
 >>>>>>> parent of 9d7b92d... shtuff
@@ -4158,7 +4238,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 45
+=======
+      value: 61
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 61
 >>>>>>> parent of 9d7b92d... shtuff
@@ -4195,6 +4279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d14aecf8adcd944ba2197a0445c40b1, type: 3}
+<<<<<<< HEAD
 <<<<<<< HEAD
 --- !u!4 &335868402 stripped
 Transform:
@@ -4316,6 +4401,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 =======
 >>>>>>> parent of 9d7b92d... shtuff
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 --- !u!1001 &365956389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4367,7 +4454,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 19
+=======
+      value: 35
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 35
 >>>>>>> parent of 9d7b92d... shtuff
@@ -4461,7 +4552,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 17
+=======
+      value: 33
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 33
 >>>>>>> parent of 9d7b92d... shtuff
@@ -4665,7 +4760,11 @@ Transform:
   - {fileID: 2043504686}
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 9
+=======
+  m_RootOrder: 13
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 13
 >>>>>>> parent of 9d7b92d... shtuff
@@ -5119,7 +5218,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 4
+=======
+      value: 9
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 9
 >>>>>>> parent of 9d7b92d... shtuff
@@ -5316,7 +5419,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 5
+=======
+      value: 21
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 21
 >>>>>>> parent of 9d7b92d... shtuff
@@ -5358,6 +5465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 190b09cc3f2ebbf40977762747f2bd4b, type: 3}
+<<<<<<< HEAD
 <<<<<<< HEAD
 --- !u!4 &464408316 stripped
 Transform:
@@ -5432,6 +5540,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: -19.7, y: 155.01, z: 0}
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 =======
 >>>>>>> parent of 9d7b92d... shtuff
 --- !u!1001 &492467241
@@ -5726,7 +5836,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 50
+=======
+      value: 66
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 66
 >>>>>>> parent of 9d7b92d... shtuff
@@ -5815,7 +5929,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 3
+=======
+      value: 19
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 19
 >>>>>>> parent of 9d7b92d... shtuff
@@ -6339,7 +6457,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 39
+=======
+      value: 55
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 55
 >>>>>>> parent of 9d7b92d... shtuff
@@ -6433,7 +6555,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 12
+=======
+      value: 28
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 28
 >>>>>>> parent of 9d7b92d... shtuff
@@ -6715,7 +6841,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 21
+=======
+      value: 37
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 37
 >>>>>>> parent of 9d7b92d... shtuff
@@ -6804,7 +6934,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 63
+=======
+      value: 4
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 4
 >>>>>>> parent of 9d7b92d... shtuff
@@ -6903,7 +7037,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 49
+=======
+      value: 65
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 65
 >>>>>>> parent of 9d7b92d... shtuff
@@ -6997,7 +7135,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 60
+=======
+      value: 76
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 76
 >>>>>>> parent of 9d7b92d... shtuff
@@ -7097,7 +7239,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 42
+=======
+      value: 58
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 58
 >>>>>>> parent of 9d7b92d... shtuff
@@ -7135,6 +7281,7 @@ PrefabInstance:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d14aecf8adcd944ba2197a0445c40b1, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!4 &704831323 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3344744997068145272, guid: 4d14aecf8adcd944ba2197a0445c40b1,
@@ -7160,6 +7307,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &712172947 stripped
+=======
+--- !u!4 &711563361 stripped
+>>>>>>> parent of 9d7b92d... shtuff
 =======
 --- !u!4 &711563361 stripped
 >>>>>>> parent of 9d7b92d... shtuff
@@ -7308,7 +7458,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 2
+=======
+      value: 7
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 7
 >>>>>>> parent of 9d7b92d... shtuff
@@ -7414,7 +7568,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 24
+=======
+      value: 40
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 40
 >>>>>>> parent of 9d7b92d... shtuff
@@ -7508,7 +7666,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 48
+=======
+      value: 64
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 64
 >>>>>>> parent of 9d7b92d... shtuff
@@ -7602,7 +7764,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 52
+=======
+      value: 68
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 68
 >>>>>>> parent of 9d7b92d... shtuff
@@ -7691,7 +7857,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 1
+=======
+      value: 17
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 17
 >>>>>>> parent of 9d7b92d... shtuff
@@ -7943,7 +8113,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 37
+=======
+      value: 53
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 53
 >>>>>>> parent of 9d7b92d... shtuff
@@ -8265,7 +8439,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 22
+=======
+      value: 38
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 38
 >>>>>>> parent of 9d7b92d... shtuff
@@ -8538,7 +8716,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 57
+=======
+      value: 73
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 73
 >>>>>>> parent of 9d7b92d... shtuff
@@ -8575,6 +8757,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d14aecf8adcd944ba2197a0445c40b1, type: 3}
+<<<<<<< HEAD
 <<<<<<< HEAD
 --- !u!4 &841774604 stripped
 Transform:
@@ -8651,6 +8834,8 @@ Transform:
   m_LocalEulerAnglesHint: {x: 33.51, y: 79.9, z: 0}
 =======
 >>>>>>> parent of 9d7b92d... shtuff
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 --- !u!1001 &872072669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8702,7 +8887,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 32
+=======
+      value: 48
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 48
 >>>>>>> parent of 9d7b92d... shtuff
@@ -8774,7 +8963,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 11
+=======
+  m_RootOrder: 15
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 15
 >>>>>>> parent of 9d7b92d... shtuff
@@ -9086,6 +9279,7 @@ AudioListener:
   m_GameObject: {fileID: 968303931}
   m_Enabled: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 33fd7c41897b8ad4c83ca46995c26875, type: 3}
   m_Name: 
@@ -9148,6 +9342,10 @@ MonoBehaviour:
 --- !u!20 &968303933
 Camera:
 >>>>>>> parent of 9d7b92d... shtuff
+=======
+--- !u!20 &968303933
+Camera:
+>>>>>>> parent of 9d7b92d... shtuff
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -9202,8 +9400,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 10.313001, y: 4.8, z: 0.0050000004}
+=======
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9427,7 +9630,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 46
+=======
+      value: 62
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 62
 >>>>>>> parent of 9d7b92d... shtuff
@@ -9521,7 +9728,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 16
+=======
+      value: 32
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 32
 >>>>>>> parent of 9d7b92d... shtuff
@@ -9615,7 +9826,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 29
+=======
+      value: 45
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 45
 >>>>>>> parent of 9d7b92d... shtuff
@@ -9803,7 +10018,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 38
+=======
+      value: 54
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 54
 >>>>>>> parent of 9d7b92d... shtuff
@@ -9903,7 +10122,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 18
+=======
+      value: 34
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 34
 >>>>>>> parent of 9d7b92d... shtuff
@@ -10003,7 +10226,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 23
+=======
+      value: 39
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 39
 >>>>>>> parent of 9d7b92d... shtuff
@@ -10076,7 +10303,11 @@ Transform:
   - {fileID: 5006512735977532532}
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 10
+=======
+  m_RootOrder: 14
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 14
 >>>>>>> parent of 9d7b92d... shtuff
@@ -10138,7 +10369,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 33
+=======
+      value: 49
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 49
 >>>>>>> parent of 9d7b92d... shtuff
@@ -10364,7 +10599,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 40
+=======
+      value: 56
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 56
 >>>>>>> parent of 9d7b92d... shtuff
@@ -10453,7 +10692,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 2
+=======
+      value: 18
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 18
 >>>>>>> parent of 9d7b92d... shtuff
@@ -10583,7 +10826,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 6
+=======
+  m_RootOrder: 10
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 10
 >>>>>>> parent of 9d7b92d... shtuff
@@ -10653,7 +10900,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 47
+=======
+      value: 63
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 63
 >>>>>>> parent of 9d7b92d... shtuff
@@ -10858,7 +11109,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 53
+=======
+      value: 69
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 69
 >>>>>>> parent of 9d7b92d... shtuff
@@ -10947,7 +11202,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 8
+=======
+      value: 24
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 24
 >>>>>>> parent of 9d7b92d... shtuff
@@ -11046,7 +11305,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 15
+=======
+      value: 31
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 31
 >>>>>>> parent of 9d7b92d... shtuff
@@ -11140,7 +11403,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 14
+=======
+      value: 30
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 30
 >>>>>>> parent of 9d7b92d... shtuff
@@ -11235,7 +11502,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 11
+=======
+      value: 27
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 27
 >>>>>>> parent of 9d7b92d... shtuff
@@ -11404,6 +11675,7 @@ Transform:
   m_PrefabInstance: {fileID: 816302898}
   m_PrefabAsset: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &1328098696
 GameObject:
   m_ObjectHideFlags: 0
@@ -11471,6 +11743,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 33.51, y: 79.9, z: 0}
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 =======
 >>>>>>> parent of 9d7b92d... shtuff
 --- !u!1001 &1336138374
@@ -11752,7 +12026,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 26
+=======
+      value: 42
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 42
 >>>>>>> parent of 9d7b92d... shtuff
@@ -12588,7 +12866,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 28
+=======
+      value: 44
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 44
 >>>>>>> parent of 9d7b92d... shtuff
@@ -12694,7 +12976,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 41
+=======
+      value: 57
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 57
 >>>>>>> parent of 9d7b92d... shtuff
@@ -13050,7 +13336,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 61
+=======
+      value: 2
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 2
 >>>>>>> parent of 9d7b92d... shtuff
@@ -13087,6 +13377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d14aecf8adcd944ba2197a0445c40b1, type: 3}
+<<<<<<< HEAD
 <<<<<<< HEAD
 --- !u!4 &1589507053 stripped
 Transform:
@@ -13208,6 +13499,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 =======
 >>>>>>> parent of 9d7b92d... shtuff
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 --- !u!1001 &1669432249
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13259,7 +13552,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 36
+=======
+      value: 52
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 52
 >>>>>>> parent of 9d7b92d... shtuff
@@ -13532,6 +13829,7 @@ PrefabInstance:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0189d05337036b54ca4614f8a6156cc7, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &1690996789
 GameObject:
   m_ObjectHideFlags: 0
@@ -13616,6 +13914,8 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 =======
 >>>>>>> parent of 9d7b92d... shtuff
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 --- !u!4 &1691298243 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1104828651398334937, guid: 0189d05337036b54ca4614f8a6156cc7,
@@ -13673,7 +13973,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 51
+=======
+      value: 67
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 67
 >>>>>>> parent of 9d7b92d... shtuff
@@ -13768,7 +14072,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 4
+=======
+      value: 20
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 20
 >>>>>>> parent of 9d7b92d... shtuff
@@ -14102,7 +14410,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 30
+=======
+      value: 46
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 46
 >>>>>>> parent of 9d7b92d... shtuff
@@ -14922,7 +15234,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 25
+=======
+      value: 41
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 41
 >>>>>>> parent of 9d7b92d... shtuff
@@ -15016,7 +15332,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 54
+=======
+      value: 70
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 70
 >>>>>>> parent of 9d7b92d... shtuff
@@ -15053,6 +15373,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d14aecf8adcd944ba2197a0445c40b1, type: 3}
+<<<<<<< HEAD
 <<<<<<< HEAD
 --- !u!4 &1887906068 stripped
 Transform:
@@ -15129,6 +15450,8 @@ Transform:
   m_LocalEulerAnglesHint: {x: -24.7, y: 207.4, z: 0}
 =======
 >>>>>>> parent of 9d7b92d... shtuff
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 --- !u!4 &1891352145 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1104828651398334937, guid: 0189d05337036b54ca4614f8a6156cc7,
@@ -15186,7 +15509,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 27
+=======
+      value: 43
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 43
 >>>>>>> parent of 9d7b92d... shtuff
@@ -15603,7 +15930,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 9
+=======
+      value: 25
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 25
 >>>>>>> parent of 9d7b92d... shtuff
@@ -16130,7 +16461,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 62
+=======
+      value: 3
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 3
 >>>>>>> parent of 9d7b92d... shtuff
@@ -16354,7 +16689,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 43
+=======
+      value: 59
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 59
 >>>>>>> parent of 9d7b92d... shtuff
@@ -16490,7 +16829,11 @@ RectTransform:
   - {fileID: 1934530437}
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 8
+=======
+  m_RootOrder: 12
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 12
 >>>>>>> parent of 9d7b92d... shtuff
@@ -16941,7 +17284,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 35
+=======
+      value: 51
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 51
 >>>>>>> parent of 9d7b92d... shtuff
