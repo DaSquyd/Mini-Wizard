@@ -271,6 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lights: []
+  NoAI: 0
   Element: 0
   Settings: {fileID: 11400000, guid: 65a7ae677a4dc30458d9190035ba7f10, type: 2}
   CameraSettings: {fileID: 11400000, guid: 3bb2ac8c4eddd3b4c945ba9c8ca13341, type: 2}
@@ -303,6 +304,7 @@ MonoBehaviour:
   SwordStabSFX: {fileID: 11400000, guid: 9f45e25c5ba68844ea4379dd5cf0cf68, type: 2}
   ShootAudioSource: {fileID: 3210315263644742496}
   ShootSFX: {fileID: 11400000, guid: 5dd6d3f9dd877c245967beccd83fc986, type: 2}
+  MoveLock: 0
 --- !u!114 &1758857846000171218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -869,6 +871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca51f68c62d8fb40a623ebe959aae99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Magic: {fileID: 160210, guid: 47c912df2630e6243b4678b33bd866e4, type: 3}
 --- !u!1 &5666752877936047726
 GameObject:
   m_ObjectHideFlags: 0

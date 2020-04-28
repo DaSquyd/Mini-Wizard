@@ -15,7 +15,9 @@ public class PlayerAnimationHandler : MonoBehaviour
 
 	public void TeleportStartEvent()
 	{
-
+		player = PlayerController.Instance;
+		Debug.Log(player);
+		GameObject obj = Instantiate(Magic, player.transform.position, new Quaternion());
 	}
 
 	public void DeathEndEvent()
