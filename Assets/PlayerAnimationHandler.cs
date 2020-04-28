@@ -11,5 +11,8 @@ public class PlayerAnimationHandler : MonoBehaviour
 		player = PlayerController.Instance;
 	}
 
-
+	public void DeathEndEvent()
+	{
+		GameManager.Instance.Lose();
+	}
 }

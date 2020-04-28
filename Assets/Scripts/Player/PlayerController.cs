@@ -955,8 +955,7 @@ public class PlayerController : Entity
 	}
 	protected override void OnDeath()
 	{
-		base.OnDeath();
-		GameManager.Instance.Lose();
+		animator.SetBool("Death", true);
 	}
 
 	protected override void OnReceiveDamage(Entity attacker, int amount, Vector3 direction, DamageType type, Element sourceElement)

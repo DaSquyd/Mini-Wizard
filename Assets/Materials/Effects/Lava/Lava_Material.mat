@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Lava_Material
-  m_Shader: {fileID: -6465566751694194690, guid: bd1fbd4f503bfc34980cc1c5668e6625,
+  m_Shader: {fileID: -6465566751694194690, guid: 6c7a147130eaec14dbdef8b8e7dd5d02,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _SampleTexture2D_930A9D90_Texture_1:
+        m_Texture: {fileID: 2800000, guid: fdc709d980952e640ac7f8c0a5e0ae13, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_B6EBFF00_Texture_1:
         m_Texture: {fileID: 2800000, guid: fdc709d980952e640ac7f8c0a5e0ae13, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -28,8 +32,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: fdc709d980952e640ac7f8c0a5e0ae13, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_C50E74A3_Texture_1:
+        m_Texture: {fileID: 2800000, guid: fdc709d980952e640ac7f8c0a5e0ae13, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_2836B6D1: 0.3
     - Vector1_3F5CAFB1: 0.05
+    - Vector1_5D5E8F76: 0.3
+    - Vector1_95E28B93: 0.05
     m_Colors:
     - Color_A5A8855: {r: 64, g: 1.756863, b: 0, a: 0}
+    - Color_B4790F31: {r: 64, g: 1.756863, b: 0, a: 0}

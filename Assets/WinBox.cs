@@ -9,7 +9,6 @@ public class WinBox : MonoBehaviour
     {
 		if (other.tag == "Player")
 		{
-			Debug.Log("Win!");
 			GameManager.Instance.Win();
 		}
     }

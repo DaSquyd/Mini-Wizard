@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b25c792392d61643b54b40259d5d446, type: 3}
   m_Name: BossSettings
   m_EditorClassIdentifier: 
-  MaxHealth: 2
+  MaxHealth: 200
   AssembleAcceleration: 0.3
   AssembleMaxSpeed: 100
   TurnSpeed: 180
