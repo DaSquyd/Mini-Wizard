@@ -681,11 +681,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5edf8258c20ef0448a87abe3a0d7087b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Element: 1
   Lights: []
+  NoAI: 0
+  Element: 1
   Settings: {fileID: 11400000, guid: 70878f483b5f7e6458b30a6c774976b1, type: 2}
-  attackVelocity: 0
-  canHit: 0
 --- !u!195 &5864224766787516084
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -722,7 +721,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!1 &7950136037113708051
 GameObject:

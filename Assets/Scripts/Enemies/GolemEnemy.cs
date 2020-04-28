@@ -76,7 +76,7 @@ public class GolemEnemy : Entity
 		if (PlayerController.Instance == null)
 			return;
 
-		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, transform.forward, Settings.SightMaxDistance, Settings.SightAngle, LayerMask.GetMask("Default", "Terrain", "Player"));
+		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, transform.forward, Settings.SightMaxDistance, Settings.SightAngle, LayerMask.GetMask("Default", "Player"), LayerMask.GetMask("Default", "Terrain"));
 
 		IsTargeting = false;
 		for (int i = 0; i < coneHit.Length; i++)
