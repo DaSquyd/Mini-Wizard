@@ -6,9 +6,16 @@ public class PlayerAnimationHandler : MonoBehaviour
 {
 	PlayerController player;
 
+	public GameObject Magic;
+
 	private void Start()
 	{
 		player = PlayerController.Instance;
+	}
+
+	public void TeleportStartEvent()
+	{
+
 	}
 
 	public void DeathEndEvent()

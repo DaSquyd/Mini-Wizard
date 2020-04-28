@@ -69,14 +69,8 @@ public class GameManager : MonoBehaviour
 
 	bool isPlaying = false;
 
-	public bool IsPaused
-	{
-		get; private set;
-	}
-	public bool Pausible
-	{
-		get; private set;
-	}
+	public bool IsPaused;
+	public bool Pausible;
 
 	private ActionInputManager actionInputManager;
 	private EventSystem eventSystem;
@@ -110,23 +104,16 @@ public class GameManager : MonoBehaviour
 		gameObject.SetActive(true);
 
 #if UNITY_EDITOR
-		if (SceneManager.GetActiveScene().name == "Persistent")
+		if (SceneManager.GetActiveScene().name != "Persistent")
 		{
-			scenesLoading.Add(SceneManager.LoadSceneAsync("Hub", LoadSceneMode.Additive));
-			StartCoroutine(GetSceneLoadProgress(0, true));
-		}
-		else
-		{
+			Debug.Log(SceneManager.GetActiveScene().name);
 			IsPaused = false;
 			MainMenu.SetActive(false);
 			MusicAudioSource.Stop();
 			LoadingScreen.SetActive(false);
 		}
-#else
-			scenesLoading.Add(SceneManager.LoadSceneAsync("Hub", LoadSceneMode.Additive));
-			StartCoroutine(GetSceneLoadProgress(0, true));
-#endif
 	}
+#endif
 
 	private void Update()
 	{
@@ -139,7 +126,7 @@ public class GameManager : MonoBehaviour
 		if (Instance == null)
 			Instance = this;
 
-		if (ActionInputManager.GetInputDown("Pause") && isPlaying)
+		if (ActionInputManager.GetInputDown("Pause") && Pausible)
 		{
 			if (IsPaused)
 				UnPauseGame();
@@ -181,6 +168,10 @@ public class GameManager : MonoBehaviour
 
 	public void LoadGame(int id)
 	{
+		PlayerVcam.gameObject.SetActive(false);
+
+		Pausible = false;
+
 		if (id >= levels.Length || id < 0)
 		{
 			Debug.LogWarning($"Requested level {id} does not exist!");
@@ -246,29 +237,23 @@ public class GameManager : MonoBehaviour
 		scenesLoading.Clear();
 		currentLoadedScene = level.Name;
 
+		UnPauseGame();
+
 		if (!isHub)
 		{
-			MusicAudioSource.clip = level.Music;
-			MusicAudioSource.loop = true;
-			MusicAudioSource.Play();
-			UnPauseGame();
-
 			yield return new WaitForSeconds(1f);
-
-			//isPlaying = true;
 
 			FadeIn(4f);
 		}
 		else
 		{
 			yield return new WaitForSeconds(2f);
-			MusicAudioSource.clip = level.Music;
-			MusicAudioSource.loop = true;
-			MusicAudioSource.Play();
-			IsPaused = true;
 			LoadingBackground.color = Color.black;
 			FadeIn(2f);
 		}
+		MusicAudioSource.loop = true;
+		MusicAudioSource.clip = level.Music;
+		MusicAudioSource.Play();
 	}
 	
 	public void FadeIn(float totalTime)
@@ -277,6 +262,8 @@ public class GameManager : MonoBehaviour
 	}
 	IEnumerator FadeInCoroutine(float totalTime, float fadeProgress = 0f)
 	{
+		Pausible = false;
+
 		ProgressBarBack.gameObject.SetActive(false);
 		LoadingBackground.color = Color.Lerp(LoadingBackground.color, Color.clear, fadeProgress);
 
@@ -284,8 +271,8 @@ public class GameManager : MonoBehaviour
 
 		if (fadeProgress == 0f)
 		{
+			Pausible = true;
 			LoadingScreen.gameObject.SetActive(false);
-			Debug.Log("Done!");
 		}
 		else
 		{
@@ -296,6 +283,8 @@ public class GameManager : MonoBehaviour
 
 	public void FadeToColor(float totalTime, Color startingColor, Color endingColor)
 	{
+		Pausible = false;
+
 		StartCoroutine(FadeToColorCoroutine(totalTime, startingColor, endingColor));
 	}
 	IEnumerator FadeToColorCoroutine(float TotalTime, Color startingColor, Color endingColor, float fadeProgress = 0f)
@@ -308,7 +297,6 @@ public class GameManager : MonoBehaviour
 
 		if (fadeProgress == 1f)
 		{
-
 		}
 		else
 		{
@@ -319,7 +307,7 @@ public class GameManager : MonoBehaviour
 
 	public void ReturnToMainMenu(bool restartMusic = false)
 	{
-		if (currentLoadedScene != null && currentLoadedScene != "Hub")
+		if (currentLoadedScene != null)
 			SceneManager.UnloadSceneAsync(currentLoadedScene);
 
 		currentLoadedScene = null;
@@ -392,5 +380,17 @@ public class GameManager : MonoBehaviour
 	public void Quit()
 	{
 		Application.Quit();
+	}
+
+	public void ReturnToHub()
+	{
+		if (currentLoadedScene == "Hub")
+		{
+			UnPauseGame();
+		}
+		else
+		{
+			LoadGame(0);
+		}
 	}
 }

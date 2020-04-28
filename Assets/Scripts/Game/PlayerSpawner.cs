@@ -28,15 +28,6 @@ public class PlayerSpawner : MonoBehaviour
 		Instance = this;
 	}
 
-	private void Update()
-	{
-		if (Instance != null && Instance != this)
-		{
-			Destroy(Instance.gameObject);
-			Instance = this;
-		}
-	}
-
 	public void Spawn(bool animate)
 	{
 		StartCoroutine(SpawnPlayer(animate));
