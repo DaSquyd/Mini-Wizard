@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scenes/Volcano.meta
 guid: 901d4abfe0443ca429de054c3fba10f8
+=======
+guid: bd1f3b6dd1a2169418154f0b6d950baf
+>>>>>>> parent of 7ccd0aa... smoke particle:Assets/Materials/Models.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

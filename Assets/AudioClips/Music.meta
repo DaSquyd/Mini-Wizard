@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/AudioClips/Music.meta
 guid: 917ae943aa3f8cf41bb6a233f6450ed4
+=======
+guid: 37765c52414312d4599388ea90e52294
+>>>>>>> parent of 7ccd0aa... smoke particle:Assets/Materials/LightCrystals/Ice/Materials.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

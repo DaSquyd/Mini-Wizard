@@ -1,4 +1,5 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 <<<<<<< HEAD:Assets/Teleport_Particle_Effect.meta
 <<<<<<< HEAD:Assets/Teleport_Particle_Effect.meta
 guid: b5d550e4e162e214c9f8f96a7ea8697e
@@ -8,6 +9,13 @@ guid: aafc4bf363e498d49bc7dedd205121d4
 =======
 guid: bd1f3b6dd1a2169418154f0b6d950baf
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice:Assets/Materials/Models.meta
+=======
+<<<<<<< HEAD:Assets/Scenes/Volcano.meta
+guid: 901d4abfe0443ca429de054c3fba10f8
+=======
+guid: bd1f3b6dd1a2169418154f0b6d950baf
+>>>>>>> parent of 7ccd0aa... smoke particle:Assets/Materials/Models.meta
+>>>>>>> parent of 7ccd0aa... smoke particle
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
