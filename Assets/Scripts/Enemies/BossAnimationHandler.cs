@@ -51,8 +51,13 @@ public class BossAnimationHandler : MonoBehaviour
 		boss.SetState(Boss.State.IdleTurn);
 	}
 
+	public void DeathStartEvent()
+	{
+		boss.DeathCutscene.Play();
+	}
 	public void DeathEndEvent()
 	{
 		boss.DeathAnimEnd = true;
+		GameManager.Instance.Win();
 	}
 }

@@ -70,6 +70,8 @@ public class Boss : Entity
 	public Image HealthBar;
 	public Image HealthBack;
 
+	public CutsceneHandler DeathCutscene;
+
 	Animator animator;
 
 	float assembleSpeed = 0f;

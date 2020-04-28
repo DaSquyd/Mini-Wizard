@@ -81,6 +81,15 @@ public class GameManager : MonoBehaviour
 	private ActionInputManager actionInputManager;
 	private EventSystem eventSystem;
 
+	public enum BeatLevels
+	{
+		None = 0,
+		Ice = 1,
+		Fire = 2,
+		Boss = 4
+	}
+	public BeatLevels BeatLevel;
+
 	private void Awake()
 	{
 		Instance = this;
@@ -189,6 +198,7 @@ public class GameManager : MonoBehaviour
 
 		if (currentLoadedScene != null)
 		{
+			Debug.Log("Unload");
 			SceneManager.UnloadSceneAsync(currentLoadedScene);
 		}
 
@@ -247,7 +257,7 @@ public class GameManager : MonoBehaviour
 
 			//isPlaying = true;
 
-			StartCoroutine(FadeIn(4f));
+			FadeIn(4f);
 		}
 		else
 		{
@@ -257,28 +267,53 @@ public class GameManager : MonoBehaviour
 			MusicAudioSource.Play();
 			IsPaused = true;
 			LoadingBackground.color = Color.black;
-			StartCoroutine(FadeIn(2f));
+			FadeIn(2f);
 		}
 	}
-
-	float fadeAlpha = 1f;
-	IEnumerator FadeIn(float totalTime)
+	
+	public void FadeIn(float totalTime)
 	{
-		Debug.Log($"Fade: {fadeAlpha}");
+		StartCoroutine(FadeInCoroutine(totalTime));
+	}
+	IEnumerator FadeInCoroutine(float totalTime, float fadeProgress = 0f)
+	{
 		ProgressBarBack.gameObject.SetActive(false);
-		fadeAlpha = Mathf.MoveTowards(LoadingBackground.color.a, 0f, Time.deltaTime / totalTime);
+		LoadingBackground.color = Color.Lerp(LoadingBackground.color, Color.clear, fadeProgress);
 
-		LoadingBackground.color = new Color(0f, 0f, 0f, fadeAlpha);
+		fadeProgress = Mathf.MoveTowards(LoadingBackground.color.a, 0f, Time.deltaTime / totalTime);
 
-		if (fadeAlpha == 0f)
+		if (fadeProgress == 0f)
 		{
 			LoadingScreen.gameObject.SetActive(false);
 			Debug.Log("Done!");
 		}
 		else
 		{
-			yield return new WaitForEndOfFrame();
-			StartCoroutine(FadeIn(totalTime));
+			yield return null;
+			StartCoroutine(FadeInCoroutine(totalTime, fadeProgress));
+		}
+	}
+
+	public void FadeToColor(float totalTime, Color startingColor, Color endingColor)
+	{
+		StartCoroutine(FadeToColorCoroutine(totalTime, startingColor, endingColor));
+	}
+	IEnumerator FadeToColorCoroutine(float TotalTime, Color startingColor, Color endingColor, float fadeProgress = 0f)
+	{
+		ProgressBar.gameObject.SetActive(false);
+		LoadingScreen.gameObject.SetActive(true);
+		LoadingBackground.color = Color.Lerp(startingColor, endingColor, fadeProgress);
+
+		fadeProgress = Mathf.MoveTowards(fadeProgress, 1f, Time.deltaTime / TotalTime);
+
+		if (fadeProgress == 1f)
+		{
+
+		}
+		else
+		{
+			yield return null;
+			StartCoroutine(FadeToColorCoroutine(TotalTime, startingColor, endingColor, fadeProgress));
 		}
 	}
 
@@ -339,14 +374,19 @@ public class GameManager : MonoBehaviour
 
 	public void Win()
 	{
-		PauseGame(false);
-		WinMenu.SetActive(true);
+		FadeToColor(4f, Color.clear, Color.white);
+		PlayerController.Instance.Invincible = true;
+		StartCoroutine(WinCoroutine());
+	}
+	IEnumerator WinCoroutine()
+	{
+		yield return new WaitForSeconds(5f);
+		LoadGame(0);
 	}
 
 	public void Lose()
 	{
-		PauseGame(false);
-		LoseMenu.SetActive(true);
+		FadeToColor(4f, Color.clear, Color.black);
 	}
 
 	public void Quit()

@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lights: []
+  NoAI: 0
   Element: 0
 --- !u!1 &1127988102879651472
 GameObject:
@@ -553,6 +554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lights: []
+  NoAI: 0
   Element: 1
 --- !u!1 &5250251010546149594
 GameObject:
@@ -711,6 +713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lights: []
+  NoAI: 0
   Element: 2
 --- !u!1 &5566726500157255010
 GameObject:
@@ -788,12 +791,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lights: []
+  NoAI: 0
   Element: 0
   Settings: {fileID: 11400000, guid: af59e3cb1aa2d1f4b8ca3add223ad08c, type: 2}
   LeftArm: {fileID: 5476025880472343429}
   RightArm: {fileID: 4989570956893945970}
   HealthCanvas: {fileID: 1368506096759502966}
   HealthBar: {fileID: 432485012549659631}
+  HealthBack: {fileID: 1397724275823749468}
+  DeathAnimEnd: 0
 --- !u!1 &8578743031069951877
 GameObject:
   m_ObjectHideFlags: 0

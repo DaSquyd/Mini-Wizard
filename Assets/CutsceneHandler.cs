@@ -45,6 +45,7 @@ public class CutsceneHandler : MonoBehaviour
 	{
 		if (PlayerController.Instance != null)
 		{
+			PlayerController.Instance.Invincible = true;
 			PlayerController.Instance.MoveLock = true;
 		}
 
@@ -60,6 +61,7 @@ public class CutsceneHandler : MonoBehaviour
 		}
 		if (elapsed >= TotalTime && PlayerController.Instance != null)
 		{
+			PlayerController.Instance.Invincible = false;
 			PlayerController.Instance.MoveLock = false;
 		}
 		else
@@ -94,4 +96,6 @@ public class CutsceneHandler : MonoBehaviour
 			brain.m_DefaultBlend.m_Time = time;
 		}
 	}
+
+
 }
