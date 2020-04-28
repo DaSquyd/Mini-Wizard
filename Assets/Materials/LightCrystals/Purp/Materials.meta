@@ -1,4 +1,5 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Materials/LightCrystals/Purp/Materials.meta
 <<<<<<< HEAD:Assets/Materials/Effects/Smoke.meta
 <<<<<<< HEAD:Assets/Materials/Effects/Smoke.meta
 guid: 0a7ea6b6f5e1e6c46ac03afe2acdd47c
@@ -8,6 +9,9 @@ guid: 973d4cd4359ad1c4080269e0f6b29429
 =======
 guid: fea5e53f69d8b8440a51034139568db5
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice:Assets/Materials/LightCrystals/Purp/Materials.meta
+=======
+guid: 0a7ea6b6f5e1e6c46ac03afe2acdd47c
+>>>>>>> parent of 9d7b92d... shtuff:Assets/Materials/Effects/Smoke.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

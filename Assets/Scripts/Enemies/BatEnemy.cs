@@ -52,7 +52,7 @@ public class BatEnemy : Entity
 	// Update is called once per frame
 	protected override void OnUpdate(float deltaTime)
 	{
-		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, transform.forward, Settings.SightMaxDistance, Settings.SightAngle, LayerMask.GetMask("Default"), LayerMask.GetMask("Default", "Terrain"));
+		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, transform.forward, Settings.SightMaxDistance, Settings.SightAngle, LayerMask.GetMask("Default"));
 
 		IsTargeting = false;
 		for (int i = 0; i < coneHit.Length; i++)

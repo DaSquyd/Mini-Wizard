@@ -1,4 +1,5 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Materials/LightCrystals/Ice/Materials.meta
 <<<<<<< HEAD:Assets/Teleport_Particle_Effect/Materials.meta
 <<<<<<< HEAD:Assets/Teleport_Particle_Effect/Materials.meta
 guid: fcbc3e8a17753c2458f3e520d5a805f7
@@ -8,6 +9,9 @@ guid: 917ae943aa3f8cf41bb6a233f6450ed4
 =======
 guid: 37765c52414312d4599388ea90e52294
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice:Assets/Materials/LightCrystals/Ice/Materials.meta
+=======
+guid: fcbc3e8a17753c2458f3e520d5a805f7
+>>>>>>> parent of 9d7b92d... shtuff:Assets/Teleport_Particle_Effect/Materials.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

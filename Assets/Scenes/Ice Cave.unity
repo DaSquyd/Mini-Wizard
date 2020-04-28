@@ -167,7 +167,7 @@ PrefabInstance:
     - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
         type: 3}
@@ -590,7 +590,7 @@ PrefabInstance:
     - target: {fileID: 5368998856760628585, guid: e2bdfffefcc1df949b951479ddd28592,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5368998856760628585, guid: e2bdfffefcc1df949b951479ddd28592,
         type: 3}
@@ -665,6 +665,7 @@ PrefabInstance:
       propertyPath: m_RootOrder
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 12
 =======
       value: 19
@@ -672,6 +673,9 @@ PrefabInstance:
 =======
       value: 13
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+      value: 12
+>>>>>>> parent of 9d7b92d... shtuff
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2166,11 +2170,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Snow Particle
       objectReference: {fileID: 0}
-    - target: {fileID: 339395512753358844, guid: 6db6df7199b877d4cabd7ad96f2905cb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 996056754696749739, guid: 6db6df7199b877d4cabd7ad96f2905cb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2211,6 +2210,7 @@ PrefabInstance:
       propertyPath: m_RootOrder
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 14
 =======
       value: 20
@@ -2218,6 +2218,9 @@ PrefabInstance:
 =======
       value: 15
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+      value: 14
+>>>>>>> parent of 9d7b92d... shtuff
       objectReference: {fileID: 0}
     - target: {fileID: 996056754696749739, guid: 6db6df7199b877d4cabd7ad96f2905cb,
         type: 3}
@@ -2236,81 +2239,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6db6df7199b877d4cabd7ad96f2905cb, type: 3}
---- !u!198 &150930486 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5600214292960755092, guid: 6db6df7199b877d4cabd7ad96f2905cb,
-    type: 3}
-  m_PrefabInstance: {fileID: 150930485}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &154784397
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -5.5867844
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 211.05692
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.40150207
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.91585815
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 47.344
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516087, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_Name
-      value: FireGolem (2)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8ca6a1ba5599bf946a90fb2f1235242e, type: 3}
 --- !u!4 &159615624 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8382069310913688436, guid: 8f64e9f90500d404bbad56b4f2d083b4,
@@ -3066,75 +2994,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 716970580}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &241899672
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -8.545509
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.53
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 28.41691
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.064441964
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.99792147
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 7.3900003
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745158, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_Name
-      value: IceGolem (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: edf5a50dc762e0c4296ee86a4ddd85a0, type: 3}
 --- !u!1001 &243199275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3753,75 +3612,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 323080882}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &295653279
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -20.127794
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.29
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 221.31049
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.18830895
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.98210984
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -21.708
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745158, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_Name
-      value: IceGolem (2)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: edf5a50dc762e0c4296ee86a4ddd85a0, type: 3}
 --- !u!1 &299923294
 GameObject:
   m_ObjectHideFlags: 0
@@ -3889,6 +3679,7 @@ Transform:
   m_Father: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 22
 =======
   m_RootOrder: 29
@@ -3896,6 +3687,9 @@ Transform:
 =======
   m_RootOrder: 23
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 22
+>>>>>>> parent of 9d7b92d... shtuff
   m_LocalEulerAnglesHint: {x: -1.6, y: 173.76, z: 0}
 --- !u!4 &300547250 stripped
 Transform:
@@ -4197,75 +3991,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db19bedcf7433a244b32f460e49c7d70, type: 3}
---- !u!1001 &346081260
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.396898
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 223.63216
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.1346462
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9908938
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 15.476001
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745158, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_Name
-      value: IceGolem (3)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: edf5a50dc762e0c4296ee86a4ddd85a0, type: 3}
 --- !u!4 &354724849 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5440500096083077371, guid: db19bedcf7433a244b32f460e49c7d70,
@@ -5571,7 +5296,7 @@ PrefabInstance:
     - target: {fileID: 9196899714340017600, guid: 3443615e3bba8544c8fde351e4931cb5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9196899714340017600, guid: 3443615e3bba8544c8fde351e4931cb5,
         type: 3}
@@ -6061,6 +5786,7 @@ PrefabInstance:
       propertyPath: m_RootOrder
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 11
 =======
       value: 18
@@ -6068,6 +5794,9 @@ PrefabInstance:
 =======
       value: 12
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+      value: 11
+>>>>>>> parent of 9d7b92d... shtuff
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8e6331f1edd76d54ca3ea4abda2cd644,
         type: 3}
@@ -6931,7 +6660,7 @@ PrefabInstance:
     - target: {fileID: 9196899714340017600, guid: 3443615e3bba8544c8fde351e4931cb5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9196899714340017600, guid: 3443615e3bba8544c8fde351e4931cb5,
         type: 3}
@@ -7918,6 +7647,7 @@ Transform:
   m_Father: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 21
 =======
   m_RootOrder: 28
@@ -7925,6 +7655,9 @@ Transform:
 =======
   m_RootOrder: 22
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 21
+>>>>>>> parent of 9d7b92d... shtuff
   m_LocalEulerAnglesHint: {x: -13.6, y: -53.38, z: 0}
 --- !u!1 &747290689
 GameObject:
@@ -8018,6 +7751,7 @@ Transform:
   m_Father: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 13
 =======
   m_RootOrder: 21
@@ -8025,6 +7759,9 @@ Transform:
 =======
   m_RootOrder: 14
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 13
+>>>>>>> parent of 9d7b92d... shtuff
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &747290692
 MonoBehaviour:
@@ -8682,7 +8419,7 @@ PrefabInstance:
     - target: {fileID: 9196899714340017600, guid: 3443615e3bba8544c8fde351e4931cb5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9196899714340017600, guid: 3443615e3bba8544c8fde351e4931cb5,
         type: 3}
@@ -9237,6 +8974,7 @@ Transform:
   m_Father: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 18
 =======
   m_RootOrder: 25
@@ -9244,6 +8982,9 @@ Transform:
 =======
   m_RootOrder: 19
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 18
+>>>>>>> parent of 9d7b92d... shtuff
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &876923350
 PrefabInstance:
@@ -9417,72 +9158,6 @@ Transform:
   - {fileID: 2016840839}
   m_Father: {fileID: 0}
 <<<<<<< HEAD
-  m_RootOrder: 19
-=======
-  m_RootOrder: 26
->>>>>>> parent of c92e85c... Revert "Stuff"
-  m_LocalEulerAnglesHint: {x: -9.205001, y: 123.770004, z: 0}
---- !u!1 &894313333
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 894313335}
-  - component: {fileID: 894313334}
-  m_Layer: 0
-  m_Name: ShortCut
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &894313334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 894313333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33fd7c41897b8ad4c83ca46995c26875, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RunOnEnter: 0
-  Events:
-  - Name: 0
-    Event:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1284954588}
-          m_MethodName: Spawn
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-    AudioEvent: {fileID: 0}
-    Source: {fileID: 0}
-    Seconds: 0
---- !u!4 &894313335
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 894313333}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.541802, y: -3.7443228, z: 31.527102}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
 <<<<<<< HEAD
   m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9490,6 +9165,10 @@ Transform:
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: -9.205001, y: 123.770004, z: 0}
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: -9.205001, y: 123.770004, z: 0}
+>>>>>>> parent of 9d7b92d... shtuff
 --- !u!4 &906100553 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7574135623035024219, guid: b2c34de5f82fc6447a3afbc6351387f3,
@@ -9541,7 +9220,7 @@ PrefabInstance:
     - target: {fileID: 5368998856760628585, guid: e2bdfffefcc1df949b951479ddd28592,
         type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5368998856760628585, guid: e2bdfffefcc1df949b951479ddd28592,
         type: 3}
@@ -10395,6 +10074,7 @@ PrefabInstance:
       propertyPath: m_RootOrder
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 10
 =======
       value: 17
@@ -10402,6 +10082,9 @@ PrefabInstance:
 =======
       value: 11
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+      value: 10
+>>>>>>> parent of 9d7b92d... shtuff
       objectReference: {fileID: 0}
     - target: {fileID: 2601062420841718946, guid: 4dbb12866bb42ae4d9cd5f601cffa409,
         type: 3}
@@ -10823,7 +10506,7 @@ PrefabInstance:
     - target: {fileID: 5368998856760628585, guid: e2bdfffefcc1df949b951479ddd28592,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5368998856760628585, guid: e2bdfffefcc1df949b951479ddd28592,
         type: 3}
@@ -12108,7 +11791,7 @@ PrefabInstance:
     - target: {fileID: 9196899714340017600, guid: 3443615e3bba8544c8fde351e4931cb5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 9196899714340017600, guid: 3443615e3bba8544c8fde351e4931cb5,
         type: 3}
@@ -12814,75 +12497,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fde5c9a208428f74e9c772cae5496f92, type: 3}
---- !u!1001 &1229720997
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -7.2798934
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.72
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 156.9948
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.8624755
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5060988
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 119.191
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516080, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864224766787516087, guid: 8ca6a1ba5599bf946a90fb2f1235242e,
-        type: 3}
-      propertyPath: m_Name
-      value: FireGolem (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8ca6a1ba5599bf946a90fb2f1235242e, type: 3}
 --- !u!4 &1229851175 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5440500096083077371, guid: db19bedcf7433a244b32f460e49c7d70,
@@ -13345,7 +12959,7 @@ PrefabInstance:
     - target: {fileID: 5368998856760628585, guid: e2bdfffefcc1df949b951479ddd28592,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5368998856760628585, guid: e2bdfffefcc1df949b951479ddd28592,
         type: 3}
@@ -14884,6 +14498,7 @@ Transform:
   m_Father: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 16
 =======
   m_RootOrder: 23
@@ -14891,6 +14506,9 @@ Transform:
 =======
   m_RootOrder: 17
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 16
+>>>>>>> parent of 9d7b92d... shtuff
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1337555295 stripped
 Transform:
@@ -16049,12 +15667,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b59b85de00d0be54eb9f5a0036758ea5, type: 3}
---- !u!1 &1450385698 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 339395512753358844, guid: 6db6df7199b877d4cabd7ad96f2905cb,
-    type: 3}
-  m_PrefabInstance: {fileID: 150930485}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1454558655 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7172089781861807315, guid: b15b82b6cac25df458796f6686064b73,
@@ -17656,6 +17268,7 @@ Transform:
   m_Father: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 17
 =======
   m_RootOrder: 24
@@ -17663,6 +17276,9 @@ Transform:
 =======
   m_RootOrder: 18
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 17
+>>>>>>> parent of 9d7b92d... shtuff
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1558535630
 MonoBehaviour:
@@ -18121,8 +17737,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RunOnEnter: 0
   Events:
-  - Name: 0
-    Event:
+  - Event:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1600632530}
@@ -18136,33 +17751,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
-        - m_Target: {fileID: 150930486}
-          m_MethodName: Simulate
-          m_Mode: 4
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 5
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 150930486}
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
     AudioEvent: {fileID: 0}
     Source: {fileID: 0}
     Seconds: 0
-  - Name: 3
-    Event:
+  - Event:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1907073510}
@@ -18176,22 +17768,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
-        - m_Target: {fileID: 150930486}
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
     AudioEvent: {fileID: 0}
     Source: {fileID: 0}
     Seconds: 3
-  - Name: 6
-    Event:
+  - Event:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 737932529}
@@ -18205,22 +17785,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
-        - m_Target: {fileID: 150930486}
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
     AudioEvent: {fileID: 0}
     Source: {fileID: 0}
     Seconds: 6
-  - Name: 9
-    Event:
+  - Event:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 299923294}
@@ -18234,22 +17802,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
-        - m_Target: {fileID: 150930486}
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
     AudioEvent: {fileID: 0}
     Source: {fileID: 0}
     Seconds: 9
-  - Name: 10
-    Event:
+  - Event:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1600632530}
@@ -18263,23 +17819,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
+    AudioEvent: {fileID: 0}
+    Source: {fileID: 0}
+    Seconds: 10
+  - Event:
+      m_PersistentCalls:
+        m_Calls:
         - m_Target: {fileID: 1284954588}
           m_MethodName: Spawn
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 1450385698}
-          m_MethodName: 
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -18302,6 +17853,7 @@ Transform:
   m_Father: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 23
 =======
   m_RootOrder: 30
@@ -18309,6 +17861,9 @@ Transform:
 =======
   m_RootOrder: 24
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 23
+>>>>>>> parent of 9d7b92d... shtuff
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1602167751
 PrefabInstance:
@@ -18485,6 +18040,7 @@ Transform:
   m_Father: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 15
 =======
   m_RootOrder: 22
@@ -18492,6 +18048,9 @@ Transform:
 =======
   m_RootOrder: 16
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 15
+>>>>>>> parent of 9d7b92d... shtuff
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1611350018
 MonoBehaviour:
@@ -20422,6 +19981,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
@@ -20517,6 +20077,8 @@ PrefabInstance:
 >>>>>>> parent of c92e85c... Revert "Stuff"
 =======
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 --- !u!1 &1907073510
 GameObject:
   m_ObjectHideFlags: 0
@@ -20584,6 +20146,7 @@ Transform:
   m_Father: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 20
 =======
   m_RootOrder: 27
@@ -20591,6 +20154,9 @@ Transform:
 =======
   m_RootOrder: 21
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 20
+>>>>>>> parent of 9d7b92d... shtuff
   m_LocalEulerAnglesHint: {x: 32.2, y: 63.3, z: 0}
 --- !u!4 &1911870907 stripped
 Transform:
@@ -21065,6 +20631,7 @@ Transform:
   m_Father: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 24
 =======
   m_RootOrder: 31
@@ -21072,6 +20639,9 @@ Transform:
 =======
   m_RootOrder: 25
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 24
+>>>>>>> parent of 9d7b92d... shtuff
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1925639152
 GameObject:
@@ -22483,75 +22053,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2c34de5f82fc6447a3afbc6351387f3, type: 3}
---- !u!1001 &2070826671
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -5.5422225
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.48
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -19.747267
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.14331701
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.98967683
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 16.480001
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745153, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788027696673745158, guid: edf5a50dc762e0c4296ee86a4ddd85a0,
-        type: 3}
-      propertyPath: m_Name
-      value: IceGolem
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: edf5a50dc762e0c4296ee86a4ddd85a0, type: 3}
 --- !u!1001 &2079854667
 PrefabInstance:
   m_ObjectHideFlags: 0
