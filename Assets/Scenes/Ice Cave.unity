@@ -17993,7 +17993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RunOnEnter: 1
-  TotalTime: 20
+  TotalTime: 15
   Events:
   - Name: 0
     Event:

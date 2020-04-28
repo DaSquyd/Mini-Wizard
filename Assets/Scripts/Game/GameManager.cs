@@ -112,8 +112,8 @@ public class GameManager : MonoBehaviour
 			MusicAudioSource.Stop();
 			LoadingScreen.SetActive(false);
 		}
-	}
 #endif
+	}
 
 	private void Update()
 	{
@@ -255,7 +255,7 @@ public class GameManager : MonoBehaviour
 		MusicAudioSource.clip = level.Music;
 		MusicAudioSource.Play();
 	}
-	
+
 	public void FadeIn(float totalTime)
 	{
 		StartCoroutine(FadeInCoroutine(totalTime));
