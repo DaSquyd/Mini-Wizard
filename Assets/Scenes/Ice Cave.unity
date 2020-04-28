@@ -668,6 +668,7 @@ PrefabInstance:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 12
 =======
       value: 19
@@ -675,6 +676,9 @@ PrefabInstance:
 =======
       value: 13
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+      value: 12
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 12
 >>>>>>> parent of 9d7b92d... shtuff
@@ -2221,6 +2225,7 @@ PrefabInstance:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 14
 =======
       value: 20
@@ -2228,6 +2233,9 @@ PrefabInstance:
 =======
       value: 15
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+      value: 14
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 14
 >>>>>>> parent of 9d7b92d... shtuff
@@ -3698,6 +3706,7 @@ Transform:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 22
 =======
   m_RootOrder: 29
@@ -3705,6 +3714,9 @@ Transform:
 =======
   m_RootOrder: 23
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 22
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 22
 >>>>>>> parent of 9d7b92d... shtuff
@@ -5813,6 +5825,7 @@ PrefabInstance:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 11
 =======
       value: 18
@@ -5820,6 +5833,9 @@ PrefabInstance:
 =======
       value: 12
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+      value: 11
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 11
 >>>>>>> parent of 9d7b92d... shtuff
@@ -7682,6 +7698,7 @@ Transform:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 21
 =======
   m_RootOrder: 28
@@ -7689,6 +7706,9 @@ Transform:
 =======
   m_RootOrder: 22
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 21
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 21
 >>>>>>> parent of 9d7b92d... shtuff
@@ -7794,6 +7814,7 @@ Transform:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 13
 =======
   m_RootOrder: 21
@@ -7801,6 +7822,9 @@ Transform:
 =======
   m_RootOrder: 14
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 13
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 13
 >>>>>>> parent of 9d7b92d... shtuff
@@ -9025,6 +9049,7 @@ Transform:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 18
 =======
   m_RootOrder: 25
@@ -9032,6 +9057,9 @@ Transform:
 =======
   m_RootOrder: 19
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 18
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 18
 >>>>>>> parent of 9d7b92d... shtuff
@@ -9217,12 +9245,17 @@ Transform:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 =======
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: -9.205001, y: 123.770004, z: 0}
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: -9.205001, y: 123.770004, z: 0}
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: -9.205001, y: 123.770004, z: 0}
@@ -10143,6 +10176,7 @@ PrefabInstance:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 10
 =======
       value: 17
@@ -10150,6 +10184,9 @@ PrefabInstance:
 =======
       value: 11
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+      value: 10
+>>>>>>> parent of 9d7b92d... shtuff
 =======
       value: 10
 >>>>>>> parent of 9d7b92d... shtuff
@@ -14575,6 +14612,7 @@ Transform:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 16
 =======
   m_RootOrder: 23
@@ -14582,6 +14620,9 @@ Transform:
 =======
   m_RootOrder: 17
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 16
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 16
 >>>>>>> parent of 9d7b92d... shtuff
@@ -17353,6 +17394,7 @@ Transform:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 17
 =======
   m_RootOrder: 24
@@ -17360,6 +17402,9 @@ Transform:
 =======
   m_RootOrder: 18
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 17
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 17
 >>>>>>> parent of 9d7b92d... shtuff
@@ -17946,6 +17991,7 @@ Transform:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 23
 =======
   m_RootOrder: 30
@@ -17953,6 +17999,9 @@ Transform:
 =======
   m_RootOrder: 24
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 23
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 23
 >>>>>>> parent of 9d7b92d... shtuff
@@ -18141,6 +18190,7 @@ Transform:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 15
 =======
   m_RootOrder: 22
@@ -18148,6 +18198,9 @@ Transform:
 =======
   m_RootOrder: 16
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 15
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 15
 >>>>>>> parent of 9d7b92d... shtuff
@@ -20090,6 +20143,7 @@ Transform:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
@@ -20191,6 +20245,8 @@ PrefabInstance:
 >>>>>>> parent of 9d7b92d... shtuff
 =======
 >>>>>>> parent of 9d7b92d... shtuff
+=======
+>>>>>>> parent of 9d7b92d... shtuff
 --- !u!1 &1907073510
 GameObject:
   m_ObjectHideFlags: 0
@@ -20261,6 +20317,7 @@ Transform:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 20
 =======
   m_RootOrder: 27
@@ -20268,6 +20325,9 @@ Transform:
 =======
   m_RootOrder: 21
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 20
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 20
 >>>>>>> parent of 9d7b92d... shtuff
@@ -20754,6 +20814,7 @@ Transform:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 24
 =======
   m_RootOrder: 31
@@ -20761,6 +20822,9 @@ Transform:
 =======
   m_RootOrder: 25
 >>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
+=======
+  m_RootOrder: 24
+>>>>>>> parent of 9d7b92d... shtuff
 =======
   m_RootOrder: 24
 >>>>>>> parent of 9d7b92d... shtuff
