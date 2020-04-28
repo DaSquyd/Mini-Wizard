@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class ConeCast
 {
-	public static RaycastHit[] ConeCastAll(Vector3 origin, Vector3 direction, float maxDistance, float coneAngle, LayerMask layerMask, LayerMask secondMask, bool debug = false)
+	public static RaycastHit[] ConeCastAll(Vector3 origin, Vector3 direction, float maxDistance, float coneAngle, LayerMask layerMask, bool debug = false)
 	{
 		float maxRadius = maxDistance * Mathf.Sin(coneAngle / 2 * Mathf.Deg2Rad) / Mathf.Sin((90f - coneAngle / 2) * Mathf.Deg2Rad);
 
@@ -31,7 +31,9 @@ public static class ConeCast
 
 				float angleToHit = Quaternion.Angle(originDirection, towardsTargetDirection);
 
-				bool secondRaycastHit = Physics.Raycast(origin, sphereCastHits[i].transform.position - origin, out RaycastHit info, maxDistance, secondMask);
+
+
+				bool secondRaycastHit = Physics.Raycast(origin, sphereCastHits[i].transform.position - origin, out RaycastHit info, maxDistance, layerMask);
 
 				if (debug)
 				{

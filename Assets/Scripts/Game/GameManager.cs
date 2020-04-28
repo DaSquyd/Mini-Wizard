@@ -165,6 +165,7 @@ public class GameManager : MonoBehaviour
 				HealthImage.sprite = Health0;
 			}
 		}
+
 	}
 
 

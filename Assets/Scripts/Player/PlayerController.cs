@@ -211,8 +211,6 @@ public class PlayerController : Entity
 
 	Animator animator;
 
-	public bool MoveLock;
-
 #if DEBUG
 	float DebugCurrentPath
 	{
@@ -232,10 +230,6 @@ public class PlayerController : Entity
 		false;
 #endif
 #endif
-	private void Awake()
-	{
-		Rigidbody = GetComponent<Rigidbody>();
-	}
 
 	protected override void OnStart()
 	{
@@ -245,6 +239,7 @@ public class PlayerController : Entity
 
 		meleeEffectAmount = Vector3.right * Vcam.m_Lens.FieldOfView;
 
+		Rigidbody = GetComponent<Rigidbody>();
 
 		animator = GetComponentInChildren<Animator>();
 
@@ -271,10 +266,7 @@ public class PlayerController : Entity
 
 	protected override void OnUpdate(float deltaTime)
 	{
-		if (teleporting)
-			transform.position = teleportStart;
-
-		if (GameManager.Instance.IsPaused || teleporting)
+		if (GameManager.Instance.IsPaused)
 			return;
 
 		Vcam.m_Lens.FieldOfView = meleeEffectAmount.x;
@@ -294,7 +286,7 @@ public class PlayerController : Entity
 #endif
 		_cameraYaw = transform.eulerAngles.y;
 
-		if (ActionInputManager.GetInputDown("Swap") && CanAttack && meleeAttackTime == 0f && !MoveLock)
+		if (ActionInputManager.GetInputDown("Swap") && CanAttack && meleeAttackTime == 0f)
 		{
 			if (CurrentWeaponState.Equals(WeaponState.Fireballs))
 			{
@@ -438,7 +430,7 @@ public class PlayerController : Entity
 		if (IsLocked || !CanAttack || damaged)
 			return;
 
-		if (ActionInputManager.GetInputDown("Melee") && !MoveLock)
+		if (ActionInputManager.GetInputDown("Melee"))
 		{
 			if (meleeState == MeleeState.Idle)
 			{
@@ -515,7 +507,7 @@ public class PlayerController : Entity
 		if (Ammo == 0)
 			return;
 
-		if (ActionInputManager.GetInputDown("Shoot") && !MoveLock)
+		if (ActionInputManager.GetInputDown("Shoot"))
 			Shoot();
 	}
 
@@ -561,7 +553,7 @@ public class PlayerController : Entity
 			return;
 		}
 
-		if (ActionInputManager.GetInputDown("Jump") && !MoveLock)
+		if (ActionInputManager.GetInputDown("Jump"))
 		{
 			if (jumpForgivenessTime > 0f)
 			{
@@ -669,11 +661,6 @@ public class PlayerController : Entity
 		float yaw = ((ActionInputManager.GetInput("Look Right") - ActionInputManager.GetInput("Look Left")) * Settings.CameraJoystickSpeed) + (Input.GetAxisRaw("mouse x") * Settings.CameraMouseSpeed);
 		float pitch = ((ActionInputManager.GetInput("Look Up") - ActionInputManager.GetInput("Look Down")) * Settings.CameraJoystickSpeed) + (Input.GetAxisRaw("mouse y") * Settings.CameraMouseSpeed);
 #endif
-		if (MoveLock)
-		{
-			yaw = 0f;
-			pitch = 0f;
-		}
 
 		if (path == null)
 			cameraMode = CameraMode.Manual;
@@ -683,7 +670,7 @@ public class PlayerController : Entity
 			// MANUAL
 			case CameraMode.Manual:
 				// Set mode to locked
-				if (ActionInputManager.GetInputDown("Auto Camera") && path != null && !MoveLock)
+				if (ActionInputManager.GetInputDown("Auto Camera") && path != null)
 				{
 					cameraMode = CameraMode.SettingToAuto;
 				}
@@ -736,7 +723,7 @@ public class PlayerController : Entity
 					pitch = 0f;
 				}
 
-				if (ActionInputManager.GetInputDown("Auto Camera") && !MoveLock)
+				if (ActionInputManager.GetInputDown("Auto Camera"))
 				{
 					cameraMode = CameraMode.SettingToAuto;
 				}
@@ -791,7 +778,7 @@ public class PlayerController : Entity
 
 	protected override void OnFixedUpdate(float deltaTime)
 	{
-		if (GameManager.Instance.IsPaused || teleporting)
+		if (GameManager.Instance.IsPaused)
 			return;
 
 		animator.SetBool("OnGround", IsGrounded);
@@ -830,7 +817,7 @@ public class PlayerController : Entity
 	private void TargetUpdate()
 	{
 		// Custom "conecast" to find all objects in range
-		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, MeshContainer.transform.forward, Settings.TargetingMaxDistance, Settings.TargetingMaxAngle, LayerMask.GetMask("Enemy"), LayerMask.GetMask("Default", "Terrain", "Enemy"));
+		RaycastHit[] coneHit = ConeCast.ConeCastAll(transform.position, MeshContainer.transform.forward, Settings.TargetingMaxDistance, Settings.TargetingMaxAngle, LayerMask.GetMask("Default", "Terrain", "Enemy"));
 
 		// Create a new list and only add enemies from coneHit
 		enemies = new List<RaycastHit>();
@@ -886,12 +873,6 @@ public class PlayerController : Entity
 		// Gets player input
 		float x = ActionInputManager.GetInput("Right") - ActionInputManager.GetInput("Left");
 		float z = ActionInputManager.GetInput("Forward") - ActionInputManager.GetInput("Back");
-
-		if (MoveLock)
-		{
-			x = 0f;
-			z = 0f;
-		}
 
 		TargetMove = transform.right * x + transform.forward * z;
 
@@ -980,16 +961,11 @@ public class PlayerController : Entity
 		Invincible = false;
 	}
 
-	bool teleporting = false;
-	Vector3 teleportStart;
 	public IEnumerator Teleport()
 	{
-		teleporting = true;
-		teleportStart = transform.position;
 		animator = GetComponentInChildren<Animator>();
 		animator.SetBool("Teleporting", true);
 		yield return new WaitForSeconds(3f);
-		teleporting = false;
 		Vcam.gameObject.SetActive(true);
 		animator.SetBool("Teleporting", false);
 	}

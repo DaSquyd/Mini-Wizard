@@ -6,12 +6,10 @@ using UnityEngine.Events;
 public class CutsceneHandler : MonoBehaviour
 {
 	public bool RunOnEnter;
-	public float TotalTime = 10f;
 
 	[System.Serializable]
 	public struct EventRef
 	{
-		public string Name;
 		public UnityEvent Event;
 		public AudioEvent AudioEvent;
 		public AudioSource Source;
@@ -26,13 +24,16 @@ public class CutsceneHandler : MonoBehaviour
 
 	private void Start()
 	{
-		if (RunOnEnter)
-			Play();
+		Play();
+	}
+
+	public void EnterScene()
+	{
+
 	}
 
 	public void Play()
 	{
-
 		elapsed = 0f;
 		for (int i = 0; i < Events.Length; i++)
 		{
@@ -43,11 +44,6 @@ public class CutsceneHandler : MonoBehaviour
 
 	IEnumerator PlayRoutine()
 	{
-		if (PlayerController.Instance != null)
-		{
-			PlayerController.Instance.MoveLock = true;
-		}
-
 		for (int i = 0; i < Events.Length; i++)
 		{
 			EventRef e = Events[i];
@@ -58,16 +54,9 @@ public class CutsceneHandler : MonoBehaviour
 				Events[i].Played = true;
 			}
 		}
-		if (elapsed >= TotalTime && PlayerController.Instance != null)
-		{
-			PlayerController.Instance.MoveLock = false;
-		}
-		else
-		{
-			yield return null;
-			elapsed += Time.deltaTime;
-			StartCoroutine(PlayRoutine());
-		}
+		yield return null;
+		elapsed += Time.deltaTime;
+		StartCoroutine(PlayRoutine());
 	}
 
 	public void SetBrainBlendStyleToCut()
