@@ -660,7 +660,11 @@ Transform:
   - {fileID: 20068968}
   - {fileID: 925503870}
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 14
+=======
+  m_RootOrder: 11
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 2.2, y: -26.754002, z: 0.316}
 --- !u!1001 &20068967
 PrefabInstance:
@@ -2911,7 +2915,11 @@ Transform:
   m_LocalScale: {x: 284.81635, y: -8.946651, z: 284.81635}
   m_Children: []
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 4
+=======
+  m_RootOrder: 2
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &118406716
 MonoBehaviour:
@@ -3036,6 +3044,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 687465649}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 --- !u!1001 &126668511
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3135,6 +3144,8 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 7abeba094e1fa2c4e9373bf26822dd36, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85304ee0b8853474d8e04f9df3057125, type: 3}
+=======
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
 --- !u!1001 &128659498
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4193,7 +4204,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 12
+=======
+  m_RootOrder: 10
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &147071309 stripped
 Transform:
@@ -5335,7 +5350,11 @@ Transform:
   - {fileID: 250366689}
   - {fileID: 464369341}
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 15
+=======
+  m_RootOrder: 12
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 2.867, y: -15.058001, z: 0.75500005}
 --- !u!1001 &210253313
 PrefabInstance:
@@ -5661,7 +5680,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 18
+=======
+  m_RootOrder: 15
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: -0.194, z: 0}
 --- !u!4 &222025123 stripped
 Transform:
@@ -13892,7 +13915,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 19
+=======
+  m_RootOrder: 16
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: -0.194, z: 0}
 --- !u!1001 &526089689
 PrefabInstance:
@@ -17159,7 +17186,11 @@ PrefabInstance:
     - target: {fileID: 2601062420841718946, guid: 4dbb12866bb42ae4d9cd5f601cffa409,
         type: 3}
       propertyPath: m_RootOrder
+<<<<<<< HEAD
       value: 5
+=======
+      value: 3
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
       objectReference: {fileID: 0}
     - target: {fileID: 2601062420841718946, guid: 4dbb12866bb42ae4d9cd5f601cffa409,
         type: 3}
@@ -23531,7 +23562,11 @@ Transform:
   - {fileID: 1745361510}
   - {fileID: 1926652460}
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 8
+=======
+  m_RootOrder: 6
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &834893442
 PrefabInstance:
@@ -28458,7 +28493,11 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 8e6331f1edd76d54ca3ea4abda2cd644,
         type: 3}
       propertyPath: m_RootOrder
+<<<<<<< HEAD
       value: 3
+=======
+      value: 1
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8e6331f1edd76d54ca3ea4abda2cd644,
         type: 3}
@@ -36809,7 +36848,11 @@ Transform:
   m_Children:
   - {fileID: 1747578998}
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 6
+=======
+  m_RootOrder: 4
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1270583610 stripped
 Transform:
@@ -39852,7 +39895,11 @@ Transform:
   - {fileID: 1869844956}
   - {fileID: 1821925070}
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 20
+=======
+  m_RootOrder: 17
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1363517533
 GameObject:
@@ -39896,7 +39943,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 11
+=======
+  m_RootOrder: 9
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: -2.3300002, y: 14.389001, z: -1.2160001}
 --- !u!4 &1365647220 stripped
 Transform:
@@ -41205,7 +41256,11 @@ Transform:
   - {fileID: 81389923}
   - {fileID: 2133371515}
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 9
+=======
+  m_RootOrder: 7
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1453817864
 PrefabInstance:
@@ -49309,7 +49364,11 @@ Transform:
   - {fileID: 1521178073}
   - {fileID: 2144172663}
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 17
+=======
+  m_RootOrder: 14
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1763663087
 PrefabInstance:
@@ -57487,7 +57546,11 @@ Transform:
   - {fileID: 231013855}
   - {fileID: 1477226549}
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 10
+=======
+  m_RootOrder: 8
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2067528609
 PrefabInstance:
@@ -58000,7 +58063,11 @@ Transform:
   - {fileID: 348896054}
   - {fileID: 540533596}
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 7
+=======
+  m_RootOrder: 5
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2085581188 stripped
 Transform:
@@ -59738,7 +59805,11 @@ Transform:
   - {fileID: 1689504720}
   - {fileID: 1859296721}
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 16
+=======
+  m_RootOrder: 13
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1007848484200529463
 PrefabInstance:

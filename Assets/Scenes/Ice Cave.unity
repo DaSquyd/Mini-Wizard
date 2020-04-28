@@ -664,10 +664,14 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 12
 =======
       value: 19
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+      value: 13
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2206,10 +2210,14 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 14
 =======
       value: 20
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+      value: 15
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
       objectReference: {fileID: 0}
     - target: {fileID: 996056754696749739, guid: 6db6df7199b877d4cabd7ad96f2905cb,
         type: 3}
@@ -3880,10 +3888,14 @@ Transform:
   - {fileID: 1950445598}
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 22
 =======
   m_RootOrder: 29
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+  m_RootOrder: 23
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: -1.6, y: 173.76, z: 0}
 --- !u!4 &300547250 stripped
 Transform:
@@ -6048,10 +6060,14 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 11
 =======
       value: 18
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+      value: 12
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8e6331f1edd76d54ca3ea4abda2cd644,
         type: 3}
@@ -6847,170 +6863,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 189477631}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &614402923
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -9050095477880005426, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.6253198
-      objectReference: {fileID: 0}
-    - target: {fileID: -9050095477880005426, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.3089219
-      objectReference: {fileID: 0}
-    - target: {fileID: -9050095477880005426, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.00000032782552
-      objectReference: {fileID: 0}
-    - target: {fileID: -9050095477880005426, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.71661884
-      objectReference: {fileID: 0}
-    - target: {fileID: -9050095477880005426, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 63.667004
-      objectReference: {fileID: 0}
-    - target: {fileID: -9050095477880005426, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 86.499
-      objectReference: {fileID: 0}
-    - target: {fileID: -9050095477880005426, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 60.571003
-      objectReference: {fileID: 0}
-    - target: {fileID: -9050095477880005426, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.02242
-      objectReference: {fileID: 0}
-    - target: {fileID: -9050095477880005426, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.00547
-      objectReference: {fileID: 0}
-    - target: {fileID: -9050095477880005426, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.01026
-      objectReference: {fileID: 0}
-    - target: {fileID: -9050095477880005426, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.3358
-      objectReference: {fileID: 0}
-    - target: {fileID: -9050095477880005426, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.3358
-      objectReference: {fileID: 0}
-    - target: {fileID: -9050095477880005426, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.3358
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -10.47
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 9.07
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 218.08
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.5277685
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.84938824
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 63.710003
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 252.623
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 252.623
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 252.623
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_Name
-      value: amulet
-      objectReference: {fileID: 0}
-    - target: {fileID: 2406916848136235212, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_Materials.Array.data[2]
-      value: 
-      objectReference: {fileID: 2100000, guid: 746b353dd9d6c7045a24863fd850ee00, type: 2}
-    - target: {fileID: 2406916848136235212, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b6719dd3afe94b34d96347a977fe82d1, type: 2}
-    - target: {fileID: 2406916848136235212, guid: 85304ee0b8853474d8e04f9df3057125,
-        type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: 23446461b8d6f1443b0ab1530546b826, type: 2}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 85304ee0b8853474d8e04f9df3057125, type: 3}
 --- !u!4 &619076152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8382069310913688436, guid: 8f64e9f90500d404bbad56b4f2d083b4,
@@ -8065,10 +7917,14 @@ Transform:
   - {fileID: 441829018}
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 21
 =======
   m_RootOrder: 28
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+  m_RootOrder: 22
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: -13.6, y: -53.38, z: 0}
 --- !u!1 &747290689
 GameObject:
@@ -8161,10 +8017,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 13
 =======
   m_RootOrder: 21
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+  m_RootOrder: 14
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &747290692
 MonoBehaviour:
@@ -9376,10 +9236,14 @@ Transform:
   - {fileID: 47849793}
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 18
 =======
   m_RootOrder: 25
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+  m_RootOrder: 19
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &876923350
 PrefabInstance:
@@ -9619,8 +9483,13 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: -9.205001, y: 123.770004, z: 0}
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
 --- !u!4 &906100553 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7574135623035024219, guid: b2c34de5f82fc6447a3afbc6351387f3,
@@ -10525,10 +10394,14 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 10
 =======
       value: 17
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+      value: 11
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
       objectReference: {fileID: 0}
     - target: {fileID: 2601062420841718946, guid: 4dbb12866bb42ae4d9cd5f601cffa409,
         type: 3}
@@ -15010,10 +14883,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 16
 =======
   m_RootOrder: 23
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+  m_RootOrder: 17
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1337555295 stripped
 Transform:
@@ -17778,10 +17655,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 17
 =======
   m_RootOrder: 24
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+  m_RootOrder: 18
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1558535630
 MonoBehaviour:
@@ -18420,10 +18301,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 23
 =======
   m_RootOrder: 30
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+  m_RootOrder: 24
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1602167751
 PrefabInstance:
@@ -18599,10 +18484,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 15
 =======
   m_RootOrder: 22
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+  m_RootOrder: 16
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1611350018
 MonoBehaviour:
@@ -20532,7 +20421,10 @@ Transform:
   m_PrefabInstance: {fileID: 1893598446}
   m_PrefabAsset: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
 --- !u!1001 &1894639695
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20578,7 +20470,11 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 5c3ef7d4c56f7f14ebaf2ab2bb961bf8,
         type: 3}
       propertyPath: m_RootOrder
+<<<<<<< HEAD
       value: 16
+=======
+      value: 10
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 5c3ef7d4c56f7f14ebaf2ab2bb961bf8,
         type: 3}
@@ -20617,7 +20513,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c3ef7d4c56f7f14ebaf2ab2bb961bf8, type: 3}
+<<<<<<< HEAD
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
 --- !u!1 &1907073510
 GameObject:
   m_ObjectHideFlags: 0
@@ -20684,10 +20583,14 @@ Transform:
   - {fileID: 572417792}
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 20
 =======
   m_RootOrder: 27
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+  m_RootOrder: 21
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 32.2, y: 63.3, z: 0}
 --- !u!4 &1911870907 stripped
 Transform:
@@ -21161,10 +21064,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_RootOrder: 24
 =======
   m_RootOrder: 31
 >>>>>>> parent of c92e85c... Revert "Stuff"
+=======
+  m_RootOrder: 25
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1925639152
 GameObject:

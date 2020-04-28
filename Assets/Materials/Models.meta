@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Teleport_Particle_Effect.meta
+<<<<<<< HEAD:Assets/Teleport_Particle_Effect.meta
+guid: b5d550e4e162e214c9f8f96a7ea8697e
+=======
+guid: aafc4bf363e498d49bc7dedd205121d4
+>>>>>>> parent of c92e85c... Revert "Stuff":Assets/Scripts/Debug/Editor.meta
+=======
+guid: bd1f3b6dd1a2169418154f0b6d950baf
+>>>>>>> parent of 4f04668... Merge branch 'master' of https://github.com/DaSquyd/Fire-and-Ice:Assets/Materials/Models.meta
+folderAsset: yes
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
